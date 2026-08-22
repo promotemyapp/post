@@ -4,7 +4,7 @@ The template system has two layers:
 
 - `post-core.md` — the shared contract used by every post, regardless of channel.
 - `blog-post.md` and `social-media-post.md` — use-case extensions that upgrade the core with channel-specific fields and sections.
-- [`../config/post-structure.yaml`](../config/post-structure.yaml) — configurable ranges for each structural profile.
+- [`../config/post-structure.json`](../config/post-structure.json) — configurable ranges for each structural profile.
 
 A consuming project should start with the core, apply exactly one extension, replace the placeholders, preserve the OKF frontmatter, and set a concrete post `type` such as `Blog Post` or `Social Media Post` in the resulting document.
 
@@ -23,7 +23,7 @@ How the ten tags are created is an implementation detail outside this template c
 
 ## Structure baselines
 
-The ranges are defined in [`config/post-structure.yaml`](../config/post-structure.yaml), not hardcoded in the templates. The current example profiles are:
+The ranges are defined in [`config/post-structure.json`](../config/post-structure.json), not hardcoded in the templates. The current example profiles are:
 
 | Extension | Target length | Subtitle structure |
 |---|---:|---|

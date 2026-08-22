@@ -1,8 +1,8 @@
 ---
 type: "Post Template"
 template_layer: core
-template_version: "1.3"
-structure_config: "config/post-structure.yaml"
+template_version: "1.4"
+structure_config: "config/post-structure.json"
 structure_profile: "{{blog|social_media}}"
 title: "{{POST_TITLE}}"
 tags:

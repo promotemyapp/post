@@ -2,7 +2,7 @@
 type: "Post Template"
 template_layer: extension
 extends: "post-core"
-template_version: "1.3"
+template_version: "1.4"
 channel: blog
 structure_profile: blog
 ---

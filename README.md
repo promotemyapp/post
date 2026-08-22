@@ -38,7 +38,7 @@ The authoring contract focuses on the main title, post content, and exactly ten 
 | [`templates/post-core.md`](templates/post-core.md) | Shared structure required by every post. |
 | [`templates/blog-post.md`](templates/blog-post.md) | Blog-specific extension of the shared core. |
 | [`templates/social-media-post.md`](templates/social-media-post.md) | Social-media-specific extension of the shared core. |
-| [`config/post-structure.yaml`](config/post-structure.yaml) | Configurable structural ranges and profiles. |
+| [`config/post-structure.json`](config/post-structure.json) | Configurable structural ranges and profiles. |
 
 Current example profiles include:
 
@@ -63,7 +63,7 @@ flowchart LR
 2. Start with `templates/post-core.md` and apply the selected extension.
 3. Write the main title and structured body content.
 4. Provide exactly ten tags.
-5. Check the post against the selected ranges in `config/post-structure.yaml`.
+5. Check the post against the selected ranges in `config/post-structure.json`.
 6. Save the result as an OKF Markdown concept in `posts/` or in an external consuming project.
 
 ## Repository structure
@@ -88,6 +88,10 @@ post/
 Posts use UTF-8 Markdown with YAML frontmatter, following the local [`SPEC.md`](SPEC.md). The format is intentionally plain and portable: another project should be able to copy or retrieve the templates without importing private repository code.
 
 The future integration direction is an API or adapter that can retrieve the core, retrieve a selected extension, compose a post, and validate its structure. That API should expose this file-based contract rather than replace it.
+
+## API
+
+The initial API is now available locally. It supports both a direct request with a post type and configuration, and a guided session that returns one configuration question at a time. See [`docs/API.md`](docs/API.md) for the endpoints, request flow, and local usage.
 
 ## Development status
 

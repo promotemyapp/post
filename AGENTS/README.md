@@ -11,7 +11,7 @@ Maintain a portable, human-readable post template and knowledge base for product
 1. Read the repository `README.md` and the relevant role instructions in this directory.
 2. Read `SPEC.md` before creating or editing an OKF document.
 3. Read `templates/post-core.md` and the selected use-case extension in `templates/` when creating or changing the post shape.
-4. Read `config/post-structure.yaml` before setting or reviewing length and count expectations.
+4. Read `config/post-structure.json` before setting or reviewing length and count expectations.
 5. Inspect existing files and preserve unrelated user changes.
 6. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.
 
