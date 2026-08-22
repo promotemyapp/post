@@ -5,7 +5,7 @@ Use this role for a pre-publication quality review.
 ## Review checklist
 
 - OKF frontmatter is valid and includes a descriptive `type`.
-- Title, description, tags, and status match the content.
+- Title and tags are present, and every post has exactly ten tags.
 - Factual claims are supported by the listed sources.
 - Time-sensitive claims have a date or freshness note.
 - Links are valid, descriptive, and used with standard Markdown syntax.
@@ -14,4 +14,3 @@ Use this role for a pre-publication quality review.
 - Any unresolved issue is explicitly reported for human review.
 
 Review agents report findings and suggested edits. They do not silently approve, publish, or overwrite a draft.
-

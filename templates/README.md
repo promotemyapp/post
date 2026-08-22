@@ -15,9 +15,9 @@ The authoring surface is intentionally minimal:
 
 - `title` — the main title of the post;
 - the Markdown body — the post content;
-- `tags` — exactly ten tags derived automatically from the post content and its main topic.
+- `tags` — exactly ten tags.
 
-Tags should be specific, normalized, non-duplicative, and useful for discovery. Do not ask the author to manually select them as part of the normal workflow.
+How the ten tags are created is an implementation detail outside this template contract.
 
 ## Consumption contract
 
