@@ -2,10 +2,9 @@
 type: "Post Template"
 template_layer: extension
 extends: "post-core"
-template_version: "1.2"
+template_version: "1.3"
 channel: social
-target_word_count: "30-150"
-target_subtitle_count: "1-3"
+structure_profile: social_media
 ---
 
 # Social media extension

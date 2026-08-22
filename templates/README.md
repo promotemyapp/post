@@ -4,6 +4,7 @@ The template system has two layers:
 
 - `post-core.md` — the shared contract used by every post, regardless of channel.
 - `blog-post.md` and `social-media-post.md` — use-case extensions that upgrade the core with channel-specific fields and sections.
+- [`../config/post-structure.yaml`](../config/post-structure.yaml) — configurable ranges for each structural profile.
 
 A consuming project should start with the core, apply exactly one extension, replace the placeholders, preserve the OKF frontmatter, and set a concrete post `type` such as `Blog Post` or `Social Media Post` in the resulting document.
 
@@ -22,14 +23,14 @@ How the ten tags are created is an implementation detail outside this template c
 
 ## Structure baselines
 
-These are starting defaults for the two extensions and can be tuned later without changing the shared core:
+The ranges are defined in [`config/post-structure.yaml`](../config/post-structure.yaml), not hardcoded in the templates. The current example profiles are:
 
 | Extension | Target length | Subtitle structure |
 |---|---:|---|
-| Blog | 800–1,500 words | 3–6 subtitles, plus an opening and conclusion |
-| Social media | 30–150 words | 1–3 short subtitles or content beats |
+| Blog | 2,000–4,000 words | 5–10 subtitles/sections |
+| Social media | 30–150 words | 1–3 short subtitles/content beats |
 
-Every composed post must retain one main title and at least one subtitle. The final word count and subtitle count should be checkable by a consumer or future API.
+Every composed post must retain one main title and satisfy the selected config profile. The final word count, title word count, subtitle count, subtitle word count, body-section count, and tag count should be checkable by a consumer or future API.
 
 ## Consumption contract
 

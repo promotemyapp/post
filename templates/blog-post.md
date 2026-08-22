@@ -2,10 +2,9 @@
 type: "Post Template"
 template_layer: extension
 extends: "post-core"
-template_version: "1.2"
+template_version: "1.3"
 channel: blog
-target_word_count: "800-1500"
-target_subtitle_count: "3-6"
+structure_profile: blog
 ---
 
 # Blog post extension

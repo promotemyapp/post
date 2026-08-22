@@ -11,8 +11,9 @@ Maintain a portable, human-readable post template and knowledge base for product
 1. Read the repository `README.md` and the relevant role instructions in this directory.
 2. Read `SPEC.md` before creating or editing an OKF document.
 3. Read `templates/post-core.md` and the selected use-case extension in `templates/` when creating or changing the post shape.
-4. Inspect existing files and preserve unrelated user changes.
-5. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.
+4. Read `config/post-structure.yaml` before setting or reviewing length and count expectations.
+5. Inspect existing files and preserve unrelated user changes.
+6. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.
 
 ## OKF rules
 
@@ -21,7 +22,7 @@ Maintain a portable, human-readable post template and knowledge base for product
 - The authoring contract focuses on `title`, the Markdown body, and `tags`.
 - Every completed post must have exactly ten tags. The method used to create them is outside this template contract.
 - Every completed post must have one main title, at least one subtitle, structured body content, and a measurable word count.
-- Use the extension’s target length and subtitle-count baseline unless the task explicitly provides different requirements.
+- Use the selected config profile’s ranges unless the task explicitly provides different requirements.
 - Use standard Markdown links for relationships; do not introduce wiki-link syntax.
 - Do not use `index.md` or `log.md` as concept documents; they are reserved by OKF.
 - Preserve unknown frontmatter keys when editing existing documents.
