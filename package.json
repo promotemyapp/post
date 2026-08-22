@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "bun@1.3.14",
   "scripts": {
-    "start": "node src/server.js",
-    "test": "node --test"
+    "start": "bun src/server.js",
+    "test": "bun test"
   },
   "engines": {
-    "node": ">=22"
+    "bun": ">=1.3.14"
   }
 }

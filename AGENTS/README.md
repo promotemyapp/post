@@ -10,6 +10,10 @@ Maintain a portable, human-readable post template and knowledge base for product
 
 - [`api-implementation.md`](api-implementation.md) — API contract, validation, security, testing, and documentation guidance.
 
+## Tooling policy
+
+Use Bun exclusively for package management, scripts, and tests in this repository. Do not use npm.
+
 ## Before making changes
 
 1. Read the repository `README.md` and the relevant role instructions in this directory.

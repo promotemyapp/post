@@ -16,7 +16,7 @@ flowchart LR
 ## Run locally
 
 ```bash
-npm start
+bun run start
 ```
 
 The API listens on `http://localhost:3000` by default. Set `PORT` to use a different port.

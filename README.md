@@ -95,7 +95,11 @@ The initial API is now available locally. It supports both a direct request with
 
 ## Development status
 
-This is the preparation phase. The current scope is templates, configuration, OKF guidance, and agent instructions. Post-generation logic, validation tooling, publishing integrations, and the external API will be added in later phases.
+The reusable templates, configuration, agent guidance, and first API implementation are complete. The API currently supports direct and guided template composition locally. Post-generation logic, persistent sessions, authentication, deployment, and publishing integrations remain future milestones.
+
+## Tooling
+
+Use [Bun](https://bun.sh/) for this repository’s package management, scripts, and tests. Do not use npm. Run the API with `bun run start` and the test suite with `bun test`.
 
 ## Collaboration workflow
 

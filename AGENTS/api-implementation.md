@@ -51,7 +51,7 @@ flowchart LR
 - Test the happy path, invalid input, range boundaries, fixed ten-tag rule, unknown resources, and guided-session completion.
 - Preserve backward compatibility where practical; introduce a new API version for incompatible changes.
 - Update `docs/API.md`, examples, and diagrams in the same change as endpoint behavior.
-- Run `npm test` before committing an API change.
+- Run `bun test` before committing an API change.
 
 ## Primary references
 
