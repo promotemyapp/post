@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
+import { createServer as createHttpServer } from "node:http";
 import test from "node:test";
-import { createApiServer } from "../src/server.js";
+import { createApiServer, startApiServer } from "../src/server.js";
 
 async function withApi(run) {
   const server = createApiServer();
-  await new Promise((resolve) => server.listen(0, resolve));
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   const { port } = server.address();
 
   try {
@@ -31,6 +32,26 @@ test("direct template request composes a blog template with configuration overri
     assert.match(result.templates.combined, /type: "Blog Post"/);
     assert.match(result.templates.combined, /resolved_structure:/);
   });
+});
+
+test("startup falls back to the next port when the default is occupied", async () => {
+  const occupiedServer = createHttpServer();
+  await new Promise((resolve) => occupiedServer.listen(0, "127.0.0.1", resolve));
+  const occupiedPort = occupiedServer.address().port;
+  const apiServer = createApiServer();
+
+  try {
+    const active = await startApiServer({
+      server: apiServer,
+      port: occupiedPort,
+      host: "127.0.0.1",
+      maxPort: occupiedPort + 1
+    });
+    assert.equal(active.port, occupiedPort + 1);
+  } finally {
+    await new Promise((resolve) => apiServer.close(resolve));
+    await new Promise((resolve) => occupiedServer.close(resolve));
+  }
 });
 
 test("direct template request rejects a tag count other than ten", async () => {

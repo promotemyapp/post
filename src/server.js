@@ -10,6 +10,10 @@ import {
 } from "./config.js";
 import { composeTemplate } from "./templates.js";
 
+const DEFAULT_PORT = 3000;
+const DEFAULT_HOST = "127.0.0.1";
+const DEFAULT_PORT_ATTEMPTS = 11;
+
 const QUESTIONS = [
   {
     id: "postType",
@@ -106,6 +110,25 @@ export function createApiServer({ sessions = new Map() } = {}) {
   });
 }
 
+export async function startApiServer({
+  server = createApiServer(),
+  port = DEFAULT_PORT,
+  host = DEFAULT_HOST,
+  allowFallback = true,
+  maxPort = port + DEFAULT_PORT_ATTEMPTS - 1
+} = {}) {
+  const lastPort = allowFallback ? maxPort : port;
+
+  for (let candidatePort = port; candidatePort <= lastPort; candidatePort += 1) {
+    try {
+      await listen(server, candidatePort, host);
+      return { server, host, port: candidatePort };
+    } catch (error) {
+      if (error.code !== "EADDRINUSE" || candidatePort === lastPort) throw error;
+    }
+  }
+}
+
 function answerSession(session, value) {
   const question = QUESTIONS[session.questionIndex];
   if (!question) throw new ConfigurationError("This guided session is already complete.");
@@ -176,9 +199,40 @@ function send(response, status, body) {
   response.end(JSON.stringify(body));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const port = Number(process.env.PORT || 3000);
-  createApiServer().listen(port, () => {
-    console.log(`Post template API listening on http://localhost:${port}`);
+function listen(server, port, host) {
+  return new Promise((resolve, reject) => {
+    const onError = (error) => {
+      server.off("error", onError);
+      reject(error);
+    };
+
+    server.once("error", onError);
+    server.listen({ port, host }, () => {
+      server.off("error", onError);
+      resolve();
+    });
   });
+}
+
+function readPort(value, label) {
+  const port = Number(value);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    throw new ConfigurationError(`${label} must be an integer from 1 through 65535.`);
+  }
+  return port;
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const hasExplicitPort = process.env.PORT !== undefined;
+  const port = hasExplicitPort ? readPort(process.env.PORT, "PORT") : DEFAULT_PORT;
+  const host = process.env.HOST || DEFAULT_HOST;
+
+  startApiServer({ port, host, allowFallback: !hasExplicitPort })
+    .then(({ port: activePort }) => {
+      console.log(`Post template API listening on http://${host}:${activePort}`);
+    })
+    .catch((error) => {
+      console.error(`Unable to start Post template API: ${error.message}`);
+      process.exitCode = 1;
+    });
 }

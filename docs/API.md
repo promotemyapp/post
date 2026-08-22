@@ -19,7 +19,9 @@ flowchart LR
 bun run start
 ```
 
-The API listens on `http://localhost:3000` by default. Set `PORT` to use a different port.
+The API listens on `http://127.0.0.1:3000` by default. Set `PORT` to use a different port.
+
+If port 3000 is already in use, `bun run start` automatically tries ports 3001 through 3010 and prints the active address. Set `PORT` when a caller requires one exact port; an explicitly requested busy port returns a clear startup error. The default host is `127.0.0.1`; set `HOST` deliberately when deployment requires another interface.
 
 ## Direct composition
 
@@ -45,13 +47,13 @@ Supported post types are `blog` and `social_media` (`social` is accepted as an a
 Start a guided session:
 
 ```bash
-curl -X POST http://localhost:3000/v1/sessions
+curl -X POST http://127.0.0.1:3000/v1/sessions
 ```
 
 The response contains the first question: post type. Send each answer to the returned session URL:
 
 ```bash
-curl -X POST http://localhost:3000/v1/sessions/<session-id>/answers \
+curl -X POST http://127.0.0.1:3000/v1/sessions/<session-id>/answers \
   -H 'Content-Type: application/json' \
   -d '{"value":"blog"}'
 ```
