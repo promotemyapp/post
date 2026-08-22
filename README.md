@@ -8,6 +8,22 @@ The repository is currently a template and documentation baseline. It does not y
 
 Every post is composed from two layers:
 
+```mermaid
+flowchart LR
+    Core[Shared post core<br/>title · tags · headings · body]
+    Blog[Blog extension]
+    Social[Social-media extension]
+    Config[Structure config<br/>ranges · profiles]
+    Post[Composed OKF post]
+    External[External project<br/>or future API]
+
+    Core --> Post
+    Blog --> Post
+    Social --> Post
+    Config --> Post
+    Post --> External
+```
+
 1. The shared core establishes the main title, ten tags, subtitles, and structured post body.
 2. One use-case extension adds the structure for either a blog post or a social-media post.
 3. A configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count.
@@ -34,6 +50,15 @@ These are configuration values, not hardcoded rules. They can be adjusted as the
 
 ## Typical workflow
 
+```mermaid
+flowchart LR
+    A[Select profile] --> B[Combine core + extension]
+    B --> C[Write title and structured content]
+    C --> D[Add 10 tags]
+    D --> E[Validate against config]
+    E --> F[Save or consume externally]
+```
+
 1. Select the blog or social-media profile.
 2. Start with `templates/post-core.md` and apply the selected extension.
 3. Write the main title and structured body content.
@@ -42,6 +67,15 @@ These are configuration values, not hardcoded rules. They can be adjusted as the
 6. Save the result as an OKF Markdown concept in `posts/` or in an external consuming project.
 
 ## Repository structure
+
+```text
+post/
+├── config/       structure profiles and ranges
+├── templates/    shared core and channel extensions
+├── posts/        completed OKF post concepts
+├── AGENTS/       agent instructions
+└── SPEC.md       OKF v0.2 specification
+```
 
 - `SPEC.md` — local copy of the Open Knowledge Format v0.2 specification.
 - `config/` — configuration for structural ranges and profiles.

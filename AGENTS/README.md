@@ -39,6 +39,17 @@ The same post concept may be adapted to multiple channels. Keep the canonical co
 
 Agents must not publish, schedule, send, or make external changes unless the user explicitly authorizes that action. When information is uncertain, mark it for review instead of presenting it as verified fact.
 
+## Project explanations
+
+When explaining this repository, its templates, configuration, or workflow, make the explanation visual when that improves comprehension:
+
+- Use Mermaid flowcharts for composition, data flow, and step-by-step processes.
+- Use Markdown tables for profiles, ranges, and direct comparisons.
+- Use compact directory trees for repository structure.
+- Add a diagram or image only when it clarifies an important relationship; keep plain facts and short instructions as prose.
+
+Keep diagrams consistent with the source files and update them when the documented architecture changes.
+
 ## Quality bar
 
 Content should have a clear audience and purpose, accurate claims, useful structure, an appropriate tone, accessible language, and a channel-appropriate length. Avoid invented statistics, unsupported claims, misleading certainty, and unnecessary repetition.
