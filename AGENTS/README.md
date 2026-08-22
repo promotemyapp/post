@@ -20,11 +20,14 @@ Maintain a portable, human-readable post template and knowledge base for product
 - `type` is the only required frontmatter key; use descriptive project types such as `Blog Post` or `Social Media Post`.
 - The authoring contract focuses on `title`, the Markdown body, and `tags`.
 - Every completed post must have exactly ten tags. The method used to create them is outside this template contract.
+- Every completed post must have one main title, at least one subtitle, structured body content, and a measurable word count.
+- Use the extension’s target length and subtitle-count baseline unless the task explicitly provides different requirements.
 - Use standard Markdown links for relationships; do not introduce wiki-link syntax.
 - Do not use `index.md` or `log.md` as concept documents; they are reserved by OKF.
 - Preserve unknown frontmatter keys when editing existing documents.
 - Use ISO 8601 timestamps with an explicit UTC offset.
 - Preserve the stable title, body, and tags fields when adapting a post for an external consumer or channel.
+- Do not remove headings or collapse structured sections into an undifferentiated block of text.
 - Compose one use-case extension with the shared core; do not create parallel replacements for core fields.
 
 ## Content workflow

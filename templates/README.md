@@ -15,9 +15,21 @@ The authoring surface is intentionally minimal:
 
 - `title` — the main title of the post;
 - the Markdown body — the post content;
-- `tags` — exactly ten tags.
+- `tags` — exactly ten tags;
+- structure — a main title, subtitles, body sections, and a measurable word-count target.
 
 How the ten tags are created is an implementation detail outside this template contract.
+
+## Structure baselines
+
+These are starting defaults for the two extensions and can be tuned later without changing the shared core:
+
+| Extension | Target length | Subtitle structure |
+|---|---:|---|
+| Blog | 800–1,500 words | 3–6 subtitles, plus an opening and conclusion |
+| Social media | 30–150 words | 1–3 short subtitles or content beats |
+
+Every composed post must retain one main title and at least one subtitle. The final word count and subtitle count should be checkable by a consumer or future API.
 
 ## Consumption contract
 

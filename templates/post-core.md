@@ -1,7 +1,7 @@
 ---
 type: "Post Template"
 template_layer: core
-template_version: "1.1"
+template_version: "1.2"
 title: "{{POST_TITLE}}"
 tags:
   - "{{TAG_01}}"
@@ -14,8 +14,22 @@ tags:
   - "{{TAG_08}}"
   - "{{TAG_09}}"
   - "{{TAG_10}}"
+structure:
+  main_title: required
+  subtitles: required
+  body: required
+  word_count: required
+  subtitle_count: required
 ---
 
-# Post
+# {{POST_TITLE}}
 
-{{DRAFT_CONTENT}}
+## {{SUBTITLE_01}}
+
+{{SECTION_01}}
+
+## {{SUBTITLE_02}}
+
+{{SECTION_02}}
+
+{{ADDITIONAL_SUBTITLES_AND_SECTIONS}}

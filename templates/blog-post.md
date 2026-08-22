@@ -2,13 +2,15 @@
 type: "Post Template"
 template_layer: extension
 extends: "post-core"
-template_version: "1.1"
+template_version: "1.2"
 channel: blog
+target_word_count: "800-1500"
+target_subtitle_count: "3-6"
 ---
 
 # Blog post extension
 
-Apply this extension on top of [`post-core.md`](post-core.md). Keep all core fields and sections, then replace or complete the shared `# Post` section with the blog structure below.
+Apply this extension on top of [`post-core.md`](post-core.md). Keep the core title, ten tags, and structural fields, then complete the blog structure below.
 
 ## Blog content
 
