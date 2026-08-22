@@ -6,14 +6,19 @@ These instructions define the preparation baseline for agents working in this re
 
 Maintain a portable, human-readable post template and knowledge base for product marketing across blog and social media channels. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. The template must remain usable by projects outside this repository.
 
+## Specialized guidance
+
+- [`api-implementation.md`](api-implementation.md) — API contract, validation, security, testing, and documentation guidance.
+
 ## Before making changes
 
 1. Read the repository `README.md` and the relevant role instructions in this directory.
 2. Read `SPEC.md` before creating or editing an OKF document.
 3. Read `templates/post-core.md` and the selected use-case extension in `templates/` when creating or changing the post shape.
 4. Read `config/post-structure.json` before setting or reviewing length and count expectations.
-5. Inspect existing files and preserve unrelated user changes.
-6. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.
+5. Read `AGENTS/api-implementation.md` before creating or changing the API.
+6. Inspect existing files and preserve unrelated user changes.
+7. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.
 
 ## OKF rules
 
