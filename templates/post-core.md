@@ -1,8 +1,9 @@
 ---
 type: "Post Template"
+template_layer: core
+template_version: "1.0"
 title: "{{POST_TITLE}}"
 description: "{{ONE_SENTENCE_SUMMARY}}"
-template_version: "1.0"
 channel: "{{blog|social}}"
 audience: "{{TARGET_AUDIENCE}}"
 goal: "{{AWARENESS|CONSIDERATION|CONVERSION|RETENTION}}"

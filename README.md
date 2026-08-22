@@ -8,7 +8,7 @@ This repository is intentionally template- and documentation-only for now. No po
 
 ## Core deliverable
 
-The reusable post contract is [`templates/post-template.md`](templates/post-template.md). It provides one channel-neutral shape that can be copied into another project, filled with product-specific content, and adapted for a blog or social channel without losing metadata, provenance, or review state.
+The reusable post contract is split into a shared core and use-case extensions: [`templates/post-core.md`](templates/post-core.md), [`templates/blog-post.md`](templates/blog-post.md), and [`templates/social-media-post.md`](templates/social-media-post.md). The core is shared by every post; an extension adds the fields and structure needed for a specific channel without losing metadata, provenance, or review state.
 
 ## Repository layout
 
