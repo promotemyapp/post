@@ -23,6 +23,8 @@ The API listens on `http://127.0.0.1:3000` by default. Set `PORT` to use a diffe
 
 If port 3000 is already in use, `bun run start` automatically tries ports 3001 through 3010 and prints the active address. Set `PORT` when a caller requires one exact port; an explicitly requested busy port returns a clear startup error. The default host is `127.0.0.1`; set `HOST` deliberately when deployment requires another interface.
 
+Open the root URL in a browser to view a small API discovery page instead of a route error. Programmatic clients can request JSON from `GET /` with `Accept: application/json`.
+
 ## Direct composition
 
 Send the post type and any complete or partial configuration override to `POST /v1/templates`.
@@ -66,6 +68,7 @@ Guided sessions are stored in memory in this initial implementation; restarting 
 
 | Method | Path | Purpose |
 |---|---|---|
+| `GET` | `/` | Browser discovery page or JSON endpoint directory. |
 | `GET` | `/health` | Service health check. |
 | `GET` | `/v1/post-types` | Available post types and built-in profiles. |
 | `POST` | `/v1/templates` | Direct template composition. |

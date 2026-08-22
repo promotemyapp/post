@@ -67,6 +67,13 @@ export function createApiServer({ sessions = new Map() } = {}) {
       if (request.method === "OPTIONS") return send(response, 204);
 
       const url = new URL(request.url, `http://${request.headers.host}`);
+      if (request.method === "GET" && url.pathname === "/") {
+        if (request.headers.accept?.includes("text/html")) {
+          return sendHtml(response, 200, renderDiscoveryPage());
+        }
+        return send(response, 200, apiDiscovery());
+      }
+
       if (request.method === "GET" && url.pathname === "/health") {
         return send(response, 200, { status: "ok" });
       }
@@ -177,6 +184,21 @@ function templateResponse(postType, configuration) {
   };
 }
 
+function apiDiscovery() {
+  return {
+    name: "Reusable Marketing Post Templates API",
+    version: "v1",
+    documentation: "/docs/API.md",
+    endpoints: [
+      { method: "GET", path: "/health", description: "Service health check" },
+      { method: "GET", path: "/v1/post-types", description: "Available post types and profiles" },
+      { method: "POST", path: "/v1/templates", description: "Compose a template directly" },
+      { method: "POST", path: "/v1/sessions", description: "Start guided configuration" },
+      { method: "POST", path: "/v1/sessions/:id/answers", description: "Answer the next guided question" }
+    ]
+  };
+}
+
 async function readJson(request) {
   let body = "";
   for await (const chunk of request) {
@@ -197,6 +219,51 @@ function send(response, status, body) {
   if (body === undefined) return response.end();
   response.setHeader("Content-Type", "application/json; charset=utf-8");
   response.end(JSON.stringify(body));
+}
+
+function sendHtml(response, status, body) {
+  response.statusCode = status;
+  response.setHeader("Content-Type", "text/html; charset=utf-8");
+  response.end(body);
+}
+
+function renderDiscoveryPage() {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reusable Marketing Post Templates API</title>
+    <style>
+      body { max-width: 760px; margin: 48px auto; padding: 0 24px; color: #172033; background: #f8fafc; font: 16px/1.5 system-ui, sans-serif; }
+      main { padding: 32px; background: #fff; border: 1px solid #dbe3ee; border-radius: 16px; box-shadow: 0 8px 32px rgb(15 23 42 / 8%); }
+      h1 { margin-top: 0; }
+      code { padding: 2px 5px; background: #e8eef7; border-radius: 4px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+      th, td { padding: 12px 8px; border-bottom: 1px solid #dbe3ee; text-align: left; }
+      th { color: #475569; font-size: 13px; text-transform: uppercase; }
+      .method { color: #075985; font-weight: 700; }
+      .hint { color: #475569; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Reusable Marketing Post Templates API</h1>
+      <p>Use this API to compose a blog or social-media post template directly, or answer configuration questions one step at a time.</p>
+      <p class="hint">Browser page detected. Programmatic clients can request <code>application/json</code> from this same route.</p>
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="method">GET</td><td><code>/health</code></td><td>Check service status</td></tr>
+          <tr><td class="method">GET</td><td><code>/v1/post-types</code></td><td>View profiles</td></tr>
+          <tr><td class="method">POST</td><td><code>/v1/templates</code></td><td>Compose directly</td></tr>
+          <tr><td class="method">POST</td><td><code>/v1/sessions</code></td><td>Start guided configuration</td></tr>
+        </tbody>
+      </table>
+      <p class="hint">See <code>docs/API.md</code> in the repository for request examples.</p>
+    </main>
+  </body>
+</html>`;
 }
 
 function listen(server, port, host) {

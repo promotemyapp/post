@@ -15,6 +15,29 @@ async function withApi(run) {
   }
 }
 
+test("root route returns a browser-friendly API discovery page", async () => {
+  await withApi(async (baseUrl) => {
+    const response = await fetch(baseUrl, { headers: { Accept: "text/html" } });
+    const page = await response.text();
+
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("content-type"), /text\/html/);
+    assert.match(page, /Reusable Marketing Post Templates API/);
+    assert.match(page, /\/v1\/templates/);
+  });
+});
+
+test("root route returns JSON discovery for programmatic clients", async () => {
+  await withApi(async (baseUrl) => {
+    const response = await fetch(baseUrl, { headers: { Accept: "application/json" } });
+    const result = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(result.version, "v1");
+    assert.equal(result.endpoints.length, 5);
+  });
+});
+
 test("direct template request composes a blog template with configuration overrides", async () => {
   await withApi(async (baseUrl) => {
     const response = await fetch(`${baseUrl}/v1/templates`, {
