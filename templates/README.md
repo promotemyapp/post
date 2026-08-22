@@ -7,7 +7,17 @@ The template system has two layers:
 
 A consuming project should start with the core, apply exactly one extension, replace the placeholders, preserve the OKF frontmatter, and set a concrete post `type` such as `Blog Post` or `Social Media Post` in the resulting document.
 
-The extensions are deliberately additive. They must not redefine or remove the shared identity, audience, goal, message, CTA, provenance, or review fields from the core.
+The extensions are deliberately additive. They must not redefine or add competing metadata to the shared title, content, or tags.
+
+## Minimal content contract
+
+The authoring surface is intentionally minimal:
+
+- `title` — the main title of the post;
+- the Markdown body — the post content;
+- `tags` — exactly ten tags derived automatically from the post content and its main topic.
+
+Tags should be specific, normalized, non-duplicative, and useful for discovery. Do not ask the author to manually select them as part of the normal workflow.
 
 ## Consumption contract
 

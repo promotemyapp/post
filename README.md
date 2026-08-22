@@ -8,7 +8,7 @@ This repository is intentionally template- and documentation-only for now. No po
 
 ## Core deliverable
 
-The reusable post contract is split into a shared core and use-case extensions: [`templates/post-core.md`](templates/post-core.md), [`templates/blog-post.md`](templates/blog-post.md), and [`templates/social-media-post.md`](templates/social-media-post.md). The core is shared by every post; an extension adds the fields and structure needed for a specific channel without losing metadata, provenance, or review state.
+The reusable post contract is split into a shared core and use-case extensions: [`templates/post-core.md`](templates/post-core.md), [`templates/blog-post.md`](templates/blog-post.md), and [`templates/social-media-post.md`](templates/social-media-post.md). The core is shared by every post; an extension adds the structure needed for a specific channel. The authoring surface intentionally stays focused on the main title, post content, and ten automatically generated tags.
 
 ## Repository layout
 

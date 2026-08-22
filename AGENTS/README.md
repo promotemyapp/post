@@ -18,13 +18,14 @@ Maintain a portable, human-readable post template and knowledge base for product
 
 - Every concept document must begin with YAML frontmatter delimited by `---`.
 - `type` is the only required frontmatter key; use descriptive project types such as `Blog Post` or `Social Media Post`.
-- Prefer `title`, `description`, `tags`, `status`, `sources`, and `generated` when applicable.
+- The authoring contract focuses on `title`, the Markdown body, and `tags`.
+- Every completed post must have exactly ten tags. Generate them from the post content and main topic; do not ask the author to hand-pick them in the normal workflow.
+- Tags should be concise, specific, normalized, non-duplicative, and directly relevant to the post.
 - Use standard Markdown links for relationships; do not introduce wiki-link syntax.
 - Do not use `index.md` or `log.md` as concept documents; they are reserved by OKF.
 - Preserve unknown frontmatter keys when editing existing documents.
 - Use ISO 8601 timestamps with an explicit UTC offset.
-- Distinguish claims from creative copy, and record source material for factual claims.
-- Preserve the stable template fields when adapting a post for an external consumer or channel.
+- Preserve the stable title, body, and tags fields when adapting a post for an external consumer or channel.
 - Compose one use-case extension with the shared core; do not create parallel replacements for core fields.
 
 ## Content workflow

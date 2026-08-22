@@ -1,39 +1,21 @@
 ---
 type: "Post Template"
 template_layer: core
-template_version: "1.0"
+template_version: "1.1"
 title: "{{POST_TITLE}}"
-description: "{{ONE_SENTENCE_SUMMARY}}"
-channel: "{{blog|social}}"
-audience: "{{TARGET_AUDIENCE}}"
-goal: "{{AWARENESS|CONSIDERATION|CONVERSION|RETENTION}}"
-locale: "{{LOCALE}}"
-tags: []
-status: draft
-cta: "{{CALL_TO_ACTION}}"
-sources: []
+tags:
+  - "{{TAG_01}}"
+  - "{{TAG_02}}"
+  - "{{TAG_03}}"
+  - "{{TAG_04}}"
+  - "{{TAG_05}}"
+  - "{{TAG_06}}"
+  - "{{TAG_07}}"
+  - "{{TAG_08}}"
+  - "{{TAG_09}}"
+  - "{{TAG_10}}"
 ---
-
-# Brief
-
-**Product:** {{PRODUCT_NAME}}
-
-**Audience problem:** {{PROBLEM_THIS_POST_ADDRESSES}}
-
-**Core message:** {{ONE_CLEAR_TAKEAWAY}}
-
-**Desired action:** {{WHAT_THE_READER_SHOULD_DO_NEXT}}
 
 # Post
 
 {{DRAFT_CONTENT}}
-
-# Channel adaptation notes
-
-{{CHANNEL_SPECIFIC_NOTES}}
-
-# Source and review notes
-
-- **Factual claims requiring sources:** {{CLAIMS_TO_VERIFY}}
-- **Human review needed:** {{YES_OR_NO_AND_REASON}}
-- **Approval state:** Draft; not published.
