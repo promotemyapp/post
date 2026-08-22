@@ -1,10 +1,13 @@
 import assert from "node:assert/strict";
 import { createServer as createHttpServer } from "node:http";
 import test from "node:test";
-import { createApiServer, startApiServer } from "../src/server.js";
+import vercelFunction from "../api/index.js";
+import { createApiHandler, createApiServer, startApiServer } from "../src/server.js";
 
-async function withApi(run) {
-  const server = createApiServer();
+const SESSION_SECRET = "test-session-secret-with-at-least-32-characters";
+
+async function withApi(run, options = {}) {
+  const server = createApiServer(options);
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   const { port } = server.address();
 
@@ -36,6 +39,20 @@ test("root route returns JSON discovery for programmatic clients", async () => {
     assert.equal(result.version, "v1");
     assert.equal(result.endpoints.length, 5);
   });
+});
+
+test("Vercel Function route prefix uses the same API handler", async () => {
+  const handler = createApiHandler();
+  const response = await handler(new Request("https://example.vercel.app/api/v1/post-types"));
+  const result = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(result.postTypes, ["blog", "social_media"]);
+});
+
+test("Vercel Function entrypoint serves the health route", async () => {
+  const response = await vercelFunction.fetch(new Request("https://example.vercel.app/health"));
+  assert.deepEqual(await response.json(), { status: "ok" });
 });
 
 test("direct template request composes a blog template with configuration overrides", async () => {
@@ -101,10 +118,10 @@ test("guided session asks each configuration question and returns a social templ
 
     const answers = ["social_media", "default", "default", "default", "default", "default", "default"];
     for (const value of answers) {
-      response = await fetch(`${baseUrl}/v1/sessions/${result.sessionId}/answers`, {
+      response = await fetch(`${baseUrl}/v1/sessions/answers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ value })
+        body: JSON.stringify({ sessionToken: result.sessionToken, value })
       });
       result = await response.json();
     }
@@ -113,5 +130,30 @@ test("guided session asks each configuration question and returns a social templ
     assert.equal(result.complete, true);
     assert.equal(result.postType, "social_media");
     assert.match(result.templates.combined, /type: "Social Media Post"/);
-  });
+  }, { sessionSecret: SESSION_SECRET });
+});
+
+test("guided session tokens work across separate handler instances", async () => {
+  const firstHandler = createApiHandler({ sessionSecret: SESSION_SECRET });
+  const startResponse = await firstHandler(new Request("https://example.vercel.app/v1/sessions", { method: "POST" }));
+  const start = await startResponse.json();
+  const secondHandler = createApiHandler({ sessionSecret: SESSION_SECRET });
+  const answerResponse = await secondHandler(new Request("https://example.vercel.app/v1/sessions/answers", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sessionToken: start.sessionToken, value: "blog" })
+  }));
+  const answer = await answerResponse.json();
+
+  assert.equal(answerResponse.status, 200);
+  assert.equal(answer.question.id, "body.words");
+  assert.equal(typeof answer.sessionToken, "string");
+});
+
+test("guided sessions require a configured signing secret", async () => {
+  const handler = createApiHandler({ sessionSecret: undefined });
+  const response = await handler(new Request("https://example.vercel.app/v1/sessions", { method: "POST" }));
+
+  assert.equal(response.status, 503);
+  assert.match((await response.json()).error, /SESSION_SECRET/);
 });

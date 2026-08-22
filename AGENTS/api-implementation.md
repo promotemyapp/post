@@ -30,7 +30,7 @@ flowchart LR
 - Guided composition returns one question at a time. Its answer sequence must stay documented, deterministic, and resumable within a session.
 - Keep the fixed rule that tags have a count of exactly ten.
 - Return the resolved configuration with the generated template so callers can inspect the effective ranges.
-- Treat in-memory guided sessions as temporary. If durability, multi-instance deployment, or long-lived sessions are required, add an explicit persistent store and expiry policy.
+- Guided sessions use signed, short-lived tokens so they work across Vercel Function invocations without a database. If long-lived sessions or server-side state are required, add an explicit persistent store and expiry policy.
 
 ## Validate at the boundary
 

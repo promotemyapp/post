@@ -95,11 +95,13 @@ The initial API is now available locally. It supports both a direct request with
 
 ## Development status
 
-The reusable templates, configuration, agent guidance, and first API implementation are complete. The API currently supports direct and guided template composition locally. Post-generation logic, persistent sessions, authentication, deployment, and publishing integrations remain future milestones.
+The reusable templates, configuration, agent guidance, and first API implementation are complete. The API supports direct and guided template composition both locally and as a Vercel Bun Function. Post-generation logic, authentication, custom domains, and publishing integrations remain future milestones.
 
 ## Tooling
 
 Use [Bun](https://bun.sh/) for this repository’s package management, scripts, and tests. Do not use npm. Run the API with `bun run start` and the test suite with `bun test`. Startup uses local IPv4 port 3000 when available, otherwise the first free port through 3010. Open the printed local address in a browser to see the API discovery page.
+
+For remote deployment, import the repository into Vercel. The included `vercel.json` configures Vercel’s Bun runtime, and the `api/` entrypoints use the same handler as the local server. See [`docs/API.md`](docs/API.md) for the Vercel setup and guided-session secret.
 
 ## Collaboration workflow
 

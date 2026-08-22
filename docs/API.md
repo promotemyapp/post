@@ -7,7 +7,7 @@ flowchart LR
     Client[External project] --> Direct[POST /v1/templates]
     Client --> Guided[POST /v1/sessions]
     Guided --> Questions[One configuration question at a time]
-    Questions --> Answer[POST /v1/sessions/:id/answers]
+    Questions --> Answer[POST /v1/sessions/answers<br/>with signed session token]
     Direct --> Result[Composed OKF template]
     Answer --> Result
     Config[config/post-structure.json] --> Result
@@ -24,6 +24,12 @@ The API listens on `http://127.0.0.1:3000` by default. Set `PORT` to use a diffe
 If port 3000 is already in use, `bun run start` automatically tries ports 3001 through 3010 and prints the active address. Set `PORT` when a caller requires one exact port; an explicitly requested busy port returns a clear startup error. The default host is `127.0.0.1`; set `HOST` deliberately when deployment requires another interface.
 
 Open the root URL in a browser to view a small API discovery page instead of a route error. Programmatic clients can request JSON from `GET /` with `Accept: application/json`.
+
+To use guided configuration locally, set a secret with at least 32 characters:
+
+```bash
+SESSION_SECRET="replace-with-a-unique-secret" bun run start
+```
 
 ## Direct composition
 
@@ -52,17 +58,36 @@ Start a guided session:
 curl -X POST http://127.0.0.1:3000/v1/sessions
 ```
 
-The response contains the first question: post type. Send each answer to the returned session URL:
+The response contains the first question and a `sessionToken`. Send that token with each answer:
 
 ```bash
-curl -X POST http://127.0.0.1:3000/v1/sessions/<session-id>/answers \
+curl -X POST http://127.0.0.1:3000/v1/sessions/answers \
   -H 'Content-Type: application/json' \
-  -d '{"value":"blog"}'
+  -d '{"sessionToken":"<session-token>","value":"blog"}'
 ```
 
 The API asks, in order, for post type, body length, title length, subtitle count, subtitle length, body-section count, and tag count. Range questions accept `{ "min": <integer>, "max": <integer> }` or `"default"` to retain the selected profile value. The final response is the composed template.
 
-Guided sessions are stored in memory in this initial implementation; restarting the process clears them.
+Guided sessions are signed, short-lived tokens rather than server memory. This keeps the flow valid across separate local processes or Vercel Function invocations. Keep `SESSION_SECRET` private and use the same value for each deployed environment.
+
+## Deploy on Vercel Hobby
+
+This repository includes `vercel.json` and Bun Function entrypoints, so the same handler works locally and on Vercel.
+
+```mermaid
+flowchart LR
+    Local[Bun local server] --> Handler[Shared Request → Response handler]
+    Vercel[Bun Vercel Function] --> Handler
+    Handler --> Direct[Direct composition]
+    Handler --> Guided[Signed guided token]
+```
+
+1. Import this repository into Vercel from its Git provider and select the `main` branch for production.
+2. Keep the repository root as the project root; Vercel discovers the `api/` functions and uses the Bun runtime declared in `vercel.json`.
+3. In **Project Settings → Environment Variables**, add a private `SESSION_SECRET` of at least 32 characters for Production and Preview. Vercel applies environment-variable changes to new deployments only, so redeploy after adding or changing it.
+4. Deploy. The production URL exposes the same `/`, `/health`, and `/v1/...` routes shown in this document.
+
+The direct endpoint does not need `SESSION_SECRET`; it is required for the guided session flow.
 
 ## Endpoints
 
@@ -73,4 +98,4 @@ Guided sessions are stored in memory in this initial implementation; restarting 
 | `GET` | `/v1/post-types` | Available post types and built-in profiles. |
 | `POST` | `/v1/templates` | Direct template composition. |
 | `POST` | `/v1/sessions` | Start guided configuration. |
-| `POST` | `/v1/sessions/:id/answers` | Answer the next guided question. |
+| `POST` | `/v1/sessions/answers` | Answer the next guided question with `sessionToken`. |
