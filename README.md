@@ -1,20 +1,29 @@
 # Content Post Knowledge Base
 
-Preparation baseline for creating blog posts and social media posts as Open Knowledge Format (OKF) concepts.
+Reusable baseline for creating blog posts and social media posts as Open Knowledge Format (OKF) concepts for product marketing.
 
 ## Status
 
-This repository is intentionally documentation-only for now. No post-generation or publishing code has been added.
+This repository is intentionally template- and documentation-only for now. No post-generation, publishing, or API server code has been added.
+
+## Core deliverable
+
+The reusable post contract is [`templates/post-template.md`](templates/post-template.md). It provides one channel-neutral shape that can be copied into another project, filled with product-specific content, and adapted for a blog or social channel without losing metadata, provenance, or review state.
 
 ## Repository layout
 
 - `SPEC.md` — local copy of the upstream Open Knowledge Format v0.2 specification.
 - `AGENTS/` — working instructions for agents contributing to this project.
+- `templates/` — reusable post templates and their consumption contract.
 - `posts/` — reserved for future OKF post concepts.
 
 ## Working agreement
 
 Treat `SPEC.md` as the structural source of truth for OKF documents. Treat the instructions in `AGENTS/` as the project workflow source of truth. New content should be reviewable as plain Markdown and should preserve provenance, status, and links where applicable.
+
+## External consumption direction
+
+The template is designed to become a portable content contract, not a repository-only convention. Future integration work may expose it through a read-only API or another adapter, but must preserve the same Markdown/OKF representation and stable metadata fields. External consumers should be able to retrieve the template, create a post from it, and validate or render the result without depending on this repository’s internal implementation.
 
 ## Upstream reference
 

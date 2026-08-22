@@ -4,14 +4,15 @@ These instructions define the preparation baseline for agents working in this re
 
 ## Mission
 
-Maintain a portable, human-readable knowledge base for blog posts and social media posts. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body.
+Maintain a portable, human-readable post template and knowledge base for product marketing across blog and social media channels. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. The template must remain usable by projects outside this repository.
 
 ## Before making changes
 
 1. Read the repository `README.md` and the relevant role instructions in this directory.
 2. Read `SPEC.md` before creating or editing an OKF document.
-3. Inspect existing files and preserve unrelated user changes.
-4. Keep this preparation phase documentation-only unless the user explicitly asks for implementation.
+3. Read `templates/post-template.md` when creating or changing the post shape.
+4. Inspect existing files and preserve unrelated user changes.
+5. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.
 
 ## OKF rules
 
@@ -23,10 +24,13 @@ Maintain a portable, human-readable knowledge base for blog posts and social med
 - Preserve unknown frontmatter keys when editing existing documents.
 - Use ISO 8601 timestamps with an explicit UTC offset.
 - Distinguish claims from creative copy, and record source material for factual claims.
+- Preserve the stable template fields when adapting a post for an external consumer or channel.
 
 ## Content workflow
 
 Research → outline → draft → factual/source review → channel adaptation → human review → publish-ready handoff.
+
+The same post concept may be adapted to multiple channels. Keep the canonical content and metadata together, and make channel-specific variants explicit rather than silently overwriting the source draft.
 
 Agents must not publish, schedule, send, or make external changes unless the user explicitly authorizes that action. When information is uncertain, mark it for review instead of presenting it as verified fact.
 
@@ -37,4 +41,3 @@ Content should have a clear audience and purpose, accurate claims, useful struct
 ## Handoff
 
 Summarize changed files, unresolved questions, sources used, and any claims requiring human review. Keep generated drafts clearly distinguishable from approved or published content.
-
