@@ -55,6 +55,15 @@ When explaining this repository, its templates, configuration, or workflow, make
 
 Keep diagrams consistent with the source files and update them when the documented architecture changes.
 
+## Documentation maintenance
+
+Treat README updates as part of finishing a milestone, not as an afterthought:
+
+- Update the root `README.md` when a milestone changes the project purpose, architecture, setup, public API, configuration, workflow, or current status.
+- Update a focused README or reference, such as `templates/README.md` or `docs/API.md`, when the change is local to that area.
+- Before handoff, check that examples, diagrams, paths, commands, and stated behavior match the polished implementation.
+- Avoid churn: do not rewrite documentation when a change does not affect how a person or external project understands or uses the repository.
+
 ## Quality bar
 
 Content should have a clear audience and purpose, accurate claims, useful structure, an appropriate tone, accessible language, and a channel-appropriate length. Avoid invented statistics, unsupported claims, misleading certainty, and unnecessary repetition.
