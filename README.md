@@ -53,7 +53,7 @@ flowchart LR
 ```
 
 1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
-2. The blog configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count.
+2. The blog configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count, together with agent-ready best-practice recommendations.
 3. The canonical specification supplies source-grounded drafting and review guidance.
 4. A consuming AI agent receives these as one agent-ready package, creates the actual draft in its own project, and can validate that draft against the blog profile.
 

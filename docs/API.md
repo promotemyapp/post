@@ -46,7 +46,7 @@ Send the post type and any complete or partial configuration override to `POST /
 }
 ```
 
-The API starts with the selected profile from `config/post-structure.json`, applies the supplied overrides, validates every range, and returns the resolved configuration with the core, extension, and combined Markdown template. The Markdown contains reusable placeholders for the requesting project’s creation workflow.
+The API starts with the selected profile from `config/post-structure.json`, applies the supplied overrides, validates every range, and returns the resolved configuration—including the blog profile's best-practice recommendations and source references—with the core, extension, and combined Markdown template. The Markdown contains reusable placeholders for the requesting project’s creation workflow.
 
 Supported post types are `blog` and `social_media` (`social` is accepted as an alias). Tags are fixed at exactly ten, so `tags.count` must be `{ "min": 10, "max": 10 }`.
 
