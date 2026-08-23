@@ -38,7 +38,7 @@ The fixed recommendations are defined in [`config/blog-post-fixed-recommendation
 
 | Extension | Target length | Subtitle structure |
 |---|---:|---|
-| Blog | 4,000 words | 7 subtitles/sections |
+| Blog | 1,800 words | 10 subtitles/sections |
 
 Every blog post must retain one main title and satisfy the fixed recommendations. The final word count, title word count, subtitle count, subtitle word count, body-section count, and tag count should be checkable by a consumer or future API.
 

@@ -119,7 +119,7 @@ Question-and-answer writing improves articles when it serves readers. Google sel
 
 The eventual publishing system should map this content to a well-formed web page with a concise descriptive HTML title and meta description, one visually distinct `H1`, semantic HTML and text in the rendered DOM, crawlable internal links, relevant accessible images, accurate visible-content-matching `Article` structured data, and deliberate crawl/index settings. Structured data can enable appropriate appearances. See [Google’s Article markup guide](https://developers.google.com/search/docs/appearance/structured-data/article) and [structured-data policies](https://developers.google.com/search/docs/appearance/structured-data/sd-policies).
 
-The active blog baseline recommends 4,000 body words. The future dynamic-ranges milestone can introduce configurable values after the fixed template is complete.
+The active blog baseline recommends 1,800 body words, 10 sections, an 8-word title, 6-word subtitles, one expert quote, five source citations, three statistics, and a three-question FAQ when it improves coverage. The future dynamic-ranges milestone can introduce configurable values after the fixed template is complete.
 
 ### Agent-operating view
 
@@ -182,9 +182,9 @@ When factual support is unavailable, research the claim, label it as an assumpti
 | [`templates/post-core.md`](templates/post-core.md) | Preserved legacy shared scaffold; not active for new authoring. |
 | [`templates/social-media-post.md`](templates/social-media-post.md) | Preserved deferred draft for a future independent design. |
 
-The active blog profile requires 2,000–4,000 body words, 5–10 subtitles/sections, and exactly 10 tags.
+The active blog baseline uses 1,800 body words, 10 subtitles/sections, an 8-word title, 6-word subtitles, and exactly 10 tags. It also targets one expert quote, five source citations, three statistics, and a three-question FAQ when relevant.
 
-These are configuration values, not hardcoded rules. They can be adjusted as the content strategy evolves.
+These fixed recommendations provide a research-informed starting point for the basic template. The preserved dynamic-ranges configuration supports the future configurable-values milestone.
 
 ## Typical workflow
 
