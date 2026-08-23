@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 — 2026-08-23
+
+- Add a Bun lockfile marker so Vercel selects Bun for dependency installation and function deployment.
+
 ## 0.2.1 — 2026-08-23
 
 ### Fixed
