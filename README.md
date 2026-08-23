@@ -21,6 +21,7 @@ Every response from this repository—whether delivered through an API, raw file
 
 - active template and structural profile;
 - required inputs, constraints, and conditional sections;
+- keyword-research workflow, query-selection criteria, and a reusable keyword-brief format;
 - drafting and review workflow;
 - SEO and Google AI-search guidance grounded in sources;
 - quality standards and source-grounded claims;
@@ -28,11 +29,26 @@ Every response from this repository—whether delivered through an API, raw file
 
 Human readability presents the same agent-facing source of truth in a clearer format for planning and approval.
 
-The API, raw repository files, and future packaged exports deliver this same canonical contract. The consumer handles topic research, factual verification, publishing environment, and final publication decisions.
+The API, raw repository files, and future packaged exports deliver this same canonical contract. The consumer's agent applies the supplied keyword-research workflow to its own topic and site data, performs factual verification, and manages its publishing environment and final publication decisions.
 
 ### Response scope
 
-This repository and its API return reusable template material: structure, configuration, drafting instructions, review rules, and source-grounded SEO guidance. The requesting project’s AI agent applies that package to its own topic research, product context, blog-post creation, and publishing workflow.
+This repository and its API return a self-contained blog-creation guidance package: keyword-research instructions, a keyword-brief format, structure, configuration, drafting instructions, review rules, and source-grounded SEO guidance. The requesting project’s AI agent applies that package to its own topic, product context, evidence, blog-post creation, and publishing workflow.
+
+### One-call agent package
+
+Recommendation mode is the default entry point for an external AI agent that asks for the complete method for creating a quality blog post. One response provides the following connected materials:
+
+```mermaid
+flowchart LR
+    Call[Recommended API call] --> Research[Keyword research method]
+    Research --> Brief[Keyword brief]
+    Brief --> Guidance[Drafting and review guidance]
+    Guidance --> Template[Structured Markdown template]
+    Template --> Draft[Topic-specific blog draft]
+```
+
+The agent uses the keyword-research method to create a brief for its assigned topic, maps the selected queries to the article structure, researches and verifies claims, then fills the returned Markdown template and reviews the completed draft against the returned quality guidance.
 
 ## How it works
 

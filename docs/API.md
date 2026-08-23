@@ -1,6 +1,6 @@
 # Post Template API
 
-The API exposes the repository’s reusable template contract in two modes. Recommendation mode returns the researched fixed blog baseline in one call. Specific mode accepts caller-supplied settings directly or gathers them through a guided flow. Every completed response returns template structure, canonical agent guidance, and reusable placeholders. The requesting project’s AI agent uses the returned package to research and create its own topic-specific post.
+The API exposes the repository’s reusable template contract in two modes. Recommendation mode returns a complete blog-creation guidance package in one call. Specific mode accepts caller-supplied settings directly or gathers them through a guided flow. Every completed response returns template structure, canonical agent guidance, and reusable placeholders. The requesting project’s AI agent uses the returned package to research and create its own topic-specific post.
 
 ```mermaid
 flowchart LR
@@ -45,7 +45,16 @@ Call recommendation mode with an empty request body to receive the research-info
 curl -X POST http://127.0.0.1:3000/v1/templates/recommended
 ```
 
-The response includes `packageVersion`, the fixed recommendations, an exact resolved configuration, one canonical `template.markdown` field, canonical agent guidance from `README.md#agent-operating-view`, and a dedicated `keywordResearch` field sourced from `README.md#keyword-research-workflow`. The keyword-research field gives an AI agent the workflow and structured brief it uses to select a primary query, supporting queries, reader intent, and article-section mapping before creating its topic-specific post. The template YAML carries that resulting keyword brief with the article inputs.
+The response includes `packageVersion`, the fixed recommendations, an exact resolved configuration, one canonical `template.markdown` field, canonical agent guidance from `README.md#agent-operating-view`, and a dedicated `keywordResearch` field sourced from `README.md#keyword-research-workflow`. Together, these form the self-contained blog-creation guidance package.
+
+| Response field | Agent use |
+|---|---|
+| `keywordResearch.markdown` | Research the assigned topic, select a primary query and supporting queries, evaluate search intent, and create the structured keyword brief. |
+| `guidance.markdown` | Apply the complete drafting, evidence, SEO, AI-search, and review workflow. |
+| `fixedRecommendations` and `configuration` | Use the recommended editorial targets for length, sections, tags, evidence, and FAQ coverage. |
+| `template.markdown` | Fill the complete keyword brief and article structure with topic-specific, verified content. |
+
+The agent performs this method using its own topic, product context, site data, and credible sources. The completed keyword brief is carried in the template YAML with the article inputs.
 
 ## Specific mode: direct
 
