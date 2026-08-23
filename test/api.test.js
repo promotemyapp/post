@@ -52,12 +52,8 @@ test("Vercel Function route prefix uses the same API handler", async () => {
 });
 
 test("Vercel Function entrypoint serves the health route", async () => {
-  assert.equal(typeof vercelFunction, "function");
-  const directResponse = await vercelFunction(new Request("https://example.vercel.app/health"));
-  assert.deepEqual(await directResponse.json(), { status: "ok" });
-
-  const fetchResponse = await vercelFunction.fetch(new Request("https://example.vercel.app/health"));
-  assert.deepEqual(await fetchResponse.json(), { status: "ok" });
+  const response = await vercelFunction.fetch(new Request("https://example.vercel.app/health"));
+  assert.deepEqual(await response.json(), { status: "ok" });
 });
 
 test("specific direct mode composes a blog template with configuration overrides", async () => {

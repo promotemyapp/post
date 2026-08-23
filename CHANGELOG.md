@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-08-23
+
+### Fixed
+
+- Configured Vercel to use the Other framework preset, Bun installation, and the repository's `api/` function entrypoints for production deployment.
+
 ## 0.2.0 — 2026-08-23
 
 ### Released

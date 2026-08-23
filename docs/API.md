@@ -108,7 +108,7 @@ flowchart LR
 ```
 
 1. Import this repository into Vercel from its Git provider and select the `main` branch for production.
-2. Keep the repository root as the project root; Vercel discovers the `api/` functions and uses the Bun runtime declared in `vercel.json`.
+2. Keep the repository root as the project root; `vercel.json` selects the Other framework preset, runs `bun install`, and lets Vercel discover the `api/` functions with the Bun runtime.
 3. In **Project Settings → Environment Variables**, add a private `SESSION_SECRET` of at least 32 characters for Production and Preview. Vercel applies environment-variable changes to new deployments only, so redeploy after adding or changing it.
 4. Deploy. The production URL exposes the same `/`, `/health`, and `/v1/...` routes shown in this document.
 
