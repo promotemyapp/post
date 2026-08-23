@@ -2,7 +2,7 @@
 
 This project defines a portable, Open Knowledge Format (OKF) knowledge package for creating long-form product-marketing blog posts. Blog posts are the active product scope. The earlier social-media material is preserved as deferred reference work and will be redesigned independently later.
 
-The repository does not create or publish posts itself. Another project requests or consumes this package, then uses its own AI agent or workflow to research, draft, review, and publish a blog post.
+The repository does not create or publish posts itself. Its primary consumer is an AI agent in another project: that agent requests this package to obtain the structure and instructions for a good-quality, SEO-ready blog post. A human-readable view is retained for understanding, review, and maintenance.
 
 ## Consumer model
 
@@ -15,14 +15,18 @@ flowchart LR
     Draft --> Publish[Consumer reviews and publishes]
 ```
 
-The package returned to a consumer must be optimized primarily for an AI agent: unambiguous, structured, versioned, and actionable. It must give the agent everything it needs to create a quality blog post without guessing at the repository’s intent:
+### AI-agent-first response contract
+
+Every response from this repository—whether delivered through an API, raw files, or a future export—must be optimized first for an AI agent: unambiguous, structured, versioned, and actionable. It must give the requesting agent everything it needs to create a quality blog post without guessing at the repository’s intent:
 
 - active template and structural profile;
 - required inputs, constraints, and conditional sections;
 - drafting and review workflow;
 - SEO and Google AI-search guidance grounded in sources;
 - prohibited shortcuts and unsupported claims;
-- human-readable context for planning and approval.
+- a human-readable presentation of the same instructions for planning and approval.
+
+Human readability must not introduce a second or conflicting contract. It is a clearer presentation of the agent-facing source of truth, not a separate template.
 
 The API, raw repository files, or a future packaged export are delivery mechanisms for this same contract; they must not become competing sources of truth. The consumer remains responsible for its topic research, factual verification, publishing environment, and final publication decision.
 
@@ -47,7 +51,7 @@ flowchart LR
 1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
 2. The blog configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count.
 3. The canonical specification supplies source-grounded drafting and review guidance.
-4. A consuming project receives these as one agent-ready package, uses them to create a draft, and can validate the result against the blog profile.
+4. A consuming AI agent receives these as one agent-ready package, uses them to create a draft, and can validate the result against the blog profile.
 
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
