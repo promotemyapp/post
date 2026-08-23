@@ -7,7 +7,7 @@ Use this role for a pre-publication quality review.
 - OKF frontmatter is valid and includes a descriptive `type`.
 - Title and tags are present, and every post has exactly ten tags.
 - A main title and at least one subtitle are present.
-- Word count, title word count, subtitle count, subtitle word count, and body-section count meet the active `blog` profile in `config/post-dynamic-ranges.json`.
+- Word count, title word count, subtitle count, subtitle word count, and body-section count meet the fixed recommendations in `config/blog-post-fixed-recommendations.json`.
 - Factual claims are supported by the listed sources.
 - Time-sensitive claims have a date or freshness note.
 - Links are valid, descriptive, and used with standard Markdown syntax.

@@ -53,7 +53,7 @@ flowchart LR
 ```
 
 1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
-2. The blog dynamic-ranges profile defines variable ranges for title length, subtitle count and length, body length, body-section count, and tag count.
+2. The blog fixed-recommendations profile defines one baseline for title length, subtitle count and length, body length, body-section count, and tag count.
 3. The canonical specification supplies source-grounded drafting and review guidance.
 4. A consuming AI agent receives these as one agent-ready package, creates the actual draft in its own project, and can validate that draft against the blog profile.
 
@@ -119,7 +119,7 @@ Question-and-answer writing improves articles when it serves readers. Google sel
 
 The eventual publishing system should map this content to a well-formed web page with a concise descriptive HTML title and meta description, one visually distinct `H1`, semantic HTML and text in the rendered DOM, crawlable internal links, relevant accessible images, accurate visible-content-matching `Article` structured data, and deliberate crawl/index settings. Structured data can enable appropriate appearances. See [Google’s Article markup guide](https://developers.google.com/search/docs/appearance/structured-data/article) and [structured-data policies](https://developers.google.com/search/docs/appearance/structured-data/sd-policies).
 
-The current 2,000–4,000-word profile is an editorial depth range, not a Google ranking requirement. The final configuration must distinguish non-negotiable contract requirements, editorial ranges, and conditional sections.
+The active blog baseline recommends 4,000 body words. The future dynamic-ranges milestone can introduce configurable values after the fixed template is complete.
 
 ### Agent-operating view
 
@@ -161,7 +161,7 @@ When factual support is unavailable, research the claim, label it as an assumpti
 - Use verified facts, citations, data, testimonials, quotations, product capabilities, and author credentials.
 - Build FAQ content, headings, and sections around genuine reader needs and Google’s foundational SEO guidance.
 - Select structured data by matching it accurately to visible content and an applicable Search feature.
-- Treat word and section ranges as editorial targets that support a useful article.
+- Use the fixed word and section recommendations as editorial targets that support a useful article.
 
 #### Primary sources
 
@@ -177,7 +177,8 @@ When factual support is unavailable, research the claim, label it as an assumpti
 | File | Purpose |
 |---|---|
 | [`templates/blog-post.md`](templates/blog-post.md) | Active blog-post template direction. |
-| [`config/post-dynamic-ranges.json`](config/post-dynamic-ranges.json) | Dynamic numeric ranges for the active blog profile and preserved deferred profile. |
+| [`config/blog-post-fixed-recommendations.json`](config/blog-post-fixed-recommendations.json) | Active fixed numeric recommendations for the blog-post template. |
+| [`config/post-dynamic-ranges.json`](config/post-dynamic-ranges.json) | Preserved future work for configurable numeric ranges. |
 | [`templates/post-core.md`](templates/post-core.md) | Preserved legacy shared scaffold; not active for new authoring. |
 | [`templates/social-media-post.md`](templates/social-media-post.md) | Preserved deferred draft for a future independent design. |
 
@@ -199,14 +200,14 @@ flowchart LR
 1. Start with `templates/blog-post.md`.
 2. Write the main title and structured blog content.
 3. Provide exactly ten tags.
-4. Check the post against the `blog` ranges in `config/post-dynamic-ranges.json`.
+4. Check the post against the fixed recommendations in `config/blog-post-fixed-recommendations.json`.
 5. Save the result as an OKF Markdown concept in `posts/` or in an external consuming project.
 
 ## Repository structure
 
 ```text
 post/
-├── config/       structure profiles and ranges
+├── config/       fixed recommendations and future dynamic ranges
 ├── templates/    shared core and channel extensions
 ├── posts/        completed OKF post concepts
 ├── AGENTS/       agent instructions
@@ -214,7 +215,7 @@ post/
 ```
 
 - `SPEC.md` — local copy of the Open Knowledge Format v0.2 specification.
-- `config/` — configuration for structural ranges and profiles.
+- `config/` — fixed blog recommendations and preserved future dynamic ranges.
 - `templates/` — active blog template direction, deferred material, and consumption guidance.
 - `posts/` — reserved for completed post concepts.
 - `AGENTS/` — instructions for agents researching, drafting, and reviewing posts.

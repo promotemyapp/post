@@ -7,6 +7,7 @@ status: "active"
 scope: "blog_only"
 channel: blog
 structure_profile: blog
+fixed_recommendations_config: "config/blog-post-fixed-recommendations.json"
 ---
 
 # Blog post extension

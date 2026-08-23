@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "description": "Fixed structural recommendations for the active blog-post template.",
+  "template": "blog",
+  "recommendations": {
+    "title": {
+      "words": 5
+    },
+    "subtitles": {
+      "count": 7,
+      "words": 5
+    },
+    "body": {
+      "words": 4000,
+      "sections": 7
+    },
+    "tags": {
+      "count": 10
+    }
+  }
+}
