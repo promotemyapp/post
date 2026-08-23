@@ -26,6 +26,8 @@ flowchart LR
 
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
+The active blog structure is being refined using [SEO and AI-search research](docs/BLOG-SEO-STRUCTURE.md). It prioritizes people-first answers, original evidence, clear authorship, and technical accessibility rather than unsupported AI-search shortcuts. Agents must follow the matching [blog authoring instructions](AGENTS/blog-seo-structure.md).
+
 ## Template layers
 
 | File | Purpose |
