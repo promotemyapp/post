@@ -3,6 +3,8 @@ import { fileURLToPath } from "node:url";
 
 const CONFIG_URL = new URL("../config/post-dynamic-ranges.json", import.meta.url);
 const CONFIG_PATH = fileURLToPath(CONFIG_URL);
+const FIXED_RECOMMENDATIONS_URL = new URL("../config/blog-post-fixed-recommendations.json", import.meta.url);
+const FIXED_RECOMMENDATIONS_PATH = fileURLToPath(FIXED_RECOMMENDATIONS_URL);
 const RANGE_PATHS = [
   ["title", "words"],
   ["subtitles", "count"],
@@ -21,6 +23,31 @@ export class ConfigurationError extends Error {
 
 export function loadStructureConfig() {
   return JSON.parse(readFileSync(CONFIG_PATH, "utf8"));
+}
+
+export function loadFixedBlogRecommendations() {
+  return JSON.parse(readFileSync(FIXED_RECOMMENDATIONS_PATH, "utf8"));
+}
+
+export function fixedRecommendationsToConfiguration(recommendations) {
+  const values = recommendations?.recommendations;
+  if (!values) throw new ConfigurationError("Fixed blog recommendations are unavailable.");
+
+  const configuration = {
+    title: { words: exactRange(values.title.words) },
+    subtitles: {
+      count: exactRange(values.subtitles.count),
+      words: exactRange(values.subtitles.words)
+    },
+    body: {
+      words: exactRange(values.body.words),
+      sections: exactRange(values.body.sections)
+    },
+    tags: { count: exactRange(values.tags.count) }
+  };
+
+  validateConfiguration(configuration);
+  return configuration;
 }
 
 export function normalizePostType(postType) {
@@ -98,6 +125,14 @@ function normalizeRange(value, label) {
   }
 
   return { min: value.min, max: value.max };
+}
+
+function exactRange(value) {
+  if (!Number.isInteger(value)) {
+    throw new ConfigurationError("Fixed recommendations must contain integer values.");
+  }
+
+  return { min: value, max: value };
 }
 
 function isPlainObject(value) {

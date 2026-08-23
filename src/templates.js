@@ -6,7 +6,10 @@ const EXTENSION_URLS = {
   social_media: new URL("../templates/social-media-post.md", import.meta.url)
 };
 
-export function composeTemplate(postType, configuration) {
+export function composeTemplate(postType, configuration, {
+  configurationField = "dynamic_ranges_config",
+  configurationReference = "config/post-dynamic-ranges.json"
+} = {}) {
   const core = readTemplate(CORE_URL);
   const extension = readTemplate(EXTENSION_URLS[postType]);
   const contentFrontmatter = core.frontmatter
@@ -19,7 +22,7 @@ export function composeTemplate(postType, configuration) {
     "---",
     `type: \"${type}\"`,
     "template_version: \"1.4\"",
-    "dynamic_ranges_config: \"config/post-dynamic-ranges.json\"",
+    `${configurationField}: "${configurationReference}"`,
     `structure_profile: \"${postType}\"`,
     ...contentFrontmatter,
     "resolved_structure:",

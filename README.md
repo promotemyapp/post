@@ -228,7 +228,7 @@ The future integration direction is an API or adapter that can retrieve the cano
 
 ## API
 
-The initial API is now available locally. It supports both a direct request with a post type and configuration, and a guided session that returns one configuration question at a time. See [`docs/API.md`](docs/API.md) for the endpoints, request flow, and local usage.
+The initial API is now available locally. Recommendation mode returns the researched fixed blog baseline in one call. Specific mode supports direct settings and a guided session that returns one configuration question at a time. See [`docs/API.md`](docs/API.md) for the endpoints, request flow, and local usage.
 
 ## Development status
 

@@ -1,13 +1,16 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import {
   ConfigurationError,
+  fixedRecommendationsToConfiguration,
   getProfile,
+  loadFixedBlogRecommendations,
   loadStructureConfig,
   normalizePostType,
   resolveConfiguration,
   setRange,
   validateConfiguration
 } from "./config.js";
+import { loadAgentGuidance } from "./guidance.js";
 import { composeTemplate } from "./templates.js";
 
 const SESSION_TTL_MS = 15 * 60 * 1000;
@@ -99,19 +102,40 @@ export function createApiHandler({
           profiles: config.profiles
         });
       }
+      if (request.method === "POST" && path === "/v1/templates/recommended") {
+        const recommendations = loadFixedBlogRecommendations();
+        return jsonResponse(200, templateResponse({
+          mode: "recommended",
+          delivery: "direct",
+          postType: "blog",
+          configuration: fixedRecommendationsToConfiguration(recommendations),
+          fixedRecommendations: recommendations
+        }));
+      }
+      if (request.method === "POST" && path === "/v1/templates/specific") {
+        const body = await readJson(request);
+        const postType = normalizePostType(body.postType);
+        const configuration = resolveConfiguration(postType, body.configuration ?? {});
+        return jsonResponse(200, templateResponse({
+          mode: "specific",
+          delivery: "direct",
+          postType,
+          configuration
+        }));
+      }
       if (request.method === "POST" && path === "/v1/templates") {
         const body = await readJson(request);
         const postType = normalizePostType(body.postType);
         const configuration = resolveConfiguration(postType, body.configuration ?? {});
-        return jsonResponse(200, templateResponse(postType, configuration));
+        return jsonResponse(200, templateResponse({ mode: "specific", delivery: "direct", postType, configuration }));
       }
-      if (request.method === "POST" && path === "/v1/sessions") {
+      if (request.method === "POST" && (path === "/v1/sessions" || path === "/v1/templates/specific/guided")) {
         if (!sessionCodec) {
           throw new SessionError("Guided sessions require SESSION_SECRET to be configured.", 503);
         }
         return jsonResponse(201, sessionQuestion(createSession(now, sessionTtlMs), sessionCodec));
       }
-      if (request.method === "POST" && path === "/v1/sessions/answers") {
+      if (request.method === "POST" && (path === "/v1/sessions/answers" || path === "/v1/templates/specific/guided/answers")) {
         if (!sessionCodec) {
           throw new SessionError("Guided sessions require SESSION_SECRET to be configured.", 503);
         }
@@ -122,7 +146,12 @@ export function createApiHandler({
         if (result.questionIndex === QUESTIONS.length) {
           return jsonResponse(200, {
             complete: true,
-            ...templateResponse(result.postType, result.configuration)
+            ...templateResponse({
+              mode: "specific",
+              delivery: "guided",
+              postType: result.postType,
+              configuration: result.configuration
+            })
           });
         }
 
@@ -166,6 +195,8 @@ function sessionQuestion(session, sessionCodec) {
   const response = {
     sessionToken: sessionCodec.encode(session),
     complete: false,
+    mode: "specific",
+    delivery: "guided",
     question: { id: question.id, prompt: question.prompt, type: question.type }
   };
 
@@ -234,11 +265,22 @@ function normalizeFunctionPath(path) {
   return path.startsWith("/api/") ? path.slice(4) : path;
 }
 
-function templateResponse(postType, configuration) {
+function templateResponse({ mode, delivery, postType, configuration, fixedRecommendations }) {
+  const recommendationMode = mode === "recommended";
+
   return {
+    mode,
+    delivery,
     postType,
     configuration,
-    templates: composeTemplate(postType, configuration)
+    ...(fixedRecommendations ? { fixedRecommendations } : {}),
+    guidance: loadAgentGuidance(),
+    templates: composeTemplate(postType, configuration, recommendationMode
+      ? {
+          configurationField: "fixed_recommendations_config",
+          configurationReference: "config/blog-post-fixed-recommendations.json"
+        }
+      : undefined)
   };
 }
 
@@ -250,9 +292,10 @@ function apiDiscovery() {
     endpoints: [
       { method: "GET", path: "/health", description: "Service health check" },
       { method: "GET", path: "/v1/post-types", description: "Available post types and profiles" },
-      { method: "POST", path: "/v1/templates", description: "Compose a template directly" },
-      { method: "POST", path: "/v1/sessions", description: "Start guided configuration" },
-      { method: "POST", path: "/v1/sessions/answers", description: "Answer the next guided question" }
+      { method: "POST", path: "/v1/templates/recommended", description: "Return the researched blog template baseline" },
+      { method: "POST", path: "/v1/templates/specific", description: "Compose a template from supplied settings" },
+      { method: "POST", path: "/v1/templates/specific/guided", description: "Start guided specific configuration" },
+      { method: "POST", path: "/v1/templates/specific/guided/answers", description: "Answer the next guided specific question" }
     ]
   };
 }
@@ -312,15 +355,15 @@ function renderDiscoveryPage() {
   <body>
     <main>
       <h1>Reusable Marketing Post Templates API</h1>
-      <p>Use this API to compose a blog or social-media post template directly, or answer configuration questions one step at a time.</p>
+      <p>Use recommendation mode for the researched blog baseline, or specific mode to supply settings directly or answer configuration questions step by step.</p>
       <p class="hint">Browser page detected. Programmatic clients can request <code>application/json</code> from this same route.</p>
       <table>
         <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
         <tbody>
           <tr><td class="method">GET</td><td><code>/health</code></td><td>Check service status</td></tr>
-          <tr><td class="method">GET</td><td><code>/v1/post-types</code></td><td>View profiles</td></tr>
-          <tr><td class="method">POST</td><td><code>/v1/templates</code></td><td>Compose directly</td></tr>
-          <tr><td class="method">POST</td><td><code>/v1/sessions</code></td><td>Start guided configuration</td></tr>
+          <tr><td class="method">POST</td><td><code>/v1/templates/recommended</code></td><td>Return blog recommendations</td></tr>
+          <tr><td class="method">POST</td><td><code>/v1/templates/specific</code></td><td>Supply specific settings</td></tr>
+          <tr><td class="method">POST</td><td><code>/v1/templates/specific/guided</code></td><td>Answer settings step by step</td></tr>
         </tbody>
       </table>
       <p class="hint">See <code>docs/API.md</code> in the repository for request examples.</p>

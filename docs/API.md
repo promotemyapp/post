@@ -1,16 +1,22 @@
 # Post Template API
 
-The API exposes the repository’s reusable template contract through two flows: direct composition and guided configuration. It returns template structure and instructions. The requesting project’s AI agent uses the returned package to research and create its own topic-specific post.
+The API exposes the repository’s reusable template contract in two modes. Recommendation mode returns the researched fixed blog baseline in one call. Specific mode accepts caller-supplied settings directly or gathers them through a guided flow. Every completed response returns template structure, canonical agent guidance, and reusable placeholders. The requesting project’s AI agent uses the returned package to research and create its own topic-specific post.
 
 ```mermaid
 flowchart LR
-    Client[External project] --> Direct[POST /v1/templates]
-    Client --> Guided[POST /v1/sessions]
+    Client[External project] --> Recommended[Recommendation mode]
+    Client --> Specific[Specific mode]
+    Recommended --> RecommendedRequest[POST /v1/templates/recommended]
+    Specific --> Direct[POST /v1/templates/specific]
+    Specific --> Guided[POST /v1/templates/specific/guided]
     Guided --> Questions[One configuration question at a time]
-    Questions --> Answer[POST /v1/sessions/answers<br/>with signed session token]
-    Direct --> Result[Composed OKF template]
+    Questions --> Answer[POST /v1/templates/specific/guided/answers]
+    RecommendedRequest --> Result[Agent-ready template package]
+    Direct --> Result
     Answer --> Result
-    Config[config/post-dynamic-ranges.json] --> Result
+    Fixed[config/blog-post-fixed-recommendations.json] --> RecommendedRequest
+    Dynamic[config/post-dynamic-ranges.json] --> Direct
+    Dynamic --> Guided
 ```
 
 ## Run locally
@@ -31,9 +37,19 @@ To use guided configuration locally, set a secret with at least 32 characters:
 SESSION_SECRET="replace-with-a-unique-secret" bun run start
 ```
 
-## Direct composition
+## Recommendation mode
 
-Send the post type and any complete or partial configuration override to `POST /v1/templates`.
+Call recommendation mode with an empty request body to receive the research-informed baseline for a blog post:
+
+```bash
+curl -X POST http://127.0.0.1:3000/v1/templates/recommended
+```
+
+The response includes the fixed recommendations, an exact resolved configuration, the template, canonical agent guidance from `README.md#agent-operating-view`, and the research references captured in the fixed-recommendations configuration.
+
+## Specific mode: direct
+
+Send the post type and any complete or partial configuration override to `POST /v1/templates/specific`.
 
 ```json
 {
@@ -46,22 +62,22 @@ Send the post type and any complete or partial configuration override to `POST /
 }
 ```
 
-The API starts with the selected profile from `config/post-dynamic-ranges.json`, applies the supplied overrides, validates every range, and returns the resolved dynamic ranges with the core, extension, and combined Markdown template. The canonical README supplies the agent-ready best-practice guidance and source references; the Markdown contains reusable placeholders for the requesting project’s creation workflow.
+The API starts with the selected profile from `config/post-dynamic-ranges.json`, applies the supplied overrides, validates every range, and returns the resolved dynamic ranges, canonical agent guidance, and Markdown template with reusable placeholders for the requesting project’s creation workflow.
 
 Supported post types are `blog` and `social_media` (`social` is accepted as an alias). Tags are fixed at exactly ten, so `tags.count` must be `{ "min": 10, "max": 10 }`.
 
-## Guided configuration
+## Specific mode: guided
 
-Start a guided session:
+Start a guided specific-mode session:
 
 ```bash
-curl -X POST http://127.0.0.1:3000/v1/sessions
+curl -X POST http://127.0.0.1:3000/v1/templates/specific/guided
 ```
 
 The response contains the first question and a `sessionToken`. Send that token with each answer:
 
 ```bash
-curl -X POST http://127.0.0.1:3000/v1/sessions/answers \
+curl -X POST http://127.0.0.1:3000/v1/templates/specific/guided/answers \
   -H 'Content-Type: application/json' \
   -d '{"sessionToken":"<session-token>","value":"blog"}'
 ```
@@ -95,7 +111,8 @@ The direct endpoint does not need `SESSION_SECRET`; it is required for the guide
 |---|---|---|
 | `GET` | `/` | Browser discovery page or JSON endpoint directory. |
 | `GET` | `/health` | Service health check. |
-| `GET` | `/v1/post-types` | Available post types and built-in profiles. |
-| `POST` | `/v1/templates` | Direct template composition. |
-| `POST` | `/v1/sessions` | Start guided configuration. |
-| `POST` | `/v1/sessions/answers` | Answer the next guided question with `sessionToken`. |
+| `GET` | `/v1/post-types` | Available post types and built-in dynamic profiles. |
+| `POST` | `/v1/templates/recommended` | Return the researched fixed blog-template package. |
+| `POST` | `/v1/templates/specific` | Return a package from caller-supplied settings. |
+| `POST` | `/v1/templates/specific/guided` | Start guided specific configuration. |
+| `POST` | `/v1/templates/specific/guided/answers` | Answer the next guided specific question with `sessionToken`. |

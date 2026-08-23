@@ -37,7 +37,8 @@ test("root route returns JSON discovery for programmatic clients", async () => {
 
     assert.equal(response.status, 200);
     assert.equal(result.version, "v1");
-    assert.equal(result.endpoints.length, 5);
+    assert.equal(result.endpoints.length, 6);
+    assert.equal(result.endpoints[2].path, "/v1/templates/recommended");
   });
 });
 
@@ -55,9 +56,9 @@ test("Vercel Function entrypoint serves the health route", async () => {
   assert.deepEqual(await response.json(), { status: "ok" });
 });
 
-test("direct template request composes a blog template with configuration overrides", async () => {
+test("specific direct mode composes a blog template with configuration overrides", async () => {
   await withApi(async (baseUrl) => {
-    const response = await fetch(`${baseUrl}/v1/templates`, {
+    const response = await fetch(`${baseUrl}/v1/templates/specific`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -68,9 +69,28 @@ test("direct template request composes a blog template with configuration overri
     const result = await response.json();
 
     assert.equal(response.status, 200);
+    assert.equal(result.mode, "specific");
+    assert.equal(result.delivery, "direct");
     assert.deepEqual(result.configuration.body.words, { min: 2500, max: 3500 });
+    assert.equal(result.guidance.source, "README.md#agent-operating-view");
     assert.match(result.templates.combined, /type: "Blog Post"/);
     assert.match(result.templates.combined, /resolved_structure:/);
+  });
+});
+
+test("recommendation mode returns the researched fixed blog template package", async () => {
+  await withApi(async (baseUrl) => {
+    const response = await fetch(`${baseUrl}/v1/templates/recommended`, { method: "POST" });
+    const result = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(result.mode, "recommended");
+    assert.equal(result.delivery, "direct");
+    assert.equal(result.postType, "blog");
+    assert.equal(result.fixedRecommendations.recommendations.body.words, 1800);
+    assert.deepEqual(result.configuration.title.words, { min: 8, max: 8 });
+    assert.match(result.guidance.markdown, /Required inputs/);
+    assert.match(result.templates.combined, /fixed_recommendations_config/);
   });
 });
 
@@ -112,13 +132,15 @@ test("direct template request rejects a tag count other than ten", async () => {
 
 test("guided session asks each configuration question and returns a social template", async () => {
   await withApi(async (baseUrl) => {
-    let response = await fetch(`${baseUrl}/v1/sessions`, { method: "POST" });
+    let response = await fetch(`${baseUrl}/v1/templates/specific/guided`, { method: "POST" });
     let result = await response.json();
     assert.equal(result.question.id, "postType");
+    assert.equal(result.mode, "specific");
+    assert.equal(result.delivery, "guided");
 
     const answers = ["social_media", "default", "default", "default", "default", "default", "default"];
     for (const value of answers) {
-      response = await fetch(`${baseUrl}/v1/sessions/answers`, {
+      response = await fetch(`${baseUrl}/v1/templates/specific/guided/answers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionToken: result.sessionToken, value })
@@ -128,6 +150,8 @@ test("guided session asks each configuration question and returns a social templ
 
     assert.equal(response.status, 200);
     assert.equal(result.complete, true);
+    assert.equal(result.mode, "specific");
+    assert.equal(result.delivery, "guided");
     assert.equal(result.postType, "social_media");
     assert.match(result.templates.combined, /type: "Social Media Post"/);
   }, { sessionSecret: SESSION_SECRET });
