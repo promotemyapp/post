@@ -3,11 +3,15 @@ type: "Post Template"
 template_layer: extension
 extends: "post-core"
 template_version: "1.4"
+status: "deferred"
+deferred_reason: "Social-media posts will receive an independently designed template after the blog template is complete."
 channel: social
 structure_profile: social_media
 ---
 
 # Social media extension
+
+> **Deferred.** This preserved draft is not part of the active authoring scope. Do not remove it or build on it during the blog-template milestone.
 
 Apply this extension on top of [`post-core.md`](post-core.md). Keep the core title, ten tags, and structural fields, then complete the social structure below.
 

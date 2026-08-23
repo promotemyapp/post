@@ -4,7 +4,7 @@ These instructions define the preparation baseline for agents working in this re
 
 ## Mission
 
-Maintain a portable, human-readable post template and knowledge base for product marketing across blog and social media channels. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. The template must remain usable by projects outside this repository.
+Maintain a portable, human-readable **blog-post** template and knowledge base for product marketing. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. The template must remain usable by projects outside this repository. Social-media material is preserved but deferred.
 
 ## Specialized guidance
 
@@ -18,8 +18,8 @@ Use Bun exclusively for package management, scripts, and tests in this repositor
 
 1. Read the repository `README.md` and the relevant role instructions in this directory.
 2. Read `SPEC.md` before creating or editing an OKF document.
-3. Read `templates/post-core.md` and the selected use-case extension in `templates/` when creating or changing the post shape.
-4. Read `config/post-structure.json` before setting or reviewing length and count expectations.
+3. Read `templates/blog-post.md` when creating or changing the post shape.
+4. Read the `blog` profile in `config/post-structure.json` before setting or reviewing length and count expectations.
 5. Read `AGENTS/api-implementation.md` before creating or changing the API.
 6. Inspect existing files and preserve unrelated user changes.
 7. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.
@@ -31,20 +31,20 @@ Use Bun exclusively for package management, scripts, and tests in this repositor
 - The authoring contract focuses on `title`, the Markdown body, and `tags`.
 - Every completed post must have exactly ten tags. The method used to create them is outside this template contract.
 - Every completed post must have one main title, at least one subtitle, structured body content, and a measurable word count.
-- Use the selected config profile’s ranges unless the task explicitly provides different requirements.
+- Use the `blog` profile’s ranges unless the task explicitly provides different requirements.
 - Use standard Markdown links for relationships; do not introduce wiki-link syntax.
 - Do not use `index.md` or `log.md` as concept documents; they are reserved by OKF.
 - Preserve unknown frontmatter keys when editing existing documents.
 - Use ISO 8601 timestamps with an explicit UTC offset.
-- Preserve the stable title, body, and tags fields when adapting a post for an external consumer or channel.
+- Preserve the stable title, body, and tags fields when adapting a blog post for an external consumer.
 - Do not remove headings or collapse structured sections into an undifferentiated block of text.
-- Compose one use-case extension with the shared core; do not create parallel replacements for core fields.
+- Treat `templates/blog-post.md` as the active template direction. Do not modify `post-core.md` or `social-media-post.md` unless the task explicitly concerns deferred compatibility material.
 
 ## Content workflow
 
-Research → outline → draft → factual/source review → channel adaptation → human review → publish-ready handoff.
+Research → outline → blog draft → factual/source review → human review → publish-ready handoff.
 
-The same post concept may be adapted to multiple channels. Keep the canonical content and metadata together, and make channel-specific variants explicit rather than silently overwriting the source draft.
+Do not generalize blog requirements for social media. A social-media template will be designed independently in a future milestone.
 
 Agents must not publish, schedule, send, or make external changes unless the user explicitly authorizes that action. When information is uncertain, mark it for review instead of presenting it as verified fact.
 

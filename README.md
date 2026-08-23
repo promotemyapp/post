@@ -1,33 +1,28 @@
 # Reusable Marketing Post Templates
 
-This project defines a portable, Open Knowledge Format (OKF) template system for creating product-marketing posts. It supports both long-form blog posts and short-form social-media posts while keeping their shared content structure consistent.
+This project defines a portable, Open Knowledge Format (OKF) template system for creating long-form product-marketing blog posts. Blog posts are the active product scope. The earlier social-media material is preserved as deferred reference work and will be redesigned independently later.
 
 The repository is currently a template and documentation baseline. It does not yet generate, publish, or serve posts through an API.
 
 ## How it works
 
-Every post is composed from two layers:
+The active authoring path is blog-first:
 
 ```mermaid
 flowchart LR
-    Core[Shared post core<br/>title · tags · headings · body]
-    Blog[Blog extension]
-    Social[Social-media extension]
-    Config[Structure config<br/>ranges · profiles]
-    Post[Composed OKF post]
+    Blog[Blog template<br/>title · tags · headings · body]
+    Config[Blog structure config<br/>ranges]
+    Post[OKF blog post]
     External[External project<br/>or future API]
 
-    Core --> Post
     Blog --> Post
-    Social --> Post
     Config --> Post
     Post --> External
 ```
 
-1. The shared core establishes the main title, ten tags, subtitles, and structured post body.
-2. One use-case extension adds the structure for either a blog post or a social-media post.
-3. A configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count.
-4. A consuming project fills the Markdown template and can validate the result against the selected profile.
+1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
+2. The blog configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count.
+3. A consuming project fills the Markdown template and can validate the result against the blog profile.
 
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
@@ -35,16 +30,12 @@ The authoring contract focuses on the main title, post content, and exactly ten 
 
 | File | Purpose |
 |---|---|
-| [`templates/post-core.md`](templates/post-core.md) | Shared structure required by every post. |
-| [`templates/blog-post.md`](templates/blog-post.md) | Blog-specific extension of the shared core. |
-| [`templates/social-media-post.md`](templates/social-media-post.md) | Social-media-specific extension of the shared core. |
-| [`config/post-structure.json`](config/post-structure.json) | Configurable structural ranges and profiles. |
+| [`templates/blog-post.md`](templates/blog-post.md) | Active blog-post template direction. |
+| [`config/post-structure.json`](config/post-structure.json) | Active blog profile and preserved deferred profile. |
+| [`templates/post-core.md`](templates/post-core.md) | Preserved legacy shared scaffold; not active for new authoring. |
+| [`templates/social-media-post.md`](templates/social-media-post.md) | Preserved deferred draft for a future independent design. |
 
-Current example profiles include:
-
-- Blog: 2,000–4,000 body words and 5–10 subtitles/sections.
-- Social media: 30–150 body words and 1–3 subtitles/content beats.
-- Both: exactly 10 tags.
+The active blog profile requires 2,000–4,000 body words, 5–10 subtitles/sections, and exactly 10 tags.
 
 These are configuration values, not hardcoded rules. They can be adjusted as the content strategy evolves.
 
@@ -59,12 +50,11 @@ flowchart LR
     E --> F[Save or consume externally]
 ```
 
-1. Select the blog or social-media profile.
-2. Start with `templates/post-core.md` and apply the selected extension.
-3. Write the main title and structured body content.
-4. Provide exactly ten tags.
-5. Check the post against the selected ranges in `config/post-structure.json`.
-6. Save the result as an OKF Markdown concept in `posts/` or in an external consuming project.
+1. Start with `templates/blog-post.md`.
+2. Write the main title and structured blog content.
+3. Provide exactly ten tags.
+4. Check the post against the `blog` ranges in `config/post-structure.json`.
+5. Save the result as an OKF Markdown concept in `posts/` or in an external consuming project.
 
 ## Repository structure
 
@@ -79,7 +69,7 @@ post/
 
 - `SPEC.md` — local copy of the Open Knowledge Format v0.2 specification.
 - `config/` — configuration for structural ranges and profiles.
-- `templates/` — shared core, channel extensions, and consumption guidance.
+- `templates/` — active blog template direction, deferred material, and consumption guidance.
 - `posts/` — reserved for completed post concepts.
 - `AGENTS/` — instructions for agents researching, drafting, and reviewing posts.
 
@@ -87,7 +77,7 @@ post/
 
 Posts use UTF-8 Markdown with YAML frontmatter, following the local [`SPEC.md`](SPEC.md). The format is intentionally plain and portable: another project should be able to copy or retrieve the templates without importing private repository code.
 
-The future integration direction is an API or adapter that can retrieve the core, retrieve a selected extension, compose a post, and validate its structure. That API should expose this file-based contract rather than replace it.
+The future integration direction is an API or adapter that can retrieve the canonical blog template and validate its structure. That API should expose this file-based contract rather than replace it. Social-media support will be reconsidered after the blog template is complete.
 
 ## API
 
@@ -95,7 +85,7 @@ The initial API is now available locally. It supports both a direct request with
 
 ## Development status
 
-The reusable templates, configuration, agent guidance, and first API implementation are complete. The API supports direct and guided template composition both locally and as a Vercel Bun Function. Post-generation logic, authentication, custom domains, and publishing integrations remain future milestones.
+The initial baseline and bonus API are complete. The active milestone is to finish a canonical, standalone blog template. Social-media template design, post-generation logic, authentication, custom domains, and publishing integrations remain future milestones.
 
 ## Tooling
 

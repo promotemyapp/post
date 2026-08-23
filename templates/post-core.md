@@ -2,6 +2,8 @@
 type: "Post Template"
 template_layer: core
 template_version: "1.4"
+status: "deferred"
+deferred_reason: "The active template direction is blog-first. Retained for compatibility while social media is designed independently."
 structure_config: "config/post-structure.json"
 structure_profile: "{{blog|social_media}}"
 title: "{{POST_TITLE}}"
@@ -25,6 +27,8 @@ structure:
 ---
 
 # {{POST_TITLE}}
+
+> **Deferred shared scaffold.** Do not use this file for new blog-template work. The blog template is now the active authoring focus; this file remains intact while the later social-media template is designed independently.
 
 ## {{SUBTITLE_01}}
 

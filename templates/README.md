@@ -1,14 +1,25 @@
-# Reusable templates
+# Templates
 
-The template system has two layers:
+## Active scope: blog posts
 
-- `post-core.md` — the shared contract used by every post, regardless of channel.
-- `blog-post.md` and `social-media-post.md` — use-case extensions that upgrade the core with channel-specific fields and sections.
-- [`../config/post-structure.json`](../config/post-structure.json) — configurable ranges for each structural profile.
+Blog posts are the only active template work. [`blog-post.md`](blog-post.md) and the `blog` profile in [`../config/post-structure.json`](../config/post-structure.json) define the current authoring direction.
 
-A consuming project should start with the core, apply exactly one extension, replace the placeholders, preserve the OKF frontmatter, and set a concrete post `type` such as `Blog Post` or `Social Media Post` in the resulting document.
+```mermaid
+flowchart LR
+    Blog[Blog template — active] --> Draft[Blog post draft]
+    BlogConfig[Blog structure profile — active] --> Draft
+    Social[Social-media draft — deferred] -. future milestone .-> SocialTemplate[Independent social template]
+```
 
-The extensions are deliberately additive. They must not redefine or add competing metadata to the shared title, content, or tags.
+The blog template will be completed as a standalone, canonical blog-post contract. Its design must be led by blog-writing needs, not by an attempt to force common structure with social media.
+
+## Deferred material
+
+- `post-core.md` is preserved as a legacy shared scaffold for compatibility.
+- `social-media-post.md` is preserved as an early draft.
+- The `social_media` configuration profile is preserved for reference and existing integrations.
+
+Do not remove or expand the deferred files during blog-template work. Social media will be reconsidered after the blog template is complete and may use a wholly independent format.
 
 ## Minimal content contract
 
@@ -23,23 +34,22 @@ How the ten tags are created is an implementation detail outside this template c
 
 ## Structure baselines
 
-The ranges are defined in [`config/post-structure.json`](../config/post-structure.json), not hardcoded in the templates. The current example profiles are:
+The ranges are defined in [`config/post-structure.json`](../config/post-structure.json), not hardcoded in the templates. The active profile is:
 
 | Extension | Target length | Subtitle structure |
 |---|---:|---|
 | Blog | 2,000–4,000 words | 5–10 subtitles/sections |
-| Social media | 30–150 words | 1–3 short subtitles/content beats |
 
-Every composed post must retain one main title and satisfy the selected config profile. The final word count, title word count, subtitle count, subtitle word count, body-section count, and tag count should be checkable by a consumer or future API.
+Every blog post must retain one main title and satisfy the blog profile. The final word count, title word count, subtitle count, subtitle word count, body-section count, and tag count should be checkable by a consumer or future API.
 
 ## Consumption contract
 
-The template is intentionally plain Markdown and has no runtime dependency. Future API work should expose these same capabilities without changing the source format:
+The template is intentionally plain Markdown and has no runtime dependency. Future API work should expose the blog contract without changing the source format:
 
 - retrieve the current template;
-- retrieve the shared core and a selected use-case extension;
-- create or fill a composed post from the core plus extension;
+- retrieve the canonical blog template;
+- create or fill a blog post from that template;
 - validate required OKF metadata and template fields;
 - return the Markdown document and its metadata for rendering or channel adaptation.
 
-The API should be an adapter around this portable file contract, not a replacement for it. External projects must be able to consume the template without importing private repository code.
+The API should be an adapter around this portable file contract, not a replacement for it. External projects must be able to consume the template without importing private repository code. Its preserved social-media endpoint is not an active product commitment.

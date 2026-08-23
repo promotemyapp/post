@@ -1,6 +1,10 @@
 {
   "version": "1.0",
   "description": "Configurable structural ranges for reusable blog and social-media post templates.",
+  "active_profiles": ["blog"],
+  "deferred_profiles": {
+    "social_media": "Preserved for a later, independently designed social-media template milestone. Do not extend it during blog-template work."
+  },
   "profiles": {
     "blog": {
       "title": { "words": { "min": 3, "max": 12 } },
