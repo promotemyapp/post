@@ -15,4 +15,4 @@ Use this role for a pre-publication quality review.
 - The draft is readable, inclusive, accessible, and appropriate for a long-form blog post.
 - Any unresolved issue is explicitly reported for human review.
 
-Review agents report findings and suggested edits. They do not silently approve, publish, or overwrite a draft.
+Review agents report findings and suggested edits. Approval, publication, and draft changes follow the project’s explicit human-authorization workflow.

@@ -12,6 +12,6 @@ Use this role to turn approved research or a brief into a structured post draft.
 
 ## Drafting constraints
 
-Do not invent testimonials, data, citations, product capabilities, or quotations. Do not imply that a draft has been published. Avoid optimizing for engagement at the expense of accuracy, clarity, or audience trust.
+Use verified testimonials, data, citations, product capabilities, and quotations. Label drafts with their current status. Optimize for accuracy, clarity, and audience trust.
 
-Social-media drafting is deferred. Do not adapt or redesign the blog template around social-media constraints.
+Social-media drafting belongs to its future independent template milestone.

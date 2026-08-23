@@ -28,7 +28,7 @@ structure:
 
 # {{POST_TITLE}}
 
-> **Deferred shared scaffold.** Do not use this file for new blog-template work. The blog template is now the active authoring focus; this file remains intact while the later social-media template is designed independently.
+> **Deferred shared scaffold.** Use `blog-post.md` for active blog-template work. This file remains intact while the later social-media template is designed independently.
 
 ## {{SUBTITLE_01}}
 

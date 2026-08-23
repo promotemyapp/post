@@ -11,7 +11,7 @@ structure_profile: social_media
 
 # Social media extension
 
-> **Deferred.** This preserved draft is not part of the active authoring scope. Do not remove it or build on it during the blog-template milestone.
+> **Deferred.** This preserved draft belongs to the future social-media template milestone.
 
 Apply this extension on top of [`post-core.md`](post-core.md). Keep the core title, ten tags, and structural fields, then complete the social structure below.
 

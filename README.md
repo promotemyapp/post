@@ -23,16 +23,16 @@ Every response from this repository—whether delivered through an API, raw file
 - required inputs, constraints, and conditional sections;
 - drafting and review workflow;
 - SEO and Google AI-search guidance grounded in sources;
-- prohibited shortcuts and unsupported claims;
+- quality standards and source-grounded claims;
 - a human-readable presentation of the same instructions for planning and approval.
 
-Human readability must not introduce a second or conflicting contract. It is a clearer presentation of the agent-facing source of truth, not a separate template.
+Human readability presents the same agent-facing source of truth in a clearer format for planning and approval.
 
-The API, raw repository files, or a future packaged export are delivery mechanisms for this same contract; they must not become competing sources of truth. The consumer remains responsible for its topic research, factual verification, publishing environment, and final publication decision.
+The API, raw repository files, and future packaged exports deliver this same canonical contract. The consumer handles topic research, factual verification, publishing environment, and final publication decisions.
 
-### Explicit non-goals
+### Response scope
 
-This repository and its API return **only reusable template material**: structure, configuration, drafting instructions, review rules, and source-grounded SEO guidance. They do not return a finished or topic-specific blog post, conduct topic research, make product claims, or publish content. Those tasks happen in the requesting project after its AI agent receives the template package.
+This repository and its API return reusable template material: structure, configuration, drafting instructions, review rules, and source-grounded SEO guidance. The requesting project’s AI agent applies that package to its own topic research, product context, blog-post creation, and publishing workflow.
 
 ## How it works
 
@@ -80,7 +80,7 @@ flowchart TD
 
 #### Recommended article structure
 
-Keep only sections that genuinely help the reader; the template must not become filler.
+Select the sections that genuinely help the reader and produce a focused article.
 
 | # | Section | What it must accomplish |
 |---:|---|---|
@@ -91,7 +91,7 @@ Keep only sections that genuinely help the reader; the template must not become 
 | 5 | Question-led main sections (`H2`) | Organize the article around real sub-questions. Each section should answer its heading directly before adding explanation. |
 | 6 | Original value | Provide first-hand experience, testing, concrete examples, proprietary data, screenshots, expert interpretation, or another contribution that is not a generic summary. |
 | 7 | Evidence and sources | Support meaningful factual claims with reliable sources; distinguish facts, opinion, assumptions, and uncertainty. |
-| 8 | Practical examples or steps | Show the reader how to apply the advice, evaluate options, or avoid common mistakes. |
+| 8 | Practical examples or steps | Show the reader how to apply the advice, evaluate options, and handle common mistakes. |
 | 9 | Relevant internal links | Link naturally to useful product, documentation, or related-content pages with descriptive anchor text. |
 | 10 | Focused FAQ (optional) | Cover only genuine follow-up questions not already answered in the article. Three to five concise Q&As are usually enough when a FAQ is warranted. |
 | 11 | Trust and maintenance information | Identify the author and relevant expertise, list a reviewer when appropriate, and show meaningful publication and update dates. |
@@ -105,25 +105,25 @@ Keep only sections that genuinely help the reader; the template must not become 
 - Keep important information as accessible text, supported by relevant images or video where they improve understanding.
 - Publish pages that can be crawled and indexed, and connect them through logical internal links.
 
-#### Unsupported shortcuts to avoid
+#### Google-aligned implementation
 
-- Do not write thin articles solely to capture search traffic.
-- Do not keyword-stuff titles, headings, tags, or prose.
-- Do not add invented FAQs merely to attract AI answers.
-- Do not depend on `FAQPage` or `HowTo` markup for visibility. FAQ rich results are generally limited to authoritative government and health sites, and HowTo rich results are deprecated.
-- Do not add `llms.txt`, special AI-only markup, or artificial micro-sections for Google AI features. Google says no special markup or machine-readable files are required.
+- Create substantial, people-first articles with unique value for a defined audience.
+- Use concise, descriptive titles, headings, tags, and prose.
+- Include FAQ content when genuine follow-up questions improve the article.
+- Use structured data that matches visible content and supports an applicable Search feature. Google currently limits FAQ rich-result visibility largely to authoritative government and health sites, while HowTo rich results are deprecated.
+- Rely on Google’s foundational SEO guidance for AI-feature eligibility; Google states that AI features need no additional machine-readable files or special markup.
 
-Question-and-answer writing is valuable when it improves the article for readers. It is not a promise that Google will cite the page in an AI response.
+Question-and-answer writing improves articles when it serves readers. Google selects supporting links for AI responses through its Search systems.
 
 #### Publishing requirements outside the Markdown template
 
-The eventual publishing system should map this content to a well-formed web page with a concise descriptive HTML title and meta description, one visually distinct `H1`, semantic HTML and text in the rendered DOM, crawlable internal links, relevant accessible images, accurate visible-content-matching `Article` structured data, and no accidental indexing blocks. Structured data can enable appropriate appearances but never guarantees them. See [Google’s Article markup guide](https://developers.google.com/search/docs/appearance/structured-data/article) and [structured-data policies](https://developers.google.com/search/docs/appearance/structured-data/sd-policies).
+The eventual publishing system should map this content to a well-formed web page with a concise descriptive HTML title and meta description, one visually distinct `H1`, semantic HTML and text in the rendered DOM, crawlable internal links, relevant accessible images, accurate visible-content-matching `Article` structured data, and deliberate crawl/index settings. Structured data can enable appropriate appearances. See [Google’s Article markup guide](https://developers.google.com/search/docs/appearance/structured-data/article) and [structured-data policies](https://developers.google.com/search/docs/appearance/structured-data/sd-policies).
 
 The current 2,000–4,000-word profile is an editorial depth range, not a Google ranking requirement. The final configuration must distinguish non-negotiable contract requirements, editorial ranges, and conditional sections.
 
 ### Agent-operating view
 
-Treat this README, `templates/blog-post.md`, and the active `blog` profile as one agent-ready package. Return or consume the applicable parts as explicit fields and instructions; do not rely on a receiving agent inferring workflow, constraints, or SEO rationale from prose alone.
+Treat this README, `templates/blog-post.md`, and the active `blog` profile as one agent-ready package. Return or consume the applicable parts as explicit fields and instructions so the receiving agent has clear workflow, constraints, and SEO rationale.
 
 #### Required inputs
 
@@ -156,12 +156,12 @@ When factual support is unavailable, research the claim, label it as an assumpti
 - Is important content available as ordinary text on the rendered page?
 - Does it retain one main title and exactly ten tags?
 
-#### Prohibited shortcuts
+#### Required quality constraints
 
-- Do not invent facts, citations, data, testimonials, quotations, product capabilities, or author credentials.
-- Do not add thin FAQs, repeated keywords, `llms.txt`, AI-only markup, or artificial content chunks to influence Google AI features.
-- Do not use `FAQPage` or `HowTo` structured data as an expected traffic tactic.
-- Treat word and section ranges as editorial targets, never proof of SEO quality.
+- Use verified facts, citations, data, testimonials, quotations, product capabilities, and author credentials.
+- Build FAQ content, headings, and sections around genuine reader needs and Google’s foundational SEO guidance.
+- Select structured data by matching it accurately to visible content and an applicable Search feature.
+- Treat word and section ranges as editorial targets that support a useful article.
 
 #### Primary sources
 
@@ -235,7 +235,7 @@ The initial baseline and bonus API are complete. The active milestone is to fini
 
 ## Tooling
 
-Use [Bun](https://bun.sh/) for this repository’s package management, scripts, and tests. Do not use npm. Run the API with `bun run start` and the test suite with `bun test`. Startup uses local IPv4 port 3000 when available, otherwise the first free port through 3010. Open the printed local address in a browser to see the API discovery page.
+Use [Bun](https://bun.sh/) exclusively for this repository’s package management, scripts, and tests. Run the API with `bun run start` and the test suite with `bun test`. Startup uses local IPv4 port 3000 when available, otherwise the first free port through 3010. Open the printed local address in a browser to see the API discovery page.
 
 For remote deployment, import the repository into Vercel. The included `vercel.json` configures Vercel’s Bun runtime, and the `api/` entrypoints use the same handler as the local server. See [`docs/API.md`](docs/API.md) for the Vercel setup and guided-session secret.
 

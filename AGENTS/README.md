@@ -4,7 +4,7 @@ These instructions define the preparation baseline for agents working in this re
 
 ## Mission
 
-Maintain a portable, agent-ready **blog-post** knowledge package for product marketing. AI agents in external projects are the primary consumers: they request this package to obtain explicit structure and instructions, then create actual blog posts in their own projects. This repository’s external output is template material only; it must never be represented as a topic-specific post, research result, product claim, or publishing action. Human-readable material is a presentation of the same contract for review and maintenance, never a competing source of truth. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. External projects retain responsibility for research, verification, publishing, and final approval. Social-media material is preserved but deferred.
+Maintain a portable, agent-ready **blog-post** knowledge package for product marketing. AI agents in external projects are the primary consumers: they request this package to obtain explicit structure and instructions, then create actual blog posts in their own projects. The repository’s external output consists of template material: structure, configuration, drafting instructions, review rules, and source-grounded SEO guidance. Human-readable material presents the same contract for review and maintenance. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. External projects handle research, verification, publishing, and final approval. Social-media material is preserved for a later milestone.
 
 ## Specialized guidance
 
@@ -13,7 +13,7 @@ Maintain a portable, agent-ready **blog-post** knowledge package for product mar
 
 ## Tooling policy
 
-Use Bun exclusively for package management, scripts, and tests in this repository. Do not use npm.
+Use Bun exclusively for package management, scripts, and tests in this repository.
 
 ## Before making changes
 
@@ -34,21 +34,21 @@ Use Bun exclusively for package management, scripts, and tests in this repositor
 - Every completed post must have exactly ten tags. The method used to create them is outside this template contract.
 - Every completed post must have one main title, at least one subtitle, structured body content, and a measurable word count.
 - Use the `blog` profile’s ranges unless the task explicitly provides different requirements.
-- Use standard Markdown links for relationships; do not introduce wiki-link syntax.
-- Do not use `index.md` or `log.md` as concept documents; they are reserved by OKF.
+- Use standard Markdown links for relationships.
+- Store concept documents under names other than the OKF-reserved `index.md` and `log.md`.
 - Preserve unknown frontmatter keys when editing existing documents.
 - Use ISO 8601 timestamps with an explicit UTC offset.
 - Preserve the stable title, body, and tags fields when adapting a blog post for an external consumer.
-- Do not remove headings or collapse structured sections into an undifferentiated block of text.
-- Treat `templates/blog-post.md` as the active template direction. Do not modify `post-core.md` or `social-media-post.md` unless the task explicitly concerns deferred compatibility material.
+- Preserve headings and structured sections in every completed post.
+- Treat `templates/blog-post.md` as the active template direction. Work on `post-core.md` and `social-media-post.md` belongs to their future deferred milestones.
 
 ## Content workflow
 
 Research → outline → blog draft → factual/source review → human review → publish-ready handoff.
 
-Do not generalize blog requirements for social media. A social-media template will be designed independently in a future milestone.
+Design the social-media template independently in its future milestone.
 
-Agents must not publish, schedule, send, or make external changes unless the user explicitly authorizes that action. When information is uncertain, mark it for review instead of presenting it as verified fact.
+Agents publish, schedule, send, or make external changes with explicit user authorization. Mark uncertain information for review and present verified facts with their supporting sources.
 
 ## Project explanations
 
@@ -68,11 +68,15 @@ Treat README updates as part of finishing a milestone, not as an afterthought:
 - Update the root `README.md` when a milestone changes the project purpose, architecture, setup, public API, configuration, workflow, or current status.
 - Update a focused README or reference, such as `templates/README.md` or `docs/API.md`, when the change is local to that area.
 - Before handoff, check that examples, diagrams, paths, commands, and stated behavior match the polished implementation.
-- Avoid churn: do not rewrite documentation when a change does not affect how a person or external project understands or uses the repository.
+- Update documentation when a change affects how a person or external project understands or uses the repository.
 
 ## Quality bar
 
-Content should have a clear audience and purpose, accurate claims, useful structure, an appropriate tone, accessible language, and a channel-appropriate length. Avoid invented statistics, unsupported claims, misleading certainty, and unnecessary repetition.
+Content should have a clear audience and purpose, accurate and supported claims, useful structure, an appropriate tone, accessible language, and a channel-appropriate length.
+
+## Documentation style
+
+Write documentation and specifications as positive, action-oriented guidance. Define the intended outcome, required inputs, structure, process, and quality standards. Use scope statements to explain responsibility boundaries. Keep this style consistent in human and agent-facing material.
 
 ## Handoff
 

@@ -4,7 +4,7 @@ Use this guidance when creating, changing, reviewing, or documenting an API in t
 
 ## Goal
 
-Keep the API portable, predictable, safe, and easy for another project or agent to consume. The API is an adapter around the Markdown templates and `config/post-structure.json`; it must not create a second, conflicting template contract.
+Keep the API portable, predictable, safe, and easy for another project or agent to consume. The API is an adapter around the Markdown templates and `config/post-structure.json`, preserving the repository’s canonical template contract.
 
 ```mermaid
 flowchart LR
@@ -19,7 +19,7 @@ flowchart LR
 ## Design the contract first
 
 - Write or update the request, response, error, and lifecycle contract before changing handlers.
-- Use a versioned path such as `/v1/...`; avoid breaking an existing response shape in place.
+- Use a versioned path such as `/v1/...` and evolve response shapes through explicit versioning.
 - Describe the public API in an OpenAPI document before the API grows beyond a few endpoints. OpenAPI is a language-agnostic description format intended to let people and tools understand an HTTP API without source-code access.
 - Use standard HTTP methods and meaningful HTTP status codes. Keep successful results, invalid requests, missing sessions/resources, and unexpected server failures distinguishable.
 
@@ -37,13 +37,13 @@ flowchart LR
 - Parse request bodies defensively and set a size limit.
 - Validate types, required fields, allowed post types, and every `min`/`max` range before composing a template.
 - Reject unknown configuration keys rather than silently ignoring them.
-- Return a stable JSON error object with a helpful client-safe message. Do not expose stack traces, credentials, or internal paths.
+- Return a stable JSON error object with a helpful client-safe message and share only the information needed for client recovery.
 
 ## Security before exposure
 
 - Treat all external input as untrusted.
 - Before publishing the API, choose authentication and authorization rules, restrict CORS to intended origins, add rate limits, and log security-relevant failures without logging secrets or unnecessary personal data.
-- Check object/session access whenever sessions become user-owned or persisted; do not assume an identifier is proof of authorization.
+- Check object and session access whenever sessions become user-owned or persisted, using authenticated authorization context.
 - Keep dependencies current and review changes against the OWASP API Security Top 10.
 
 ## Test and document every change

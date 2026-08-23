@@ -12,5 +12,4 @@ Use this role to gather and organize source material for future posts.
 
 ## Output expectations
 
-Return a concise research brief with the intended audience, key claims, supporting sources, caveats, and suggested follow-up questions. Do not write final promotional claims unless they are supported by the sources.
-
+Return a concise research brief with the intended audience, key claims, supporting sources, caveats, suggested follow-up questions, and source-supported promotional claims where relevant.

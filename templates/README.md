@@ -19,7 +19,7 @@ The blog template will be completed as a standalone, canonical blog-post contrac
 - `social-media-post.md` is preserved as an early draft.
 - The `social_media` configuration profile is preserved for reference and existing integrations.
 
-Do not remove or expand the deferred files during blog-template work. Social media will be reconsidered after the blog template is complete and may use a wholly independent format.
+Preserve the deferred files during blog-template work. Social media will be reconsidered after the blog template is complete and may use a wholly independent format.
 
 ## Minimal content contract
 
