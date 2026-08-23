@@ -1,7 +1,7 @@
 ---
 type: "Blog Post Template"
 template_id: "blog-post-template"
-template_version: "2.0"
+template_version: "2.1"
 status: "active"
 scope: "blog_only"
 fixed_recommendations_config: "config/blog-post-fixed-recommendations.json"
@@ -14,6 +14,18 @@ required_inputs:
   source_material: "{{PRIMARY_SOURCES_OR_FIRST_HAND_EVIDENCE}}"
   author: "{{AUTHOR_NAME}}"
   factual_reviewer: "{{FACTUAL_REVIEWER}}"
+  keyword_research:
+    primary_query: "{{PRIMARY_QUERY}}"
+    supporting_queries:
+      - "{{SUPPORTING_QUERY_01}}"
+      - "{{SUPPORTING_QUERY_02}}"
+      - "{{SUPPORTING_QUERY_03}}"
+    audience_language: "{{CUSTOMER_WORDING_AND_TERMS}}"
+    search_intent: "{{SEARCH_INTENT}}"
+    reader_outcome: "{{USEFUL_RESULT_AFTER_READING}}"
+    search_console_evidence: "{{QUERY_METRICS_AND_ASSOCIATED_PAGE_OBSERVATIONS}}"
+    search_result_observations: "{{CURRENT_RESULT_PATTERNS_AND_CONTENT_OPPORTUNITY}}"
+    section_mapping: "{{QUERY_TO_SECTION_MAPPING}}"
 title: "{{POST_TITLE}}"
 tags:
   - "{{TAG_01}}"

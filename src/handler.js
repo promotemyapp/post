@@ -10,7 +10,7 @@ import {
   setRange,
   validateConfiguration
 } from "./config.js";
-import { loadAgentGuidance } from "./guidance.js";
+import { loadAgentGuidance, loadKeywordResearchGuidance } from "./guidance.js";
 import { composeTemplate } from "./templates.js";
 
 const SESSION_TTL_MS = 15 * 60 * 1000;
@@ -282,6 +282,7 @@ function templateResponse({ mode, delivery, postType, configuration, fixedRecomm
     configuration,
     ...(fixedRecommendations ? { fixedRecommendations } : {}),
     guidance: loadAgentGuidance(),
+    ...(postType === "blog" ? { keywordResearch: loadKeywordResearchGuidance() } : {}),
     template: {
       id: postType === "blog" ? "blog-post-template" : "social-media-post-template",
       format: "markdown",

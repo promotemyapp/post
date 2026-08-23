@@ -92,9 +92,14 @@ test("recommendation mode returns the researched fixed blog template package", a
     assert.equal(result.fixedRecommendations.recommendations.body.words, 1800);
     assert.deepEqual(result.configuration.title.words, { min: 8, max: 8 });
     assert.match(result.guidance.markdown, /Required inputs/);
+    assert.equal(result.keywordResearch.source, "README.md#keyword-research-workflow");
+    assert.match(result.keywordResearch.markdown, /primary_query/);
+    assert.match(result.keywordResearch.markdown, /Search Console/);
     assert.equal(result.template.id, "blog-post-template");
     assert.match(result.template.markdown, /fixed_recommendations_config/);
     assert.match(result.template.markdown, /required_inputs:/);
+    assert.match(result.template.markdown, /keyword_research:/);
+    assert.match(result.template.markdown, /PRIMARY_QUERY/);
     assert.match(result.template.markdown, /{{DIRECT_ANSWER_OR_KEY_TAKEAWAY}}/);
     assert.equal((result.template.markdown.match(/^## \{\{SECTION_TITLE_/gm) ?? []).length, 10);
     assert.equal((result.template.markdown.match(/^## /gm) ?? []).length, 10);

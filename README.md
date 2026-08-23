@@ -105,6 +105,20 @@ Select the sections that genuinely help the reader and produce a focused article
 - Keep important information as accessible text, supported by relevant images or video where they improve understanding.
 - Publish pages that can be crawled and indexed, and connect them through logical internal links.
 
+#### Keyword-research flow
+
+```mermaid
+flowchart LR
+    Audience[Audience problem] --> Seeds[Topic and language seeds]
+    SearchConsole[Search Console queries] --> Candidates[Query candidates]
+    Seeds --> Candidates
+    Candidates --> Intent[Intent and SERP review]
+    Intent --> Brief[Keyword brief]
+    Brief --> Article[Title, headings, FAQ, tags]
+```
+
+Start with the audience's problem and the language they use. For an established site, include relevant non-branded and branded queries from Google Search Console, then examine impressions, clicks, CTR, and the pages Google already associates with each query. Select one primary query that represents the article's central question and a small set of closely related supporting queries that each earn a distinct, useful section or FAQ answer. Capture the expected reader outcome, current search-result patterns, and evidence the article can contribute before drafting.
+
 #### Google-aligned implementation
 
 - Create substantial, people-first articles with unique value for a defined audience.
@@ -132,6 +146,34 @@ Treat this README, `templates/blog-post.md`, and the active `blog` profile as on
 - Product or site context, when a relevant internal link or example exists.
 - Credible primary sources, first-hand experience, original data, testing, or examples.
 - Named author and, when relevant, factual reviewer.
+
+#### Keyword research workflow
+
+1. Define the target audience, their concrete problem, the product or site context, and the useful reader outcome.
+2. Generate seed queries from the topic, product language, customer questions, support conversations, and domain expertise.
+3. When Search Console data is available, collect relevant queries and record impressions, clicks, CTR, associated pages, branded status, and query groups. Prioritize queries that represent the intended audience and reveal a clear opportunity for a more helpful page.
+4. Review current search results for promising queries to understand the dominant reader intent, recurring sub-questions, terminology, freshness needs, and the original contribution that will make the article useful.
+5. Select one primary query that expresses the article's central question. Select supporting queries that map naturally to a direct-answer section, an `H2`, or a genuine FAQ answer.
+6. Produce the keyword brief below before drafting. Use its wording naturally in the title, direct answer, headings, body, FAQ, internal-link anchors, and the ten tags while keeping every element descriptive and reader-focused.
+
+#### Keyword-research output
+
+```yaml
+keyword_research:
+  primary_query: "{{PRIMARY_QUERY}}"
+  supporting_queries:
+    - "{{SUPPORTING_QUERY_01}}"
+    - "{{SUPPORTING_QUERY_02}}"
+    - "{{SUPPORTING_QUERY_03}}"
+  audience_language: "{{CUSTOMER_WORDING_AND_TERMS}}"
+  search_intent: "{{INFORMATIONAL_COMMERCIAL_OR_OTHER_READER_GOAL}}"
+  reader_outcome: "{{USEFUL_RESULT_AFTER_READING}}"
+  search_console_evidence: "{{QUERY_METRICS_AND_ASSOCIATED_PAGE_OBSERVATIONS}}"
+  search_result_observations: "{{CURRENT_RESULT_PATTERNS_AND_CONTENT_OPPORTUNITY}}"
+  section_mapping: "{{PRIMARY_AND_SUPPORTING_QUERY_TO_SECTION_MAPPING}}"
+```
+
+Use Google Search Console query and page data as first-party evidence of how the site's audience already discovers it. Its Performance report supports analysis of queries, clicks, impressions, CTR, and associated pages. Combine that evidence with a reader-first assessment of the current results and the article's own original value.
 
 When factual support is unavailable, research the claim, label it as an assumption, or omit it.
 
@@ -171,6 +213,8 @@ When factual support is unavailable, research the claim, label it as an assumpti
 - [Google Search Essentials](https://developers.google.com/search/docs/essentials)
 - [Google: title-link best practices](https://developers.google.com/search/docs/appearance/title-link)
 - [Google: changes to FAQ and HowTo rich results](https://developers.google.com/search/blog/2023/08/howto-faq-changes)
+- [Google Search Console: Performance report queries](https://support.google.com/webmasters/answer/17011259)
+- [Google Search Console: common performance-report tasks](https://support.google.com/webmasters/answer/17010961)
 
 ## Template layers
 
