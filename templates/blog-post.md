@@ -1,29 +1,104 @@
 ---
-type: "Post Template"
-template_layer: extension
-extends: "post-core"
-template_version: "1.4"
+type: "Blog Post Template"
+template_id: "blog-post-template"
+template_version: "2.0"
 status: "active"
 scope: "blog_only"
-channel: blog
-structure_profile: blog
 fixed_recommendations_config: "config/blog-post-fixed-recommendations.json"
+required_inputs:
+  topic: "{{TOPIC}}"
+  primary_question: "{{PRIMARY_READER_QUESTION}}"
+  target_audience: "{{TARGET_AUDIENCE}}"
+  intended_outcome: "{{INTENDED_READER_OUTCOME}}"
+  product_context: "{{PRODUCT_OR_SITE_CONTEXT}}"
+  source_material: "{{PRIMARY_SOURCES_OR_FIRST_HAND_EVIDENCE}}"
+  author: "{{AUTHOR_NAME}}"
+  factual_reviewer: "{{FACTUAL_REVIEWER}}"
+title: "{{POST_TITLE}}"
+tags:
+  - "{{TAG_01}}"
+  - "{{TAG_02}}"
+  - "{{TAG_03}}"
+  - "{{TAG_04}}"
+  - "{{TAG_05}}"
+  - "{{TAG_06}}"
+  - "{{TAG_07}}"
+  - "{{TAG_08}}"
+  - "{{TAG_09}}"
+  - "{{TAG_10}}"
+publication:
+  published_at: "{{PUBLISHED_AT}}"
+  updated_at: "{{UPDATED_AT}}"
 ---
 
-# Blog post extension
+# {{POST_TITLE}}
 
-> **Active template scope.** Blog posts are the template being developed now. This blog structure will become the canonical standalone blog template; social media will receive an independently designed template in its later milestone.
+{{DIRECT_ANSWER_OR_KEY_TAKEAWAY}}
 
-Apply this extension on top of [`post-core.md`](post-core.md). Keep the core title, ten tags, and structural fields, then complete the blog structure below.
+## {{SECTION_TITLE_01}}
 
-## Blog content
+{{CONTEXT_AND_READER_PROBLEM}}
 
-{{OPENING_AND_CONTEXT}}
+## {{SECTION_TITLE_02}}
 
-## Main sections
+{{CORE_CONCEPT_OR_FRAMEWORK}}
 
-{{LONG_FORM_BLOG_CONTENT}}
+## {{SECTION_TITLE_03}}
 
-## Conclusion
+{{IMPLEMENTATION_GUIDANCE}}
 
-{{BLOG_CONCLUSION}}
+## {{SECTION_TITLE_04}}
+
+{{PRACTICAL_EXAMPLE_OR_WORKFLOW}}
+
+## {{SECTION_TITLE_05}}
+
+{{ORIGINAL_INSIGHT_OR_FIRST_HAND_EXPERIENCE}}
+
+## {{SECTION_TITLE_06}}
+
+{{EVIDENCE_AND_STATISTICS}}
+
+{{STATISTIC_01}}
+
+{{STATISTIC_02}}
+
+{{STATISTIC_03}}
+
+## {{SECTION_TITLE_07}}
+
+{{EXPERT_PERSPECTIVE}}
+
+> {{EXPERT_QUOTE_01}}
+>
+> — {{EXPERT_NAME_AND_CREDENTIALS}}
+
+## {{SECTION_TITLE_08}}
+
+{{COMPARISON_OR_DECISION_GUIDANCE}}
+
+## {{SECTION_TITLE_09}}
+
+{{PRACTICAL_NEXT_STEPS_AND_RELEVANT_INTERNAL_RESOURCES}}
+
+## {{SECTION_TITLE_10}}
+
+### {{FAQ_QUESTION_01}}
+
+{{FAQ_ANSWER_01}}
+
+### {{FAQ_QUESTION_02}}
+
+{{FAQ_ANSWER_02}}
+
+### {{FAQ_QUESTION_03}}
+
+{{FAQ_ANSWER_03}}
+
+### Sources
+
+1. {{SOURCE_CITATION_01}}
+2. {{SOURCE_CITATION_02}}
+3. {{SOURCE_CITATION_03}}
+4. {{SOURCE_CITATION_04}}
+5. {{SOURCE_CITATION_05}}

@@ -11,7 +11,7 @@ flowchart LR
     Social[Social-media draft — deferred] -. future milestone .-> SocialTemplate[Independent social template]
 ```
 
-The blog template will be completed as a standalone, canonical blog-post contract. Its design must be led by blog-writing needs, not by an attempt to force common structure with social media.
+The blog template is a standalone, canonical blog-post contract. It defines machine-readable authoring inputs in YAML and a researched 10-section Markdown structure for external AI agents.
 
 ## Deferred material
 
@@ -36,20 +36,20 @@ How the ten tags are created is an implementation detail outside this template c
 
 The fixed recommendations are defined in [`config/blog-post-fixed-recommendations.json`](../config/blog-post-fixed-recommendations.json), not hardcoded in the templates. The active blog baseline is:
 
-| Extension | Target length | Subtitle structure |
+| Template | Target length | Subtitle structure |
 |---|---:|---|
 | Blog | 1,800 words | 10 subtitles/sections |
 
-Every blog post must retain one main title and satisfy the fixed recommendations. The final word count, title word count, subtitle count, subtitle word count, body-section count, and tag count should be checkable by a consumer or future API.
+Every blog post retains one main title and follows the fixed recommendations. The final word count, title word count, subtitle count, subtitle word count, body-section count, tag count, evidence targets, and FAQ target are available for consumer validation.
 
 ## Consumption contract
 
 The template is intentionally plain Markdown and has no runtime dependency. Future API work should expose the blog contract without changing the source format:
 
-- retrieve the current template;
 - retrieve the canonical blog template;
+- read its required YAML inputs and resolved structural recommendations;
 - create or fill a blog post from that template;
 - validate required OKF metadata and template fields;
-- return the Markdown document and its metadata for rendering or channel adaptation.
+- return one designated Markdown template and its guidance for external AI-agent consumption.
 
 The API should be an adapter around this portable file contract, not a replacement for it. External projects must be able to consume the template without importing private repository code. Its preserved social-media endpoint is not an active product commitment.

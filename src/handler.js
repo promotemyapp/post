@@ -267,20 +267,26 @@ function normalizeFunctionPath(path) {
 
 function templateResponse({ mode, delivery, postType, configuration, fixedRecommendations }) {
   const recommendationMode = mode === "recommended";
+  const templates = composeTemplate(postType, configuration, recommendationMode
+    ? {
+        configurationField: "fixed_recommendations_config",
+        configurationReference: "config/blog-post-fixed-recommendations.json"
+      }
+    : undefined);
 
   return {
+    packageVersion: "1.0",
     mode,
     delivery,
     postType,
     configuration,
     ...(fixedRecommendations ? { fixedRecommendations } : {}),
     guidance: loadAgentGuidance(),
-    templates: composeTemplate(postType, configuration, recommendationMode
-      ? {
-          configurationField: "fixed_recommendations_config",
-          configurationReference: "config/blog-post-fixed-recommendations.json"
-        }
-      : undefined)
+    template: {
+      id: postType === "blog" ? "blog-post-template" : "social-media-post-template",
+      format: "markdown",
+      markdown: templates.combined
+    }
   };
 }
 

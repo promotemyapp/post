@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs";
 
 const CORE_URL = new URL("../templates/post-core.md", import.meta.url);
+const BLOG_URL = new URL("../templates/blog-post.md", import.meta.url);
 const EXTENSION_URLS = {
-  blog: new URL("../templates/blog-post.md", import.meta.url),
   social_media: new URL("../templates/social-media-post.md", import.meta.url)
 };
 
@@ -10,6 +10,10 @@ export function composeTemplate(postType, configuration, {
   configurationField = "dynamic_ranges_config",
   configurationReference = "config/post-dynamic-ranges.json"
 } = {}) {
+  if (postType === "blog") {
+    return composeStandaloneBlogTemplate(configuration, { configurationField, configurationReference });
+  }
+
   const core = readTemplate(CORE_URL);
   const extension = readTemplate(EXTENSION_URLS[postType]);
   const contentFrontmatter = core.frontmatter
@@ -38,6 +42,24 @@ export function composeTemplate(postType, configuration, {
     extension: extension.raw,
     combined
   };
+}
+
+function composeStandaloneBlogTemplate(configuration, { configurationField, configurationReference }) {
+  const template = readTemplate(BLOG_URL);
+  const frontmatter = template.frontmatter
+    .split("\n")
+    .filter((line) => !/^(fixed_recommendations_config|dynamic_ranges_config):/.test(line));
+  const combined = [
+    "---",
+    ...frontmatter,
+    `${configurationField}: "${configurationReference}"`,
+    "resolved_structure:",
+    ...toYaml(configuration, 2),
+    "---",
+    template.body.trim()
+  ].join("\n");
+
+  return { canonical: template.raw, combined };
 }
 
 function readTemplate(url) {

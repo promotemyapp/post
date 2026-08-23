@@ -45,7 +45,7 @@ Call recommendation mode with an empty request body to receive the research-info
 curl -X POST http://127.0.0.1:3000/v1/templates/recommended
 ```
 
-The response includes the fixed recommendations, an exact resolved configuration, the template, canonical agent guidance from `README.md#agent-operating-view`, and the research references captured in the fixed-recommendations configuration.
+The response includes `packageVersion`, the fixed recommendations, an exact resolved configuration, one canonical `template.markdown` field, canonical agent guidance from `README.md#agent-operating-view`, and the research references captured in the fixed-recommendations configuration. The template YAML lists the inputs a requesting AI agent gathers before creating its topic-specific post.
 
 ## Specific mode: direct
 

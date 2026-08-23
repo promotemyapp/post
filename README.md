@@ -176,7 +176,7 @@ When factual support is unavailable, research the claim, label it as an assumpti
 
 | File | Purpose |
 |---|---|
-| [`templates/blog-post.md`](templates/blog-post.md) | Active blog-post template direction. |
+| [`templates/blog-post.md`](templates/blog-post.md) | Active standalone canonical blog-post template with YAML inputs and a 10-section Markdown structure. |
 | [`config/blog-post-fixed-recommendations.json`](config/blog-post-fixed-recommendations.json) | Active fixed numeric recommendations for the blog-post template. |
 | [`config/post-dynamic-ranges.json`](config/post-dynamic-ranges.json) | Preserved future work for configurable numeric ranges. |
 | [`templates/post-core.md`](templates/post-core.md) | Preserved legacy shared scaffold; not active for new authoring. |

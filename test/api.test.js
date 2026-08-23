@@ -73,8 +73,10 @@ test("specific direct mode composes a blog template with configuration overrides
     assert.equal(result.delivery, "direct");
     assert.deepEqual(result.configuration.body.words, { min: 2500, max: 3500 });
     assert.equal(result.guidance.source, "README.md#agent-operating-view");
-    assert.match(result.templates.combined, /type: "Blog Post"/);
-    assert.match(result.templates.combined, /resolved_structure:/);
+    assert.equal(result.packageVersion, "1.0");
+    assert.equal(result.template.id, "blog-post-template");
+    assert.match(result.template.markdown, /type: "Blog Post Template"/);
+    assert.match(result.template.markdown, /resolved_structure:/);
   });
 });
 
@@ -90,7 +92,15 @@ test("recommendation mode returns the researched fixed blog template package", a
     assert.equal(result.fixedRecommendations.recommendations.body.words, 1800);
     assert.deepEqual(result.configuration.title.words, { min: 8, max: 8 });
     assert.match(result.guidance.markdown, /Required inputs/);
-    assert.match(result.templates.combined, /fixed_recommendations_config/);
+    assert.equal(result.template.id, "blog-post-template");
+    assert.match(result.template.markdown, /fixed_recommendations_config/);
+    assert.match(result.template.markdown, /required_inputs:/);
+    assert.match(result.template.markdown, /{{DIRECT_ANSWER_OR_KEY_TAKEAWAY}}/);
+    assert.equal((result.template.markdown.match(/^## \{\{SECTION_TITLE_/gm) ?? []).length, 10);
+    assert.equal((result.template.markdown.match(/^## /gm) ?? []).length, 10);
+    assert.equal((result.template.markdown.match(/SOURCE_CITATION_/g) ?? []).length, 5);
+    assert.equal((result.template.markdown.match(/EXPERT_QUOTE_01/g) ?? []).length, 1);
+    assert.equal((result.template.markdown.match(/FAQ_QUESTION_/g) ?? []).length, 3);
   });
 });
 
@@ -153,7 +163,8 @@ test("guided session asks each configuration question and returns a social templ
     assert.equal(result.mode, "specific");
     assert.equal(result.delivery, "guided");
     assert.equal(result.postType, "social_media");
-    assert.match(result.templates.combined, /type: "Social Media Post"/);
+    assert.equal(result.template.id, "social-media-post-template");
+    assert.match(result.template.markdown, /type: "Social Media Post"/);
   }, { sessionSecret: SESSION_SECRET });
 });
 
