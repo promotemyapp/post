@@ -9,7 +9,7 @@ Maintain a portable, human-readable **blog-post** template and knowledge base fo
 ## Specialized guidance
 
 - [`api-implementation.md`](api-implementation.md) — API contract, validation, security, testing, and documentation guidance.
-- [`blog-seo-structure.md`](blog-seo-structure.md) — active blog-only SEO, evidence, and Google AI-search authoring guidance.
+- [`../docs/BLOG-SEO-STRUCTURE.md#agent-operating-view`](../docs/BLOG-SEO-STRUCTURE.md#agent-operating-view) — canonical blog-only SEO, evidence, and Google AI-search authoring guidance.
 
 ## Tooling policy
 
@@ -21,7 +21,7 @@ Use Bun exclusively for package management, scripts, and tests in this repositor
 2. Read `SPEC.md` before creating or editing an OKF document.
 3. Read `templates/blog-post.md` when creating or changing the post shape.
 4. Read the `blog` profile in `config/post-structure.json` before setting or reviewing length and count expectations.
-5. Read `AGENTS/blog-seo-structure.md` before designing, drafting, or reviewing a blog post.
+5. Read the [agent-operating view of the canonical blog SEO specification](../docs/BLOG-SEO-STRUCTURE.md#agent-operating-view) before designing, drafting, or reviewing a blog post.
 6. Read `AGENTS/api-implementation.md` before creating or changing the API.
 7. Inspect existing files and preserve unrelated user changes.
 8. Keep this preparation phase template- and documentation-only unless the user explicitly asks for implementation.

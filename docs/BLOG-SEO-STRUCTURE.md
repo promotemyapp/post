@@ -1,6 +1,8 @@
 # SEO- and AI-search-ready blog structure
 
-> Working reference for the blog-template milestone. This is not yet the final template.
+> **Canonical source of truth** for the blog SEO and AI-search structure. It has two views in this one file: a visual [human-readable view](#human-readable-view) and a concise [agent-operating view](#agent-operating-view). This is a working reference for the blog-template milestone, not yet the final template.
+
+## Human-readable view
 
 ## Purpose
 
@@ -77,6 +79,56 @@ The current 2,000–4,000-word profile is an editorial depth range, not a Google
 - non-negotiable contract requirements, such as one main title and exactly ten tags;
 - editorial ranges, such as total length and section count;
 - conditional sections, such as table of contents, FAQ, examples, sources, and author information.
+
+## Agent-operating view
+
+### Scope
+
+- Apply this specification to long-form blog posts only.
+- The objective is people-first, evidence-led content that is eligible for normal Google Search and Google AI-feature links.
+- Do not promise rankings, AI Overview inclusion, citations, or backlinks.
+
+### Required inputs
+
+- Target audience and concrete problem or question.
+- Search intent and intended reader outcome.
+- Product or site context, when a relevant internal link or example exists.
+- Credible primary sources, first-hand experience, original data, testing, or examples.
+- Named author and, when relevant, factual reviewer.
+
+When factual support is unavailable, research the claim, label it as an assumption, or omit it.
+
+### Required workflow
+
+1. Create one unique, descriptive `H1`.
+2. State a direct, useful answer or key takeaway near the beginning.
+3. Use question-led `H2` sections based on genuine reader needs.
+4. Answer each heading before adding depth, context, or examples.
+5. Add original value and support material claims with reliable sources.
+6. Include practical guidance and helpful descriptive internal links.
+7. Add a FAQ only for valuable follow-up questions not already answered.
+8. Provide author, review, and meaningful update information in publishing metadata when available.
+
+### Review checklist
+
+- Does the article solve the stated reader problem without requiring another search for the essential answer?
+- Is it more useful than a generic summary?
+- Are factual claims accurate, current, and visibly supported?
+- Are author, expertise, limitations, and uncertainty clear where relevant?
+- Are titles, headings, tags, and links descriptive rather than keyword-stuffed?
+- Is important content available as ordinary text on the rendered page?
+- Does it retain one main title and exactly ten tags?
+
+### Prohibited shortcuts
+
+- Do not invent facts, citations, data, testimonials, quotations, product capabilities, or author credentials.
+- Do not add thin FAQs, repeated keywords, `llms.txt`, AI-only markup, or artificial content chunks to influence Google AI features.
+- Do not use `FAQPage` or `HowTo` structured data as an expected traffic tactic.
+- Treat word and section ranges as editorial targets, never proof of SEO quality.
+
+### Publishing handoff
+
+Recommend—but do not implement without explicit authorization—a concise HTML title and meta description, semantic heading hierarchy, accurate Article structured data, author information, relevant accessible images, crawlability, indexability, and meaningful internal links.
 
 ## Primary sources
 

@@ -26,7 +26,7 @@ flowchart LR
 
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
-The active blog structure is being refined using [SEO and AI-search research](docs/BLOG-SEO-STRUCTURE.md). It prioritizes people-first answers, original evidence, clear authorship, and technical accessibility rather than unsupported AI-search shortcuts. Agents must follow the matching [blog authoring instructions](AGENTS/blog-seo-structure.md).
+The active blog structure is being refined through one canonical [SEO and AI-search specification](docs/BLOG-SEO-STRUCTURE.md): use its [visual human-readable view](docs/BLOG-SEO-STRUCTURE.md#human-readable-view) for planning and its [agent-operating view](docs/BLOG-SEO-STRUCTURE.md#agent-operating-view) for drafting and review. It prioritizes people-first answers, original evidence, clear authorship, and technical accessibility rather than unsupported AI-search shortcuts.
 
 ## Template layers
 
@@ -45,7 +45,7 @@ These are configuration values, not hardcoded rules. They can be adjusted as the
 
 ```mermaid
 flowchart LR
-    A[Select profile] --> B[Combine core + extension]
+    A[Use blog profile] --> B[Start with blog template]
     B --> C[Write title and structured content]
     C --> D[Add 10 tags]
     D --> E[Validate against config]
