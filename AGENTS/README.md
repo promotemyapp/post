@@ -4,7 +4,7 @@ These instructions define the preparation baseline for agents working in this re
 
 ## Mission
 
-Maintain a portable, agent-ready **blog-post** knowledge package for product marketing. AI agents in external projects are the primary consumers: they request this package to obtain explicit structure and instructions for drafting and reviewing a quality blog post. Human-readable material is a presentation of the same contract for review and maintenance, never a competing source of truth. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. External projects retain responsibility for research, verification, publishing, and final approval. Social-media material is preserved but deferred.
+Maintain a portable, agent-ready **blog-post** knowledge package for product marketing. AI agents in external projects are the primary consumers: they request this package to obtain explicit structure and instructions, then create actual blog posts in their own projects. This repository’s external output is template material only; it must never be represented as a topic-specific post, research result, product claim, or publishing action. Human-readable material is a presentation of the same contract for review and maintenance, never a competing source of truth. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. External projects retain responsibility for research, verification, publishing, and final approval. Social-media material is preserved but deferred.
 
 ## Specialized guidance
 

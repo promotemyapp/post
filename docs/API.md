@@ -1,6 +1,6 @@
 # Post Template API
 
-The API exposes the repository’s template contract through two flows: direct composition and guided configuration.
+The API exposes the repository’s reusable template contract through two flows: direct composition and guided configuration. It returns template structure and instructions only—never a completed or topic-specific blog post. The requesting project’s AI agent uses the returned package to research and create its own post.
 
 ```mermaid
 flowchart LR
@@ -46,7 +46,7 @@ Send the post type and any complete or partial configuration override to `POST /
 }
 ```
 
-The API starts with the selected profile from `config/post-structure.json`, applies the supplied overrides, validates every range, and returns the resolved configuration with the core, extension, and combined Markdown template.
+The API starts with the selected profile from `config/post-structure.json`, applies the supplied overrides, validates every range, and returns the resolved configuration with the core, extension, and combined Markdown template. The Markdown contains reusable placeholders; it is not generated blog content.
 
 Supported post types are `blog` and `social_media` (`social` is accepted as an alias). Tags are fixed at exactly ten, so `tags.count` must be `{ "min": 10, "max": 10 }`.
 
@@ -66,7 +66,7 @@ curl -X POST http://127.0.0.1:3000/v1/sessions/answers \
   -d '{"sessionToken":"<session-token>","value":"blog"}'
 ```
 
-The API asks, in order, for post type, body length, title length, subtitle count, subtitle length, body-section count, and tag count. Range questions accept `{ "min": <integer>, "max": <integer> }` or `"default"` to retain the selected profile value. The final response is the composed template.
+The API asks, in order, for post type, body length, title length, subtitle count, subtitle length, body-section count, and tag count. Range questions accept `{ "min": <integer>, "max": <integer> }` or `"default"` to retain the selected profile value. The final response is the composed template, not a completed blog post.
 
 Guided sessions are signed, short-lived tokens rather than server memory. This keeps the flow valid across separate local processes or Vercel Function invocations. Keep `SESSION_SECRET` private and use the same value for each deployed environment.
 
