@@ -2,7 +2,7 @@
 
 ## Active scope: blog posts
 
-Blog posts are the only active template work. [`blog-post.md`](blog-post.md) and the `blog` profile in [`../config/post-structure.json`](../config/post-structure.json) define the current authoring direction.
+Blog posts are the only active template work. [`blog-post.md`](blog-post.md) and the `blog` profile in [`../config/post-dynamic-ranges.json`](../config/post-dynamic-ranges.json) define the current authoring direction.
 
 ```mermaid
 flowchart LR
@@ -34,7 +34,7 @@ How the ten tags are created is an implementation detail outside this template c
 
 ## Structure baselines
 
-The ranges are defined in [`config/post-structure.json`](../config/post-structure.json), not hardcoded in the templates. The active profile is:
+The ranges are defined in [`config/post-dynamic-ranges.json`](../config/post-dynamic-ranges.json), not hardcoded in the templates. The active profile is:
 
 | Extension | Target length | Subtitle structure |
 |---|---:|---|

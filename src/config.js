@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const CONFIG_URL = new URL("../config/post-structure.json", import.meta.url);
+const CONFIG_URL = new URL("../config/post-dynamic-ranges.json", import.meta.url);
 const CONFIG_PATH = fileURLToPath(CONFIG_URL);
 const RANGE_PATHS = [
   ["title", "words"],

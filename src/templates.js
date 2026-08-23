@@ -11,7 +11,7 @@ export function composeTemplate(postType, configuration) {
   const extension = readTemplate(EXTENSION_URLS[postType]);
   const contentFrontmatter = core.frontmatter
     .split("\n")
-    .filter((line) => !/^(type|template_layer|template_version|structure_config|structure_profile):/.test(line));
+    .filter((line) => !/^(type|template_layer|template_version|dynamic_ranges_config|structure_profile):/.test(line));
   const extensionBody = extension.body.replace(/^# .*\n\n.*?\n\n/s, "").trim();
   const type = postType === "blog" ? "Blog Post" : "Social Media Post";
 
@@ -19,7 +19,7 @@ export function composeTemplate(postType, configuration) {
     "---",
     `type: \"${type}\"`,
     "template_version: \"1.4\"",
-    "structure_config: \"config/post-structure.json\"",
+    "dynamic_ranges_config: \"config/post-dynamic-ranges.json\"",
     `structure_profile: \"${postType}\"`,
     ...contentFrontmatter,
     "resolved_structure:",

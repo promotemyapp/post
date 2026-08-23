@@ -4,7 +4,7 @@ Use this guidance when creating, changing, reviewing, or documenting an API in t
 
 ## Goal
 
-Keep the API portable, predictable, safe, and easy for another project or agent to consume. The API is an adapter around the Markdown templates and `config/post-structure.json`, preserving the repository’s canonical template contract.
+Keep the API portable, predictable, safe, and easy for another project or agent to consume. The API is an adapter around the Markdown templates and `config/post-dynamic-ranges.json`, preserving the repository’s canonical template contract.
 
 ```mermaid
 flowchart LR
@@ -25,7 +25,7 @@ flowchart LR
 
 ## Apply the project contract
 
-- Read `templates/post-core.md`, the selected extension, and `config/post-structure.json` before changing API behavior.
+- Read `templates/post-core.md`, the selected extension, and `config/post-dynamic-ranges.json` before changing API behavior.
 - Direct composition accepts a post type and a complete or partial configuration override, then resolves and validates it against the selected profile.
 - Guided composition returns one question at a time. Its answer sequence must stay documented, deterministic, and resumable within a session.
 - Keep the fixed rule that tags have a count of exactly ten.

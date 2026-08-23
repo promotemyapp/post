@@ -20,7 +20,7 @@ Use Bun exclusively for package management, scripts, and tests in this repositor
 1. Read the repository `README.md` and the relevant role instructions in this directory.
 2. Read `SPEC.md` before creating or editing an OKF document.
 3. Read `templates/blog-post.md` when creating or changing the post shape.
-4. Read the `blog` profile in `config/post-structure.json` before setting or reviewing length and count expectations.
+4. Read the `blog` profile in `config/post-dynamic-ranges.json` before setting or reviewing length and count expectations.
 5. Read the [agent-operating view of the canonical blog SEO specification](../README.md#agent-operating-view) before designing, drafting, or reviewing a blog post.
 6. Read `AGENTS/api-implementation.md` before creating or changing the API.
 7. Inspect existing files and preserve unrelated user changes.

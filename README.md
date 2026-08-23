@@ -53,7 +53,7 @@ flowchart LR
 ```
 
 1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
-2. The blog configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count, together with agent-ready best-practice recommendations.
+2. The blog dynamic-ranges profile defines variable ranges for title length, subtitle count and length, body length, body-section count, and tag count.
 3. The canonical specification supplies source-grounded drafting and review guidance.
 4. A consuming AI agent receives these as one agent-ready package, creates the actual draft in its own project, and can validate that draft against the blog profile.
 
@@ -177,7 +177,7 @@ When factual support is unavailable, research the claim, label it as an assumpti
 | File | Purpose |
 |---|---|
 | [`templates/blog-post.md`](templates/blog-post.md) | Active blog-post template direction. |
-| [`config/post-structure.json`](config/post-structure.json) | Active blog profile and preserved deferred profile. |
+| [`config/post-dynamic-ranges.json`](config/post-dynamic-ranges.json) | Dynamic numeric ranges for the active blog profile and preserved deferred profile. |
 | [`templates/post-core.md`](templates/post-core.md) | Preserved legacy shared scaffold; not active for new authoring. |
 | [`templates/social-media-post.md`](templates/social-media-post.md) | Preserved deferred draft for a future independent design. |
 
@@ -199,7 +199,7 @@ flowchart LR
 1. Start with `templates/blog-post.md`.
 2. Write the main title and structured blog content.
 3. Provide exactly ten tags.
-4. Check the post against the `blog` ranges in `config/post-structure.json`.
+4. Check the post against the `blog` ranges in `config/post-dynamic-ranges.json`.
 5. Save the result as an OKF Markdown concept in `posts/` or in an external consuming project.
 
 ## Repository structure
