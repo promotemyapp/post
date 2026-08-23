@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3 — 2026-08-23
+
+- Route public multi-segment API requests to the Vercel catch-all function.
+
 ## 0.2.2 — 2026-08-23
 
 - Add a Bun lockfile marker so Vercel selects Bun for dependency installation and function deployment.
