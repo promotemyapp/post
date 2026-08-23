@@ -1,8 +1,30 @@
 # Reusable Marketing Post Templates
 
-This project defines a portable, Open Knowledge Format (OKF) template system for creating long-form product-marketing blog posts. Blog posts are the active product scope. The earlier social-media material is preserved as deferred reference work and will be redesigned independently later.
+This project defines a portable, Open Knowledge Format (OKF) knowledge package for creating long-form product-marketing blog posts. Blog posts are the active product scope. The earlier social-media material is preserved as deferred reference work and will be redesigned independently later.
 
-The repository is currently a template and documentation baseline. It does not yet generate, publish, or serve posts through an API.
+The repository does not create or publish posts itself. Another project requests or consumes this package, then uses its own AI agent or workflow to research, draft, review, and publish a blog post.
+
+## Consumer model
+
+```mermaid
+flowchart LR
+    Consumer[External project] --> Request[Request blog-template package]
+    Request --> Package[This repository<br/>agent-ready knowledge package]
+    Package --> Agent[Consumer's AI agent]
+    Agent --> Draft[Evidence-led blog draft]
+    Draft --> Publish[Consumer reviews and publishes]
+```
+
+The package returned to a consumer must be optimized primarily for an AI agent: unambiguous, structured, versioned, and actionable. It must give the agent everything it needs to create a quality blog post without guessing at the repository’s intent:
+
+- active template and structural profile;
+- required inputs, constraints, and conditional sections;
+- drafting and review workflow;
+- SEO and Google AI-search guidance grounded in sources;
+- prohibited shortcuts and unsupported claims;
+- human-readable context for planning and approval.
+
+The API, raw repository files, or a future packaged export are delivery mechanisms for this same contract; they must not become competing sources of truth. The consumer remains responsible for its topic research, factual verification, publishing environment, and final publication decision.
 
 ## How it works
 
@@ -10,19 +32,22 @@ The active authoring path is blog-first:
 
 ```mermaid
 flowchart LR
-    Blog[Blog template<br/>title · tags · headings · body]
-    Config[Blog structure config<br/>ranges]
-    Post[OKF blog post]
-    External[External project<br/>or future API]
+    Blog[Blog template]
+    Config[Blog structure profile]
+    Specification[Canonical SEO specification]
+    Package[Agent-ready package]
+    External[External project]
 
-    Blog --> Post
-    Config --> Post
-    Post --> External
+    Blog --> Package
+    Config --> Package
+    Specification --> Package
+    Package --> External
 ```
 
 1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
 2. The blog configuration profile defines ranges for title length, subtitle count and length, body length, body-section count, and tag count.
-3. A consuming project fills the Markdown template and can validate the result against the blog profile.
+3. The canonical specification supplies source-grounded drafting and review guidance.
+4. A consuming project receives these as one agent-ready package, uses them to create a draft, and can validate the result against the blog profile.
 
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
@@ -89,6 +114,8 @@ The eventual publishing system should map this content to a well-formed web page
 The current 2,000–4,000-word profile is an editorial depth range, not a Google ranking requirement. The final configuration must distinguish non-negotiable contract requirements, editorial ranges, and conditional sections.
 
 ### Agent-operating view
+
+Treat this README, `templates/blog-post.md`, and the active `blog` profile as one agent-ready package. Return or consume the applicable parts as explicit fields and instructions; do not rely on a receiving agent inferring workflow, constraints, or SEO rationale from prose alone.
 
 #### Required inputs
 

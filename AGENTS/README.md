@@ -4,7 +4,7 @@ These instructions define the preparation baseline for agents working in this re
 
 ## Mission
 
-Maintain a portable, human-readable **blog-post** template and knowledge base for product marketing. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. The template must remain usable by projects outside this repository. Social-media material is preserved but deferred.
+Maintain a portable, agent-ready **blog-post** knowledge package for product marketing. Posts are represented as Open Knowledge Format (OKF) concept documents: UTF-8 Markdown files with YAML frontmatter and a Markdown body. External projects consume the package to guide their own AI agents through drafting and review; they retain responsibility for research, verification, publishing, and final approval. Social-media material is preserved but deferred.
 
 ## Specialized guidance
 
