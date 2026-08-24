@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.12 — 2026-08-24
+
+- Add example full names, ages, and job titles to the John, Melissa, and Radovan author profiles.
+- Include the selected author details in API responses and the browser testing console Author card.
+
 ## 0.2.11 — 2026-08-24
 
 - Keep the Author overview card focused on the selected author name until author profiles include meaningful details.

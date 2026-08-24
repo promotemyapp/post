@@ -562,7 +562,11 @@ function renderDiscoveryPage() {
         summary.replaceChildren();
         addSummary("Post type", result.postType || "—");
         addSummary("Persona", result.persona ? result.persona.name : "—", result.persona ? result.persona.writing_style : "");
-        addSummary("Author", result.author ? result.author.name : "—");
+        addSummary(
+          "Author",
+          result.author ? (result.author.full_name || result.author.name) : "—",
+          result.author ? "Age: " + result.author.age + " · " + result.author.job_title : ""
+        );
         addSummary("Body target", result.configuration && result.configuration.body ? result.configuration.body.words.min + " words" : "—");
         addSummary("Sections", result.configuration && result.configuration.body ? String(result.configuration.body.sections.min) : "—");
         addSummary("Tags", result.configuration && result.configuration.tags ? String(result.configuration.tags.count.min) : "—");

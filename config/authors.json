@@ -1,19 +1,28 @@
 {
   "version": "1.0",
-  "description": "Reusable author configurations for post templates.",
+  "description": "Reusable example author configurations for post templates.",
   "default_author": "john",
   "authors": {
     "john": {
       "id": "john",
-      "name": "John"
+      "name": "John",
+      "full_name": "John Carter",
+      "age": 34,
+      "job_title": "Product Marketing Manager"
     },
     "melissa": {
       "id": "melissa",
-      "name": "Melissa"
+      "name": "Melissa",
+      "full_name": "Melissa Hart",
+      "age": 29,
+      "job_title": "SaaS Content Strategist"
     },
     "radovan": {
       "id": "radovan",
-      "name": "Radovan"
+      "name": "Radovan",
+      "full_name": "Radovan Novak",
+      "age": 41,
+      "job_title": "Product Growth Consultant"
     }
   }
 }

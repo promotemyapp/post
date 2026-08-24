@@ -72,7 +72,13 @@ export function resolveAuthor(authorId) {
 
 export function getAuthorChoices() {
   const config = loadAuthorConfig();
-  return Object.values(config.authors).map(({ id, name }) => ({ id, name }));
+  return Object.values(config.authors).map(({ id, name, full_name, age, job_title }) => ({
+    id,
+    name,
+    full_name,
+    age,
+    job_title
+  }));
 }
 
 export function fixedRecommendationsToConfiguration(recommendations) {

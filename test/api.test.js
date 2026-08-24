@@ -30,7 +30,9 @@ test("root route returns an interactive browser API testing console", async () =
     assert.match(page, /Run API request/);
     assert.match(page, /Response overview/);
     assert.match(page, /addSummary\("Persona", result\.persona \? result\.persona\.name : "—", result\.persona \? result\.persona\.writing_style : ""\)/);
-    assert.match(page, /addSummary\("Author", result\.author \? result\.author\.name : "—"\)/);
+    assert.match(page, /addSummary\(/);
+    assert.match(page, /result\.author\.full_name \|\| result\.author\.name/);
+    assert.match(page, /"Age: " \+ result\.author\.age \+ " · " \+ result\.author\.job_title/);
     assert.doesNotMatch(page, /addPersonaEffect/);
     assert.match(page, /<details><summary>Agent guidance<\/summary>/);
     assert.doesNotMatch(page, /<details open><summary>Agent guidance/);
@@ -72,9 +74,9 @@ test("Vercel Function route prefix exposes authors through the same API handler"
 
   assert.equal(response.status, 200);
   assert.deepEqual(result.authors, [
-    { id: "john", name: "John" },
-    { id: "melissa", name: "Melissa" },
-    { id: "radovan", name: "Radovan" }
+    { id: "john", name: "John", full_name: "John Carter", age: 34, job_title: "Product Marketing Manager" },
+    { id: "melissa", name: "Melissa", full_name: "Melissa Hart", age: 29, job_title: "SaaS Content Strategist" },
+    { id: "radovan", name: "Radovan", full_name: "Radovan Novak", age: 41, job_title: "Product Growth Consultant" }
   ]);
 });
 
@@ -103,7 +105,13 @@ test("specific direct mode composes a blog template with configuration overrides
     assert.deepEqual(result.configuration.body.words, { min: 2500, max: 3500 });
     assert.equal(result.persona.id, "persona_b");
     assert.match(result.persona.writing_style, /Cheerful/);
-    assert.deepEqual(result.author, { id: "melissa", name: "Melissa" });
+    assert.deepEqual(result.author, {
+      id: "melissa",
+      name: "Melissa",
+      full_name: "Melissa Hart",
+      age: 29,
+      job_title: "SaaS Content Strategist"
+    });
     assert.equal(result.guidance.source, "README.md#agent-operating-view");
     assert.equal(result.packageVersion, "1.0");
     assert.equal(result.template.id, "blog-post-template");
@@ -126,7 +134,13 @@ test("recommendation mode returns the researched fixed blog template package", a
     assert.equal(result.delivery, "direct");
     assert.equal(result.postType, "blog");
     assert.equal(result.persona.id, "persona_a");
-    assert.deepEqual(result.author, { id: "john", name: "John" });
+    assert.deepEqual(result.author, {
+      id: "john",
+      name: "John",
+      full_name: "John Carter",
+      age: 34,
+      job_title: "Product Marketing Manager"
+    });
     assert.equal(result.fixedRecommendations.recommendations.body.words, 1800);
     assert.deepEqual(result.configuration.title.words, { min: 8, max: 8 });
     assert.match(result.guidance.markdown, /Required inputs/);
@@ -233,7 +247,13 @@ test("guided session asks each configuration question and returns a social templ
     assert.equal(result.delivery, "guided");
     assert.equal(result.postType, "social_media");
     assert.equal(result.persona.id, "persona_c");
-    assert.deepEqual(result.author, { id: "radovan", name: "Radovan" });
+    assert.deepEqual(result.author, {
+      id: "radovan",
+      name: "Radovan",
+      full_name: "Radovan Novak",
+      age: 41,
+      job_title: "Product Growth Consultant"
+    });
     assert.equal(result.template.id, "social-media-post-template");
     assert.match(result.template.markdown, /type: "Social Media Post"/);
   }, { sessionSecret: SESSION_SECRET });
