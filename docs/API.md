@@ -39,10 +39,18 @@ SESSION_SECRET="replace-with-a-unique-secret" bun run start
 
 ## Recommendation mode
 
-Call recommendation mode with an empty request body to receive the research-informed baseline for a blog post:
+Call recommendation mode with an empty request body to receive the research-informed baseline for a blog post and the default Persona A writing style:
 
 ```bash
 curl -X POST http://127.0.0.1:3000/v1/templates/recommended
+```
+
+Select a different writing persona by providing its ID:
+
+```bash
+curl -X POST http://127.0.0.1:3000/v1/templates/recommended \
+  -H 'Content-Type: application/json' \
+  -d '{"persona":"persona_b"}'
 ```
 
 The response includes `packageVersion`, the fixed recommendations, an exact resolved configuration, one canonical `template.markdown` field, canonical agent guidance from `README.md#agent-operating-view`, and a dedicated `keywordResearch` field sourced from `README.md#keyword-research-workflow`. Together, these form the self-contained blog-creation guidance package.
@@ -53,6 +61,7 @@ The response includes `packageVersion`, the fixed recommendations, an exact reso
 | `guidance.markdown` | Apply the complete drafting, evidence, SEO, AI-search, and review workflow. |
 | `fixedRecommendations` and `configuration` | Use the recommended editorial targets for length, sections, tags, evidence, and FAQ coverage. |
 | `template.markdown` | Fill the complete keyword brief and article structure with topic-specific, verified content. |
+| `persona` | Apply the resolved writing style while drafting the post. |
 
 The agent performs this method using its own topic, product context, site data, and credible sources. The completed keyword brief is carried in the template YAML with the article inputs.
 
@@ -63,6 +72,7 @@ Send the post type and any complete or partial configuration override to `POST /
 ```json
 {
   "postType": "blog",
+  "persona": "persona_c",
   "configuration": {
     "body": {
       "words": { "min": 2500, "max": 3500 }
@@ -71,7 +81,7 @@ Send the post type and any complete or partial configuration override to `POST /
 }
 ```
 
-The API starts with the selected profile from `config/post-dynamic-ranges.json`, applies the supplied overrides, validates every range, and returns the resolved dynamic ranges, canonical agent guidance, and Markdown template with reusable placeholders for the requesting project’s creation workflow.
+The API starts with the selected profile from `config/post-dynamic-ranges.json`, resolves the selected persona from `config/personas.json`, applies the supplied overrides, validates every range, and returns the resolved dynamic ranges, writing style, canonical agent guidance, and Markdown template with reusable placeholders for the requesting project’s creation workflow.
 
 Supported post types are `blog` and `social_media` (`social` is accepted as an alias). Tags are fixed at exactly ten, so `tags.count` must be `{ "min": 10, "max": 10 }`.
 
@@ -91,7 +101,11 @@ curl -X POST http://127.0.0.1:3000/v1/templates/specific/guided/answers \
   -d '{"sessionToken":"<session-token>","value":"blog"}'
 ```
 
-The API asks, in order, for post type, body length, title length, subtitle count, subtitle length, body-section count, and tag count. Range questions accept `{ "min": <integer>, "max": <integer> }` or `"default"` to retain the selected profile value. The final response is the composed template with reusable placeholders for the requesting project’s blog-post creation.
+The API asks, in order, for post type, persona, body length, title length, subtitle count, subtitle length, body-section count, and tag count. Range questions accept `{ "min": <integer>, "max": <integer> }` or `"default"` to retain the selected profile value. The final response is the composed template with reusable placeholders for the requesting project’s blog-post creation.
+
+## Personas
+
+Retrieve the available persona IDs and names with `GET /v1/personas`. The shared `config/personas.json` file provides the selected persona’s current writing-style instruction to every template type. Persona A (`persona_a`) is clear and helpful professional writing, Persona B (`persona_b`) is cheerful and conversational, and Persona C (`persona_c`) is direct and practical office-professional writing.
 
 Guided sessions are signed, short-lived tokens rather than server memory. This keeps the flow valid across separate local processes or Vercel Function invocations. Keep `SESSION_SECRET` private and use the same value for each deployed environment.
 
@@ -121,6 +135,7 @@ The direct endpoint does not need `SESSION_SECRET`; it is required for the guide
 | `GET` | `/` | Browser discovery page or JSON endpoint directory. |
 | `GET` | `/health` | Service health check. |
 | `GET` | `/v1/post-types` | Available post types and built-in dynamic profiles. |
+| `GET` | `/v1/personas` | Available writing personas. |
 | `POST` | `/v1/templates/recommended` | Return the researched fixed blog-template package. |
 | `POST` | `/v1/templates/specific` | Return a package from caller-supplied settings. |
 | `POST` | `/v1/templates/specific/guided` | Start guided specific configuration. |

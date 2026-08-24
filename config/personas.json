@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "description": "Reusable writing-style personas for post templates.",
+  "default_persona": "persona_a",
+  "personas": {
+    "persona_a": {
+      "id": "persona_a",
+      "name": "Persona A",
+      "writing_style": "Clear, confident, and helpful professional writing that explains ideas in plain language."
+    },
+    "persona_b": {
+      "id": "persona_b",
+      "name": "Persona B",
+      "writing_style": "Cheerful, conversational writing with an energetic and approachable tone."
+    },
+    "persona_c": {
+      "id": "persona_c",
+      "name": "Persona C",
+      "writing_style": "Direct, practical office-professional writing focused on useful decisions and next steps."
+    }
+  }
+}

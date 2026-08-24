@@ -6,19 +6,19 @@ const EXTENSION_URLS = {
   social_media: new URL("../templates/social-media-post.md", import.meta.url)
 };
 
-export function composeTemplate(postType, configuration, {
+export function composeTemplate(postType, configuration, persona, {
   configurationField = "dynamic_ranges_config",
   configurationReference = "config/post-dynamic-ranges.json"
 } = {}) {
   if (postType === "blog") {
-    return composeStandaloneBlogTemplate(configuration, { configurationField, configurationReference });
+    return composeStandaloneBlogTemplate(configuration, persona, { configurationField, configurationReference });
   }
 
   const core = readTemplate(CORE_URL);
   const extension = readTemplate(EXTENSION_URLS[postType]);
   const contentFrontmatter = core.frontmatter
     .split("\n")
-    .filter((line) => !/^(type|template_layer|template_version|dynamic_ranges_config|structure_profile):/.test(line));
+    .filter((line) => !/^(type|template_layer|template_version|dynamic_ranges_config|persona_config|structure_profile):/.test(line));
   const extensionBody = extension.body.replace(/^# .*\n\n.*?\n\n/s, "").trim();
   const type = postType === "blog" ? "Blog Post" : "Social Media Post";
 
@@ -29,6 +29,8 @@ export function composeTemplate(postType, configuration, {
     `${configurationField}: "${configurationReference}"`,
     `structure_profile: \"${postType}\"`,
     ...contentFrontmatter,
+    "persona:",
+    ...toYaml(persona, 2),
     "resolved_structure:",
     ...toYaml(configuration, 2),
     "---",
@@ -44,15 +46,18 @@ export function composeTemplate(postType, configuration, {
   };
 }
 
-function composeStandaloneBlogTemplate(configuration, { configurationField, configurationReference }) {
+function composeStandaloneBlogTemplate(configuration, persona, { configurationField, configurationReference }) {
   const template = readTemplate(BLOG_URL);
   const frontmatter = template.frontmatter
     .split("\n")
-    .filter((line) => !/^(fixed_recommendations_config|dynamic_ranges_config):/.test(line));
+    .filter((line) => !/^(fixed_recommendations_config|dynamic_ranges_config|persona_config):/.test(line));
   const combined = [
     "---",
     ...frontmatter,
     `${configurationField}: "${configurationReference}"`,
+    "persona_config: \"config/personas.json\"",
+    "persona:",
+    ...toYaml(persona, 2),
     "resolved_structure:",
     ...toYaml(configuration, 2),
     "---",

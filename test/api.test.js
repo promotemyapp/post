@@ -37,18 +37,22 @@ test("root route returns JSON discovery for programmatic clients", async () => {
 
     assert.equal(response.status, 200);
     assert.equal(result.version, "v1");
-    assert.equal(result.endpoints.length, 6);
-    assert.equal(result.endpoints[2].path, "/v1/templates/recommended");
+    assert.equal(result.endpoints.length, 7);
+    assert.ok(result.endpoints.some((endpoint) => endpoint.path === "/v1/personas"));
   });
 });
 
-test("Vercel Function route prefix uses the same API handler", async () => {
+test("Vercel Function route prefix exposes personas through the same API handler", async () => {
   const handler = createApiHandler();
-  const response = await handler(new Request("https://example.vercel.app/api/v1/post-types"));
+  const response = await handler(new Request("https://example.vercel.app/api/v1/personas"));
   const result = await response.json();
 
   assert.equal(response.status, 200);
-  assert.deepEqual(result.postTypes, ["blog", "social_media"]);
+  assert.deepEqual(result.personas, [
+    { id: "persona_a", name: "Persona A" },
+    { id: "persona_b", name: "Persona B" },
+    { id: "persona_c", name: "Persona C" }
+  ]);
 });
 
 test("Vercel Function entrypoint serves the health route", async () => {
@@ -63,6 +67,7 @@ test("specific direct mode composes a blog template with configuration overrides
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         postType: "blog",
+        persona: "persona_b",
         configuration: { body: { words: { min: 2500, max: 3500 } } }
       })
     });
@@ -72,10 +77,14 @@ test("specific direct mode composes a blog template with configuration overrides
     assert.equal(result.mode, "specific");
     assert.equal(result.delivery, "direct");
     assert.deepEqual(result.configuration.body.words, { min: 2500, max: 3500 });
+    assert.equal(result.persona.id, "persona_b");
+    assert.match(result.persona.writing_style, /Cheerful/);
     assert.equal(result.guidance.source, "README.md#agent-operating-view");
     assert.equal(result.packageVersion, "1.0");
     assert.equal(result.template.id, "blog-post-template");
     assert.match(result.template.markdown, /type: "Blog Post Template"/);
+    assert.match(result.template.markdown, /persona_config: "config\/personas.json"/);
+    assert.match(result.template.markdown, /writing_style: "Cheerful, conversational/);
     assert.match(result.template.markdown, /resolved_structure:/);
   });
 });
@@ -89,6 +98,7 @@ test("recommendation mode returns the researched fixed blog template package", a
     assert.equal(result.mode, "recommended");
     assert.equal(result.delivery, "direct");
     assert.equal(result.postType, "blog");
+    assert.equal(result.persona.id, "persona_a");
     assert.equal(result.fixedRecommendations.recommendations.body.words, 1800);
     assert.deepEqual(result.configuration.title.words, { min: 8, max: 8 });
     assert.match(result.guidance.markdown, /Required inputs/);
@@ -106,6 +116,19 @@ test("recommendation mode returns the researched fixed blog template package", a
     assert.equal((result.template.markdown.match(/SOURCE_CITATION_/g) ?? []).length, 5);
     assert.equal((result.template.markdown.match(/EXPERT_QUOTE_01/g) ?? []).length, 1);
     assert.equal((result.template.markdown.match(/FAQ_QUESTION_/g) ?? []).length, 3);
+  });
+});
+
+test("template requests reject an unknown persona", async () => {
+  await withApi(async (baseUrl) => {
+    const response = await fetch(`${baseUrl}/v1/templates/specific`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postType: "blog", persona: "persona_unknown" })
+    });
+
+    assert.equal(response.status, 422);
+    assert.match((await response.json()).error, /persona_a, persona_b, persona_c/);
   });
 });
 
@@ -153,7 +176,7 @@ test("guided session asks each configuration question and returns a social templ
     assert.equal(result.mode, "specific");
     assert.equal(result.delivery, "guided");
 
-    const answers = ["social_media", "default", "default", "default", "default", "default", "default"];
+    const answers = ["social_media", "persona_c", "default", "default", "default", "default", "default", "default"];
     for (const value of answers) {
       response = await fetch(`${baseUrl}/v1/templates/specific/guided/answers`, {
         method: "POST",
@@ -168,6 +191,7 @@ test("guided session asks each configuration question and returns a social templ
     assert.equal(result.mode, "specific");
     assert.equal(result.delivery, "guided");
     assert.equal(result.postType, "social_media");
+    assert.equal(result.persona.id, "persona_c");
     assert.equal(result.template.id, "social-media-post-template");
     assert.match(result.template.markdown, /type: "Social Media Post"/);
   }, { sessionSecret: SESSION_SECRET });
@@ -186,7 +210,12 @@ test("guided session tokens work across separate handler instances", async () =>
   const answer = await answerResponse.json();
 
   assert.equal(answerResponse.status, 200);
-  assert.equal(answer.question.id, "body.words");
+  assert.equal(answer.question.id, "persona");
+  assert.deepEqual(answer.question.choices, [
+    { id: "persona_a", name: "Persona A" },
+    { id: "persona_b", name: "Persona B" },
+    { id: "persona_c", name: "Persona C" }
+  ]);
   assert.equal(typeof answer.sessionToken, "string");
 });
 

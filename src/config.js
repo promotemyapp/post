@@ -5,6 +5,8 @@ const CONFIG_URL = new URL("../config/post-dynamic-ranges.json", import.meta.url
 const CONFIG_PATH = fileURLToPath(CONFIG_URL);
 const FIXED_RECOMMENDATIONS_URL = new URL("../config/blog-post-fixed-recommendations.json", import.meta.url);
 const FIXED_RECOMMENDATIONS_PATH = fileURLToPath(FIXED_RECOMMENDATIONS_URL);
+const PERSONAS_URL = new URL("../config/personas.json", import.meta.url);
+const PERSONAS_PATH = fileURLToPath(PERSONAS_URL);
 const RANGE_PATHS = [
   ["title", "words"],
   ["subtitles", "count"],
@@ -27,6 +29,27 @@ export function loadStructureConfig() {
 
 export function loadFixedBlogRecommendations() {
   return JSON.parse(readFileSync(FIXED_RECOMMENDATIONS_PATH, "utf8"));
+}
+
+export function loadPersonaConfig() {
+  return JSON.parse(readFileSync(PERSONAS_PATH, "utf8"));
+}
+
+export function resolvePersona(personaId) {
+  const config = loadPersonaConfig();
+  const resolvedId = personaId ?? config.default_persona;
+  const persona = config.personas?.[resolvedId];
+
+  if (!persona) {
+    throw new ConfigurationError(`persona must be one of: ${Object.keys(config.personas).join(", ")}.`);
+  }
+
+  return structuredClone(persona);
+}
+
+export function getPersonaChoices() {
+  const config = loadPersonaConfig();
+  return Object.values(config.personas).map(({ id, name }) => ({ id, name }));
 }
 
 export function fixedRecommendationsToConfiguration(recommendations) {

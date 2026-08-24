@@ -2,10 +2,12 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import {
   ConfigurationError,
   fixedRecommendationsToConfiguration,
+  getPersonaChoices,
   getProfile,
   loadFixedBlogRecommendations,
   loadStructureConfig,
   normalizePostType,
+  resolvePersona,
   resolveConfiguration,
   setRange,
   validateConfiguration
@@ -26,6 +28,11 @@ const QUESTIONS = [
     prompt: "What kind of post do you need?",
     type: "choice",
     choices: ["blog", "social_media"]
+  },
+  {
+    id: "persona",
+    prompt: "Which writing persona should the post use?",
+    type: "choice"
   },
   {
     id: "body.words",
@@ -102,13 +109,18 @@ export function createApiHandler({
           profiles: config.profiles
         });
       }
+      if (request.method === "GET" && path === "/v1/personas") {
+        return jsonResponse(200, { personas: getPersonaChoices() });
+      }
       if (request.method === "POST" && path === "/v1/templates/recommended") {
+        const body = await readJson(request);
         const recommendations = loadFixedBlogRecommendations();
         return jsonResponse(200, templateResponse({
           mode: "recommended",
           delivery: "direct",
           postType: "blog",
           configuration: fixedRecommendationsToConfiguration(recommendations),
+          persona: resolvePersona(body.persona),
           fixedRecommendations: recommendations
         }));
       }
@@ -120,14 +132,21 @@ export function createApiHandler({
           mode: "specific",
           delivery: "direct",
           postType,
-          configuration
+          configuration,
+          persona: resolvePersona(body.persona)
         }));
       }
       if (request.method === "POST" && path === "/v1/templates") {
         const body = await readJson(request);
         const postType = normalizePostType(body.postType);
         const configuration = resolveConfiguration(postType, body.configuration ?? {});
-        return jsonResponse(200, templateResponse({ mode: "specific", delivery: "direct", postType, configuration }));
+        return jsonResponse(200, templateResponse({
+          mode: "specific",
+          delivery: "direct",
+          postType,
+          configuration,
+          persona: resolvePersona(body.persona)
+        }));
       }
       if (request.method === "POST" && (path === "/v1/sessions" || path === "/v1/templates/specific/guided")) {
         if (!sessionCodec) {
@@ -150,7 +169,8 @@ export function createApiHandler({
               mode: "specific",
               delivery: "guided",
               postType: result.postType,
-              configuration: result.configuration
+              configuration: result.configuration,
+              persona: resolvePersona(result.persona)
             })
           });
         }
@@ -170,6 +190,7 @@ function createSession(now, sessionTtlMs) {
     version: 1,
     questionIndex: 0,
     postType: null,
+    persona: null,
     configuration: null,
     expiresAt: now() + sessionTtlMs
   };
@@ -182,6 +203,8 @@ function answerSession(session, value) {
   if (question.id === "postType") {
     session.postType = normalizePostType(value);
     session.configuration = getProfile(session.postType);
+  } else if (question.id === "persona") {
+    session.persona = resolvePersona(value).id;
   } else if (value !== "default") {
     setRange(session.configuration, question.path, value);
   }
@@ -201,6 +224,7 @@ function sessionQuestion(session, sessionCodec) {
   };
 
   if (question.choices) response.question.choices = question.choices;
+  if (question.id === "persona") response.question.choices = getPersonaChoices();
   if (question.path && session.configuration) {
     response.question.default = question.path.reduce((current, key) => current[key], session.configuration);
     response.question.accepts = "{ min: integer, max: integer } or 'default'";
@@ -244,6 +268,7 @@ function createSessionCodec(secret) {
         session.postType = normalizePostType(session.postType);
         validateConfiguration(session.configuration);
       }
+      if (session.questionIndex > 1) session.persona = resolvePersona(session.persona).id;
 
       return session;
     }
@@ -265,9 +290,9 @@ function normalizeFunctionPath(path) {
   return path.startsWith("/api/") ? path.slice(4) : path;
 }
 
-function templateResponse({ mode, delivery, postType, configuration, fixedRecommendations }) {
+function templateResponse({ mode, delivery, postType, configuration, persona, fixedRecommendations }) {
   const recommendationMode = mode === "recommended";
-  const templates = composeTemplate(postType, configuration, recommendationMode
+  const templates = composeTemplate(postType, configuration, persona, recommendationMode
     ? {
         configurationField: "fixed_recommendations_config",
         configurationReference: "config/blog-post-fixed-recommendations.json"
@@ -280,6 +305,7 @@ function templateResponse({ mode, delivery, postType, configuration, fixedRecomm
     delivery,
     postType,
     configuration,
+    persona,
     ...(fixedRecommendations ? { fixedRecommendations } : {}),
     guidance: loadAgentGuidance(),
     ...(postType === "blog" ? { keywordResearch: loadKeywordResearchGuidance() } : {}),
@@ -299,6 +325,7 @@ function apiDiscovery() {
     endpoints: [
       { method: "GET", path: "/health", description: "Service health check" },
       { method: "GET", path: "/v1/post-types", description: "Available post types and profiles" },
+      { method: "GET", path: "/v1/personas", description: "Available writing personas" },
       { method: "POST", path: "/v1/templates/recommended", description: "Return the researched blog template baseline" },
       { method: "POST", path: "/v1/templates/specific", description: "Compose a template from supplied settings" },
       { method: "POST", path: "/v1/templates/specific/guided", description: "Start guided specific configuration" },

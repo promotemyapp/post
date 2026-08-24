@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4 — 2026-08-24
+
+- Add reusable Persona A, Persona B, and Persona C writing-style configurations to every template response.
+- Support default and selected personas in recommendation mode, direct specific mode, and guided specific mode.
+
 ## 0.2.3 — 2026-08-23
 
 - Route public multi-segment API requests to the Vercel catch-all function.

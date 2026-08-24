@@ -5,6 +5,7 @@ template_version: "2.1"
 status: "active"
 scope: "blog_only"
 fixed_recommendations_config: "config/blog-post-fixed-recommendations.json"
+persona_config: "config/personas.json"
 required_inputs:
   topic: "{{TOPIC}}"
   primary_question: "{{PRIMARY_READER_QUESTION}}"

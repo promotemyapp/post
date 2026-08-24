@@ -5,6 +5,7 @@ template_version: "1.4"
 status: "deferred"
 deferred_reason: "The active template direction is blog-first. Retained for compatibility while social media is designed independently."
 dynamic_ranges_config: "config/post-dynamic-ranges.json"
+persona_config: "config/personas.json"
 structure_profile: "{{blog|social_media}}"
 title: "{{POST_TITLE}}"
 tags:

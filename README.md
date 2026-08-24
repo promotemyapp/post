@@ -70,8 +70,21 @@ flowchart LR
 
 1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
 2. The blog fixed-recommendations profile defines one baseline for title length, subtitle count and length, body length, body-section count, and tag count.
-3. The canonical specification supplies source-grounded drafting and review guidance.
-4. A consuming AI agent receives these as one agent-ready package, creates the actual draft in its own project, and can validate that draft against the blog profile.
+3. The persona configuration selects the writing style for the post independently from its structure.
+4. The canonical specification supplies source-grounded drafting and review guidance.
+5. A consuming AI agent receives these as one agent-ready package, creates the actual draft in its own project, and can validate that draft against the blog profile.
+
+### Persona configuration
+
+`config/personas.json` is the shared writing-style layer for every current and future template. The API resolves the selected persona into both the response and the returned Markdown frontmatter, so the receiving agent has an explicit writing-style instruction alongside the post structure.
+
+| Persona | Writing style |
+|---|---|
+| Persona A (`persona_a`) | Clear, confident, helpful professional writing in plain language. |
+| Persona B (`persona_b`) | Cheerful, conversational, energetic, approachable writing. |
+| Persona C (`persona_c`) | Direct, practical office-professional writing for decisions and next steps. |
+
+Persona A is the default. A caller can select another persona by sending its ID as the top-level `persona` field in a template request. The persona configuration can grow with additional voice, audience, vocabulary, or formatting definitions while the template interface remains stable.
 
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
