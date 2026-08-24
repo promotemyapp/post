@@ -30,6 +30,7 @@ test("root route returns an interactive browser API testing console", async () =
     assert.match(page, /Run API request/);
     assert.match(page, /Response overview/);
     assert.match(page, /addSummary\("Persona", result\.persona \? result\.persona\.name : "—", result\.persona \? result\.persona\.writing_style : ""\)/);
+    assert.match(page, /addSummary\("Author", result\.author \? result\.author\.name : "—", result\.author \? "Post byline and attribution record\." : ""\)/);
     assert.doesNotMatch(page, /addPersonaEffect/);
     assert.match(page, /<details><summary>Agent guidance<\/summary>/);
     assert.doesNotMatch(page, /<details open><summary>Agent guidance/);

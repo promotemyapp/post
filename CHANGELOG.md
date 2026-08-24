@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.10 — 2026-08-24
+
+- Add the selected author's byline and attribution purpose inside the Author overview card.
+
 ## 0.2.9 — 2026-08-24
 
 - Merge each selected persona's writing-style explanation into its overview card.

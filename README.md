@@ -100,7 +100,7 @@ John is the default. A caller selects an author by sending its ID as the top-lev
 
 ### Browser testing console
 
-Open the API root URL in a browser to use the built-in testing console. It loads the available personas and authors, runs recommendation or specific-mode requests directly from the page, and presents the returned package in an overview that includes the selected persona's writing-style effect, plus expandable guidance, keyword-research, Markdown-template, and raw-JSON sections.
+Open the API root URL in a browser to use the built-in testing console. It loads the available personas and authors, runs recommendation or specific-mode requests directly from the page, and presents the returned package in an overview that includes the selected persona's writing style and the selected author's byline and attribution purpose, plus expandable guidance, keyword-research, Markdown-template, and raw-JSON sections.
 
 ```mermaid
 flowchart LR
