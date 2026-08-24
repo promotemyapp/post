@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.16 — 2026-08-24
+
+- Replace Sophie’s mock portrait with a distinct short textured curly-bob hairstyle.
+
 ## 0.2.15 — 2026-08-24
 
 - Add Sophie Redwood, a 25-year-old ginger example author.
