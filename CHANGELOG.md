@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.9 — 2026-08-24
+
+- Merge each selected persona's writing-style explanation into its overview card.
+- Start the Agent guidance section collapsed in the browser testing console.
+
 ## 0.2.8 — 2026-08-24
 
 - Hide the empty response placeholder after an API response is displayed in the browser testing console.

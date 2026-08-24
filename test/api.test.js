@@ -29,7 +29,10 @@ test("root route returns an interactive browser API testing console", async () =
     assert.match(page, /id="test-form"/);
     assert.match(page, /Run API request/);
     assert.match(page, /Response overview/);
-    assert.match(page, /How this persona shapes the post/);
+    assert.match(page, /addSummary\("Persona", result\.persona \? result\.persona\.name : "—", result\.persona \? result\.persona\.writing_style : ""\)/);
+    assert.doesNotMatch(page, /addPersonaEffect/);
+    assert.match(page, /<details><summary>Agent guidance<\/summary>/);
+    assert.doesNotMatch(page, /<details open><summary>Agent guidance/);
     assert.match(page, /Keyword-research workflow/);
     assert.match(page, /\.empty\[hidden\] \{ display: none; \}/);
   });

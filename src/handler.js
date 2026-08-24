@@ -427,8 +427,7 @@ function renderDiscoveryPage() {
       .summary-card { border: 1px solid #dce4f2; border-radius: 12px; background: #f9fbff; padding: 13px; }
       .summary-card span { display: block; color: #63718a; font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
       .summary-card strong { display: block; margin-top: 4px; font-size: .96rem; line-height: 1.35; }
-      .summary-card.persona-effect { grid-column: 1 / -1; border-color: #bac9f4; background: #f1f5ff; }
-      .summary-card.persona-effect p { color: #31415d; font-size: .93rem; }
+      .summary-card p { margin-top: 7px; color: #31415d; font-size: .88rem; line-height: 1.45; }
       details { border-top: 1px solid #e2e8f2; padding: 14px 0; }
       summary { cursor: pointer; color: #22334e; font-weight: 800; }
       pre { overflow: auto; margin: 12px 0 0; padding: 14px; border-radius: 10px; color: #dce7fa; background: #15213a; font: .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
@@ -495,7 +494,7 @@ function renderDiscoveryPage() {
             <p class="status" id="status"></p>
             <h2>Response overview</h2>
             <div class="summary" id="summary"></div>
-            <details open><summary>Agent guidance</summary><pre id="guidance"></pre></details>
+            <details><summary>Agent guidance</summary><pre id="guidance"></pre></details>
             <details><summary>Keyword-research workflow</summary><pre id="keyword-research"></pre></details>
             <details><summary>Markdown template</summary><pre id="template"></pre></details>
             <details><summary>Raw JSON response</summary><pre id="raw-response"></pre></details>
@@ -539,7 +538,7 @@ function renderDiscoveryPage() {
           : "Returns the fixed, research-informed blog recommendations.";
       }
 
-      function addSummary(label, value) {
+      function addSummary(label, value, description) {
         const card = document.createElement("div");
         card.className = "summary-card";
         const caption = document.createElement("span");
@@ -547,21 +546,11 @@ function renderDiscoveryPage() {
         const detail = document.createElement("strong");
         detail.textContent = value;
         card.append(caption, detail);
-        summary.append(card);
-      }
-
-      function addPersonaEffect(selectedPersona) {
-        const card = document.createElement("div");
-        card.className = "summary-card persona-effect";
-        const caption = document.createElement("span");
-        caption.textContent = "How this persona shapes the post";
-        const name = document.createElement("strong");
-        name.textContent = selectedPersona ? selectedPersona.name : "No persona selected";
-        const effect = document.createElement("p");
-        effect.textContent = selectedPersona
-          ? selectedPersona.writing_style
-          : "The response did not include a writing-style instruction.";
-        card.append(caption, name, effect);
+        if (description) {
+          const explanation = document.createElement("p");
+          explanation.textContent = description;
+          card.append(explanation);
+        }
         summary.append(card);
       }
 
@@ -572,12 +561,11 @@ function renderDiscoveryPage() {
         status.textContent = "Success · " + elapsed + " ms · " + result.mode + " mode";
         summary.replaceChildren();
         addSummary("Post type", result.postType || "—");
-        addSummary("Persona", result.persona ? result.persona.name : "—");
+        addSummary("Persona", result.persona ? result.persona.name : "—", result.persona ? result.persona.writing_style : "");
         addSummary("Author", result.author ? result.author.name : "—");
         addSummary("Body target", result.configuration && result.configuration.body ? result.configuration.body.words.min + " words" : "—");
         addSummary("Sections", result.configuration && result.configuration.body ? String(result.configuration.body.sections.min) : "—");
         addSummary("Tags", result.configuration && result.configuration.tags ? String(result.configuration.tags.count.min) : "—");
-        addPersonaEffect(result.persona);
         document.getElementById("guidance").textContent = result.guidance ? result.guidance.markdown : "No guidance included.";
         document.getElementById("keyword-research").textContent = result.keywordResearch ? result.keywordResearch.markdown : "This template type does not include keyword-research guidance.";
         document.getElementById("template").textContent = result.template ? result.template.markdown : "No Markdown template included.";
