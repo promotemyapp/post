@@ -95,8 +95,10 @@ Persona A is the default. A caller can select another persona by sending its ID 
 | John | `john` | John Carter | 34 | Product Marketing Manager | `assets/authors/john-carter.png` |
 | Melissa | `melissa` | Melissa Hart | 29 | SaaS Content Strategist | `assets/authors/melissa-hart.png` |
 | Radovan | `radovan` | Radovan Novak | 41 | Product Growth Consultant | `assets/authors/radovan-novak.png` |
+| Sophie | `sophie` | Sophie Redwood | 25 | Content Marketing Specialist | `assets/authors/sophie-redwood.png` |
+| Thomas | `thomas` | Thomas Hawthorne | 51 | B2B Product Consultant | `assets/authors/thomas-hawthorne.png` |
 
-John is the default. A caller selects an author by sending its ID as the top-level `author` field in a template request. This configuration can later hold additional author information while the current interface remains stable.
+John is the default. A caller selects an author by sending its ID as the top-level `author` field in a template request. Sophie and Thomas are additional example selections.
 
 ### Browser testing console
 

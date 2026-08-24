@@ -111,7 +111,7 @@ Retrieve the available persona IDs and names with `GET /v1/personas`. The shared
 
 ## Authors
 
-Retrieve the available author IDs and profile details with `GET /v1/authors`. The shared `config/authors.json` file provides the selected author record to every template type, including full name, age, job title, photo, and `template_instructions`. John (`john`) is the default author, and Melissa (`melissa`) and Radovan (`radovan`) are available selections.
+Retrieve the available author IDs and profile details with `GET /v1/authors`. The shared `config/authors.json` file provides the selected author record to every template type, including full name, age, job title, photo, and `template_instructions`. John (`john`) is the default author; Melissa (`melissa`), Radovan (`radovan`), Sophie (`sophie`), and Thomas (`thomas`) are available selections.
 
 Guided sessions are signed, short-lived tokens rather than server memory. This keeps the flow valid across separate local processes or Vercel Function invocations. Keep `SESSION_SECRET` private and use the same value for each deployed environment.
 

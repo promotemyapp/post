@@ -62,6 +62,46 @@
           "include_job_title": false
         }
       }
+    },
+    "sophie": {
+      "id": "sophie",
+      "name": "Sophie",
+      "full_name": "Sophie Redwood",
+      "age": 25,
+      "job_title": "Content Marketing Specialist",
+      "photo": {
+        "url": "/assets/authors/sophie-redwood.png",
+        "alt": "Mock portrait of Sophie Redwood"
+      },
+      "template_instructions": {
+        "generation_context": ["full_name", "age", "job_title"],
+        "published_display": {
+          "name": "Sophie",
+          "photo": "/assets/authors/sophie-redwood.png",
+          "include_age": false,
+          "include_job_title": false
+        }
+      }
+    },
+    "thomas": {
+      "id": "thomas",
+      "name": "Thomas",
+      "full_name": "Thomas Hawthorne",
+      "age": 51,
+      "job_title": "B2B Product Consultant",
+      "photo": {
+        "url": "/assets/authors/thomas-hawthorne.png",
+        "alt": "Mock portrait of Thomas Hawthorne"
+      },
+      "template_instructions": {
+        "generation_context": ["full_name", "age", "job_title"],
+        "published_display": {
+          "name": "Thomas",
+          "photo": "/assets/authors/thomas-hawthorne.png",
+          "include_age": false,
+          "include_job_title": false
+        }
+      }
     }
   }
 }

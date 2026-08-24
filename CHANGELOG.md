@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.15 — 2026-08-24
+
+- Add Sophie Redwood, a 25-year-old ginger example author.
+- Add Thomas Hawthorne, a 51-year-old English-looking example author.
+- Add mock portraits and template instructions for both new authors.
+
 ## 0.2.14 — 2026-08-24
 
 - Serve configured author portraits from the local Bun server for consistent local and Vercel behavior.
