@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.7 — 2026-08-24
+
+- Show the selected persona's writing-style effect directly in the API testing console response overview.
+
 ## 0.2.6 — 2026-08-24
 
 - Replace the browser discovery page with an interactive API testing console for recommendation and specific template requests.

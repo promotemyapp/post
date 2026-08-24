@@ -29,6 +29,7 @@ test("root route returns an interactive browser API testing console", async () =
     assert.match(page, /id="test-form"/);
     assert.match(page, /Run API request/);
     assert.match(page, /Response overview/);
+    assert.match(page, /How this persona shapes the post/);
     assert.match(page, /Keyword-research workflow/);
   });
 });
