@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.19 — 2026-08-24
+
+- Import persona `SOUL.md` files as bundled text assets so the Vercel runtime can resolve them reliably.
+
 ## 0.2.18 — 2026-08-24
 
 - Include persona `SOUL.md` files in the Vercel Function bundle so deployed API requests can resolve persona definitions.

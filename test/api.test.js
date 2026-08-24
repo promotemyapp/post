@@ -99,6 +99,23 @@ test("persona responses are resolved from canonical SOUL.md files", async () => 
   assert.match(result.persona.soul_markdown, /Use this persona for professional blog posts/);
 });
 
+test("all catalog personas have statically bundled soul sources", async () => {
+  const handler = createApiHandler();
+
+  for (const persona of ["persona_a", "persona_b", "persona_c"]) {
+    const response = await handler(new Request("https://example.vercel.app/v1/templates/recommended", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ persona })
+    }));
+    const result = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(result.persona.id, persona);
+    assert.ok(result.persona.soul_markdown.length > 0);
+  }
+});
+
 test("Vercel Function route prefix exposes authors through the same API handler", async () => {
   const handler = createApiHandler();
   const response = await handler(new Request("https://example.vercel.app/api/v1/authors"));

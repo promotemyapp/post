@@ -1,5 +1,8 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import personaASource from "../personas/persona-a/SOUL.md" with { type: "text" };
+import personaBSource from "../personas/persona-b/SOUL.md" with { type: "text" };
+import personaCSource from "../personas/persona-c/SOUL.md" with { type: "text" };
 
 const CONFIG_URL = new URL("../config/post-dynamic-ranges.json", import.meta.url);
 const CONFIG_PATH = fileURLToPath(CONFIG_URL);
@@ -7,9 +10,13 @@ const FIXED_RECOMMENDATIONS_URL = new URL("../config/blog-post-fixed-recommendat
 const FIXED_RECOMMENDATIONS_PATH = fileURLToPath(FIXED_RECOMMENDATIONS_URL);
 const PERSONAS_URL = new URL("../config/personas.json", import.meta.url);
 const PERSONAS_PATH = fileURLToPath(PERSONAS_URL);
-const PERSONAS_ROOT = new URL("../", import.meta.url);
 const AUTHORS_URL = new URL("../config/authors.json", import.meta.url);
 const AUTHORS_PATH = fileURLToPath(AUTHORS_URL);
+const SOUL_SOURCES = new Map([
+  ["personas/persona-a/SOUL.md", personaASource],
+  ["personas/persona-b/SOUL.md", personaBSource],
+  ["personas/persona-c/SOUL.md", personaCSource]
+]);
 const RANGE_PATHS = [
   ["title", "words"],
   ["subtitles", "count"],
@@ -60,8 +67,10 @@ function loadSoul(catalogEntry) {
     throw new ConfigurationError("Each persona catalog entry must define a soul_file.");
   }
 
-  const soulUrl = new URL(catalogEntry.soul_file, PERSONAS_ROOT);
-  const source = readFileSync(fileURLToPath(soulUrl), "utf8");
+  const source = SOUL_SOURCES.get(catalogEntry.soul_file);
+  if (!source) {
+    throw new ConfigurationError(`Persona soul '${catalogEntry.soul_file}' is not included in the persona source catalog.`);
+  }
   const match = source.match(/^---\n([\s\S]*?)\n---(?:\n([\s\S]*))?$/);
 
   if (!match) {
