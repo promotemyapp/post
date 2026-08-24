@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.17 — 2026-08-24
+
+- Move persona definitions into individual `personas/<name>/SOUL.md` files with YAML structure, numeric traits, priorities, principles, and guardrails.
+- Keep `config/personas.json` as the persona catalog and resolve complete soul definitions through the API.
+- Document the persona catalog and clarify that API responses contain persona, author, blog template, agent guidance, and keyword-research guidance.
+
 ## 0.2.16 — 2026-08-24
 
 - Replace Sophie’s mock portrait with a distinct short textured curly-bob hairstyle.

@@ -78,6 +78,20 @@ test("Vercel Function route prefix exposes personas through the same API handler
   ]);
 });
 
+test("persona responses are resolved from canonical SOUL.md files", async () => {
+  const handler = createApiHandler();
+  const response = await handler(new Request("https://example.vercel.app/v1/templates/recommended", { method: "POST" }));
+  const result = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(result.persona.soul_file, "personas/persona-a/SOUL.md");
+  assert.equal(result.persona.schema_version, "1.0");
+  assert.equal(result.persona.personality.traits.rigor, 0.85);
+  assert.equal(result.persona.principles[0].priority, 1);
+  assert.equal(result.persona.guardrails.hard[0].severity, "critical");
+  assert.match(result.persona.soul_markdown, /Use this persona for professional blog posts/);
+});
+
 test("Vercel Function route prefix exposes authors through the same API handler", async () => {
   const handler = createApiHandler();
   const response = await handler(new Request("https://example.vercel.app/api/v1/authors"));

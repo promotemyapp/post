@@ -7,6 +7,7 @@ const FIXED_RECOMMENDATIONS_URL = new URL("../config/blog-post-fixed-recommendat
 const FIXED_RECOMMENDATIONS_PATH = fileURLToPath(FIXED_RECOMMENDATIONS_URL);
 const PERSONAS_URL = new URL("../config/personas.json", import.meta.url);
 const PERSONAS_PATH = fileURLToPath(PERSONAS_URL);
+const PERSONAS_ROOT = new URL("../", import.meta.url);
 const AUTHORS_URL = new URL("../config/authors.json", import.meta.url);
 const AUTHORS_PATH = fileURLToPath(AUTHORS_URL);
 const RANGE_PATHS = [
@@ -40,18 +41,45 @@ export function loadPersonaConfig() {
 export function resolvePersona(personaId) {
   const config = loadPersonaConfig();
   const resolvedId = personaId ?? config.default_persona;
-  const persona = config.personas?.[resolvedId];
+  const catalogEntry = config.personas?.[resolvedId];
 
-  if (!persona) {
+  if (!catalogEntry) {
     throw new ConfigurationError(`persona must be one of: ${Object.keys(config.personas).join(", ")}.`);
   }
 
-  return structuredClone(persona);
+  return structuredClone(loadSoul(catalogEntry));
 }
 
 export function getPersonaChoices() {
   const config = loadPersonaConfig();
   return Object.values(config.personas).map(({ id, name }) => ({ id, name }));
+}
+
+function loadSoul(catalogEntry) {
+  if (!catalogEntry.soul_file) {
+    throw new ConfigurationError("Each persona catalog entry must define a soul_file.");
+  }
+
+  const soulUrl = new URL(catalogEntry.soul_file, PERSONAS_ROOT);
+  const source = readFileSync(fileURLToPath(soulUrl), "utf8");
+  const match = source.match(/^---\n([\s\S]*?)\n---(?:\n([\s\S]*))?$/);
+
+  if (!match) {
+    throw new ConfigurationError(`Persona soul '${catalogEntry.soul_file}' must contain YAML frontmatter.`);
+  }
+
+  const parsed = Bun.YAML.parse(match[1]);
+  if (!parsed?.metadata?.id || !parsed?.metadata?.name) {
+    throw new ConfigurationError(`Persona soul '${catalogEntry.soul_file}' must define metadata.id and metadata.name.`);
+  }
+
+  return {
+    ...parsed,
+    id: parsed.metadata.id,
+    name: parsed.metadata.name,
+    soul_file: catalogEntry.soul_file,
+    soul_markdown: (match[2] ?? "").trim()
+  };
 }
 
 export function loadAuthorConfig() {

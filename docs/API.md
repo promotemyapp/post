@@ -53,7 +53,7 @@ curl -X POST http://127.0.0.1:3000/v1/templates/recommended \
   -d '{"persona":"persona_b","author":"melissa"}'
 ```
 
-The response includes `packageVersion`, the fixed recommendations, an exact resolved configuration, one canonical `template.markdown` field, canonical agent guidance from `README.md#agent-operating-view`, and a dedicated `keywordResearch` field sourced from `README.md#keyword-research-workflow`. Together, these form the self-contained blog-creation guidance package.
+The response includes `packageVersion`, the fixed recommendations, an exact resolved configuration, the selected `persona`, the selected `author`, one canonical `template.markdown` field, canonical agent guidance from `README.md#agent-operating-view`, and a dedicated `keywordResearch` field sourced from `README.md#keyword-research-workflow`. Together, these form the self-contained blog-template guidance package for the requesting AI agent.
 
 | Response field | Agent use |
 |---|---|
@@ -61,7 +61,7 @@ The response includes `packageVersion`, the fixed recommendations, an exact reso
 | `guidance.markdown` | Apply the complete drafting, evidence, SEO, AI-search, and review workflow. |
 | `fixedRecommendations` and `configuration` | Use the recommended editorial targets for length, sections, tags, evidence, and FAQ coverage. |
 | `template.markdown` | Fill the complete keyword brief and article structure with topic-specific, verified content. |
-| `persona` | Apply the resolved writing style while drafting the post. |
+| `persona` | Apply the resolved `SOUL.md` definition, including voice, numeric traits, priorities, principles, and guardrails, while drafting the post. |
 | `author` | Apply the resolved author record to the post and its attribution metadata. |
 
 The agent performs this method using its own topic, product context, site data, and credible sources. The completed keyword brief is carried in the template YAML with the article inputs.
@@ -83,7 +83,7 @@ Send the post type and any complete or partial configuration override to `POST /
 }
 ```
 
-The API starts with the selected profile from `config/post-dynamic-ranges.json`, resolves the selected persona from `config/personas.json` and author from `config/authors.json`, applies the supplied overrides, validates every range, and returns the resolved dynamic ranges, writing style, author record, canonical agent guidance, and Markdown template with reusable placeholders for the requesting project’s creation workflow.
+The API starts with the selected profile from `config/post-dynamic-ranges.json`, resolves the selected persona from its catalog entry and canonical `personas/<name>/SOUL.md` file, resolves the author from `config/authors.json`, applies the supplied overrides, validates every range, and returns the resolved dynamic ranges, persona definition, author record, canonical agent guidance, keyword-research guidance, and Markdown template with reusable placeholders for the requesting project’s creation workflow.
 
 Supported post types are `blog` and `social_media` (`social` is accepted as an alias). Tags are fixed at exactly ten, so `tags.count` must be `{ "min": 10, "max": 10 }`.
 
@@ -107,7 +107,7 @@ The API asks, in order, for post type, persona, author, body length, title lengt
 
 ## Personas
 
-Retrieve the available persona IDs and names with `GET /v1/personas`. The shared `config/personas.json` file provides the selected persona’s current writing-style instruction to every template type. Persona A (`persona_a`) is clear and helpful professional writing, Persona B (`persona_b`) is cheerful and conversational, and Persona C (`persona_c`) is direct and practical office-professional writing.
+Retrieve the available persona IDs and names with `GET /v1/personas`. The shared `config/personas.json` file is the catalog; each selected entry points to a canonical `personas/<name>/SOUL.md` file. The API returns the parsed soul definition, including numeric traits and priorities, to every template type. Persona A (`persona_a`) is clear and helpful professional writing, Persona B (`persona_b`) is cheerful and conversational, and Persona C (`persona_c`) is direct and practical office-professional writing.
 
 ## Authors
 

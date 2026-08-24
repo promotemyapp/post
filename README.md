@@ -70,13 +70,13 @@ flowchart LR
 
 1. The blog template establishes the main title, ten tags, subtitles, and structured blog body.
 2. The blog fixed-recommendations profile defines one baseline for title length, subtitle count and length, body length, body-section count, and tag count.
-3. The persona configuration selects the writing style for the post independently from its structure.
+3. The selected persona's `SOUL.md` defines the writing style, numeric traits, priorities, principles, and guardrails independently from the post structure.
 4. The canonical specification supplies source-grounded drafting and review guidance.
 5. A consuming AI agent receives these as one agent-ready package, creates the actual draft in its own project, and can validate that draft against the blog profile.
 
 ### Persona configuration
 
-`config/personas.json` is the shared writing-style layer for every current and future template. The API resolves the selected persona into both the response and the returned Markdown frontmatter, so the receiving agent has an explicit writing-style instruction alongside the post structure.
+`config/personas.json` is the persona catalog and default selector. Each catalog entry points to a canonical persona folder containing `SOUL.md`. The API parses that soul file and returns the complete definition in both the response and the returned Markdown frontmatter, so the receiving agent has explicit writing-style instructions and numeric trait priorities alongside the post structure.
 
 | Persona | Writing style |
 |---|---|
@@ -84,7 +84,15 @@ flowchart LR
 | Persona B (`persona_b`) | Cheerful, conversational, energetic, approachable writing. |
 | Persona C (`persona_c`) | Direct, practical office-professional writing for decisions and next steps. |
 
-Persona A is the default. A caller can select another persona by sending its ID as the top-level `persona` field in a template request. The persona configuration can grow with additional voice, audience, vocabulary, or formatting definitions while the template interface remains stable.
+Persona A is the default. A caller can select another persona by sending its ID as the top-level `persona` field in a template request. Numeric trait and priority values use a normalized `0.0`–`1.0` scale. The persona folders can grow with additional voice, audience, vocabulary, formatting, and content-behavior definitions while the template interface remains stable.
+
+```text
+config/personas.json             catalog and default persona
+personas/
+├── persona-a/SOUL.md            Persona A definition
+├── persona-b/SOUL.md            Persona B definition
+└── persona-c/SOUL.md            Persona C definition
+```
 
 ### Author configuration
 
@@ -307,6 +315,7 @@ flowchart LR
 post/
 ├── config/       fixed recommendations and future dynamic ranges
 ├── templates/    shared core and channel extensions
+├── personas/     canonical persona folders with SOUL.md definitions
 ├── posts/        completed OKF post concepts
 ├── AGENTS/       agent instructions
 └── SPEC.md       OKF v0.2 specification
@@ -314,6 +323,7 @@ post/
 
 - `SPEC.md` — local copy of the Open Knowledge Format v0.2 specification.
 - `config/` — fixed blog recommendations and preserved future dynamic ranges.
+- `personas/` — canonical persona definitions. Each persona has its own folder and `SOUL.md` file with YAML frontmatter plus human-readable application guidance.
 - `templates/` — active blog template direction, deferred material, and consumption guidance.
 - `posts/` — reserved for completed post concepts.
 - `AGENTS/` — instructions for agents researching, drafting, and reviewing posts.
