@@ -6,6 +6,7 @@ status: "active"
 scope: "blog_only"
 fixed_recommendations_config: "config/blog-post-fixed-recommendations.json"
 persona_config: "config/personas.json"
+author_config: "config/authors.json"
 required_inputs:
   topic: "{{TOPIC}}"
   primary_question: "{{PRIMARY_READER_QUESTION}}"
@@ -13,7 +14,6 @@ required_inputs:
   intended_outcome: "{{INTENDED_READER_OUTCOME}}"
   product_context: "{{PRODUCT_OR_SITE_CONTEXT}}"
   source_material: "{{PRIMARY_SOURCES_OR_FIRST_HAND_EVIDENCE}}"
-  author: "{{AUTHOR_NAME}}"
   factual_reviewer: "{{FACTUAL_REVIEWER}}"
   keyword_research:
     primary_query: "{{PRIMARY_QUERY}}"

@@ -2,11 +2,13 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import {
   ConfigurationError,
   fixedRecommendationsToConfiguration,
+  getAuthorChoices,
   getPersonaChoices,
   getProfile,
   loadFixedBlogRecommendations,
   loadStructureConfig,
   normalizePostType,
+  resolveAuthor,
   resolvePersona,
   resolveConfiguration,
   setRange,
@@ -32,6 +34,11 @@ const QUESTIONS = [
   {
     id: "persona",
     prompt: "Which writing persona should the post use?",
+    type: "choice"
+  },
+  {
+    id: "author",
+    prompt: "Which author should the post use?",
     type: "choice"
   },
   {
@@ -112,6 +119,9 @@ export function createApiHandler({
       if (request.method === "GET" && path === "/v1/personas") {
         return jsonResponse(200, { personas: getPersonaChoices() });
       }
+      if (request.method === "GET" && path === "/v1/authors") {
+        return jsonResponse(200, { authors: getAuthorChoices() });
+      }
       if (request.method === "POST" && path === "/v1/templates/recommended") {
         const body = await readJson(request);
         const recommendations = loadFixedBlogRecommendations();
@@ -121,6 +131,7 @@ export function createApiHandler({
           postType: "blog",
           configuration: fixedRecommendationsToConfiguration(recommendations),
           persona: resolvePersona(body.persona),
+          author: resolveAuthor(body.author),
           fixedRecommendations: recommendations
         }));
       }
@@ -133,7 +144,8 @@ export function createApiHandler({
           delivery: "direct",
           postType,
           configuration,
-          persona: resolvePersona(body.persona)
+          persona: resolvePersona(body.persona),
+          author: resolveAuthor(body.author)
         }));
       }
       if (request.method === "POST" && path === "/v1/templates") {
@@ -145,7 +157,8 @@ export function createApiHandler({
           delivery: "direct",
           postType,
           configuration,
-          persona: resolvePersona(body.persona)
+          persona: resolvePersona(body.persona),
+          author: resolveAuthor(body.author)
         }));
       }
       if (request.method === "POST" && (path === "/v1/sessions" || path === "/v1/templates/specific/guided")) {
@@ -170,7 +183,8 @@ export function createApiHandler({
               delivery: "guided",
               postType: result.postType,
               configuration: result.configuration,
-              persona: resolvePersona(result.persona)
+              persona: resolvePersona(result.persona),
+              author: resolveAuthor(result.author)
             })
           });
         }
@@ -191,6 +205,7 @@ function createSession(now, sessionTtlMs) {
     questionIndex: 0,
     postType: null,
     persona: null,
+    author: null,
     configuration: null,
     expiresAt: now() + sessionTtlMs
   };
@@ -205,6 +220,8 @@ function answerSession(session, value) {
     session.configuration = getProfile(session.postType);
   } else if (question.id === "persona") {
     session.persona = resolvePersona(value).id;
+  } else if (question.id === "author") {
+    session.author = resolveAuthor(value).id;
   } else if (value !== "default") {
     setRange(session.configuration, question.path, value);
   }
@@ -225,6 +242,7 @@ function sessionQuestion(session, sessionCodec) {
 
   if (question.choices) response.question.choices = question.choices;
   if (question.id === "persona") response.question.choices = getPersonaChoices();
+  if (question.id === "author") response.question.choices = getAuthorChoices();
   if (question.path && session.configuration) {
     response.question.default = question.path.reduce((current, key) => current[key], session.configuration);
     response.question.accepts = "{ min: integer, max: integer } or 'default'";
@@ -269,6 +287,7 @@ function createSessionCodec(secret) {
         validateConfiguration(session.configuration);
       }
       if (session.questionIndex > 1) session.persona = resolvePersona(session.persona).id;
+      if (session.questionIndex > 2) session.author = resolveAuthor(session.author).id;
 
       return session;
     }
@@ -290,9 +309,9 @@ function normalizeFunctionPath(path) {
   return path.startsWith("/api/") ? path.slice(4) : path;
 }
 
-function templateResponse({ mode, delivery, postType, configuration, persona, fixedRecommendations }) {
+function templateResponse({ mode, delivery, postType, configuration, persona, author, fixedRecommendations }) {
   const recommendationMode = mode === "recommended";
-  const templates = composeTemplate(postType, configuration, persona, recommendationMode
+  const templates = composeTemplate(postType, configuration, persona, author, recommendationMode
     ? {
         configurationField: "fixed_recommendations_config",
         configurationReference: "config/blog-post-fixed-recommendations.json"
@@ -306,6 +325,7 @@ function templateResponse({ mode, delivery, postType, configuration, persona, fi
     postType,
     configuration,
     persona,
+    author,
     ...(fixedRecommendations ? { fixedRecommendations } : {}),
     guidance: loadAgentGuidance(),
     ...(postType === "blog" ? { keywordResearch: loadKeywordResearchGuidance() } : {}),
@@ -326,6 +346,7 @@ function apiDiscovery() {
       { method: "GET", path: "/health", description: "Service health check" },
       { method: "GET", path: "/v1/post-types", description: "Available post types and profiles" },
       { method: "GET", path: "/v1/personas", description: "Available writing personas" },
+      { method: "GET", path: "/v1/authors", description: "Available authors" },
       { method: "POST", path: "/v1/templates/recommended", description: "Return the researched blog template baseline" },
       { method: "POST", path: "/v1/templates/specific", description: "Compose a template from supplied settings" },
       { method: "POST", path: "/v1/templates/specific/guided", description: "Start guided specific configuration" },

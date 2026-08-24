@@ -86,6 +86,18 @@ flowchart LR
 
 Persona A is the default. A caller can select another persona by sending its ID as the top-level `persona` field in a template request. The persona configuration can grow with additional voice, audience, vocabulary, or formatting definitions while the template interface remains stable.
 
+### Author configuration
+
+`config/authors.json` is the shared author layer for every current and future template. The API resolves the selected author into both the response and the returned Markdown frontmatter, providing an explicit attribution record beside the selected persona and post structure.
+
+| Author | API ID |
+|---|---|
+| John | `john` |
+| Melissa | `melissa` |
+| Radovan | `radovan` |
+
+John is the default. A caller selects an author by sending its ID as the top-level `author` field in a template request. This configuration can later hold additional author information while the current interface remains stable.
+
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
 ## Canonical blog SEO and AI-search specification

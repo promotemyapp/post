@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "description": "Reusable author configurations for post templates.",
+  "default_author": "john",
+  "authors": {
+    "john": {
+      "id": "john",
+      "name": "John"
+    },
+    "melissa": {
+      "id": "melissa",
+      "name": "Melissa"
+    },
+    "radovan": {
+      "id": "radovan",
+      "name": "Radovan"
+    }
+  }
+}

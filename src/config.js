@@ -7,6 +7,8 @@ const FIXED_RECOMMENDATIONS_URL = new URL("../config/blog-post-fixed-recommendat
 const FIXED_RECOMMENDATIONS_PATH = fileURLToPath(FIXED_RECOMMENDATIONS_URL);
 const PERSONAS_URL = new URL("../config/personas.json", import.meta.url);
 const PERSONAS_PATH = fileURLToPath(PERSONAS_URL);
+const AUTHORS_URL = new URL("../config/authors.json", import.meta.url);
+const AUTHORS_PATH = fileURLToPath(AUTHORS_URL);
 const RANGE_PATHS = [
   ["title", "words"],
   ["subtitles", "count"],
@@ -50,6 +52,27 @@ export function resolvePersona(personaId) {
 export function getPersonaChoices() {
   const config = loadPersonaConfig();
   return Object.values(config.personas).map(({ id, name }) => ({ id, name }));
+}
+
+export function loadAuthorConfig() {
+  return JSON.parse(readFileSync(AUTHORS_PATH, "utf8"));
+}
+
+export function resolveAuthor(authorId) {
+  const config = loadAuthorConfig();
+  const resolvedId = authorId ?? config.default_author;
+  const author = config.authors?.[resolvedId];
+
+  if (!author) {
+    throw new ConfigurationError(`author must be one of: ${Object.keys(config.authors).join(", ")}.`);
+  }
+
+  return structuredClone(author);
+}
+
+export function getAuthorChoices() {
+  const config = loadAuthorConfig();
+  return Object.values(config.authors).map(({ id, name }) => ({ id, name }));
 }
 
 export function fixedRecommendationsToConfiguration(recommendations) {
