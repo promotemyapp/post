@@ -18,15 +18,18 @@ async function withApi(run, options = {}) {
   }
 }
 
-test("root route returns a browser-friendly API discovery page", async () => {
+test("root route returns an interactive browser API testing console", async () => {
   await withApi(async (baseUrl) => {
     const response = await fetch(baseUrl, { headers: { Accept: "text/html" } });
     const page = await response.text();
 
     assert.equal(response.status, 200);
     assert.match(response.headers.get("content-type"), /text\/html/);
-    assert.match(page, /Reusable Marketing Post Templates API/);
-    assert.match(page, /\/v1\/templates/);
+    assert.match(page, /API testing console/);
+    assert.match(page, /id="test-form"/);
+    assert.match(page, /Run API request/);
+    assert.match(page, /Response overview/);
+    assert.match(page, /Keyword-research workflow/);
   });
 });
 

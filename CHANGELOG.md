@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.6 — 2026-08-24
+
+- Replace the browser discovery page with an interactive API testing console for recommendation and specific template requests.
+- Present returned template packages as a readable overview with expandable guidance, research, template, and raw-response sections.
+
 ## 0.2.5 — 2026-08-24
 
 - Add reusable John, Melissa, and Radovan author configurations to every template response.

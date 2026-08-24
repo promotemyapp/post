@@ -29,7 +29,7 @@ The API listens on `http://127.0.0.1:3000` by default. Set `PORT` to use a diffe
 
 If port 3000 is already in use, `bun run start` automatically tries ports 3001 through 3010 and prints the active address. Set `PORT` when a caller requires one exact port; an explicitly requested busy port returns a clear startup error. The default host is `127.0.0.1`; set `HOST` deliberately when deployment requires another interface.
 
-Open the root URL in a browser to view a small API discovery page instead of a route error. Programmatic clients can request JSON from `GET /` with `Accept: application/json`.
+Open the root URL in a browser to use the API testing console. It loads the available personas and authors, sends recommendation or specific-mode requests directly from the page, and presents the response as an overview plus expandable guidance, keyword research, Markdown template, and raw JSON sections. Programmatic clients can request JSON from `GET /` with `Accept: application/json`.
 
 To use guided configuration locally, set a secret with at least 32 characters:
 

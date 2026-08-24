@@ -98,6 +98,17 @@ Persona A is the default. A caller can select another persona by sending its ID 
 
 John is the default. A caller selects an author by sending its ID as the top-level `author` field in a template request. This configuration can later hold additional author information while the current interface remains stable.
 
+### Browser testing console
+
+Open the API root URL in a browser to use the built-in testing console. It loads the available personas and authors, runs recommendation or specific-mode requests directly from the page, and presents the returned package in an overview plus expandable guidance, keyword-research, Markdown-template, and raw-JSON sections.
+
+```mermaid
+flowchart LR
+    Choices[Mode, persona, author, settings] --> Console[Browser testing console]
+    Console --> API[Template API request]
+    API --> View[Structured response view]
+```
+
 The authoring contract focuses on the main title, post content, and exactly ten tags. How tags are created is outside the template contract.
 
 ## Canonical blog SEO and AI-search specification
