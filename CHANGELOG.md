@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.11 — 2026-08-24
+
+- Keep the Author overview card focused on the selected author name until author profiles include meaningful details.
+
 ## 0.2.10 — 2026-08-24
 
 - Add the selected author's byline and attribution purpose inside the Author overview card.
