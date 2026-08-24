@@ -432,7 +432,7 @@ function renderDiscoveryPage() {
       details { border-top: 1px solid #e2e8f2; padding: 14px 0; }
       summary { cursor: pointer; color: #22334e; font-weight: 800; }
       pre { overflow: auto; margin: 12px 0 0; padding: 14px; border-radius: 10px; color: #dce7fa; background: #15213a; font: .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
-      .response[hidden], .field[hidden] { display: none; }
+      .response[hidden], .field[hidden], .empty[hidden] { display: none; }
       .endpoint { display: inline-flex; align-items: center; border-radius: 999px; padding: 7px 11px; color: #28435f; background: #e9effa; font: .76rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
       @media (max-width: 820px) { main { margin-top: 24px; } .hero, .layout { display: block; } .hero > div + div { margin-top: 14px; } .controls { position: static; margin-bottom: 20px; } }
       @media (max-width: 460px) { .summary { grid-template-columns: 1fr; } }

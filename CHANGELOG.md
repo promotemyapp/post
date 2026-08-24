@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.8 — 2026-08-24
+
+- Hide the empty response placeholder after an API response is displayed in the browser testing console.
+
 ## 0.2.7 — 2026-08-24
 
 - Show the selected persona's writing-style effect directly in the API testing console response overview.
