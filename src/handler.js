@@ -428,6 +428,9 @@ function renderDiscoveryPage() {
       .summary-card span { display: block; color: #63718a; font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
       .summary-card strong { display: block; margin-top: 4px; font-size: .96rem; line-height: 1.35; }
       .summary-card p { margin-top: 7px; color: #31415d; font-size: .88rem; line-height: 1.45; }
+      .summary-card.author-card { display: grid; grid-template-columns: 52px 1fr; column-gap: 12px; }
+      .summary-card.author-card img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; grid-row: span 2; }
+      .summary-card.author-card p { grid-column: 2; }
       details { border-top: 1px solid #e2e8f2; padding: 14px 0; }
       summary { cursor: pointer; color: #22334e; font-weight: 800; }
       pre { overflow: auto; margin: 12px 0 0; padding: 14px; border-radius: 10px; color: #dce7fa; background: #15213a; font: .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
@@ -538,9 +541,16 @@ function renderDiscoveryPage() {
           : "Returns the fixed, research-informed blog recommendations.";
       }
 
-      function addSummary(label, value, description) {
+      function addSummary(label, value, description, image) {
         const card = document.createElement("div");
         card.className = "summary-card";
+        if (image) {
+          card.classList.add("author-card");
+          const portrait = document.createElement("img");
+          portrait.src = image.url;
+          portrait.alt = image.alt;
+          card.append(portrait);
+        }
         const caption = document.createElement("span");
         caption.textContent = label;
         const detail = document.createElement("strong");
@@ -565,7 +575,8 @@ function renderDiscoveryPage() {
         addSummary(
           "Author",
           result.author ? (result.author.full_name || result.author.name) : "—",
-          result.author ? "Age: " + result.author.age + " · " + result.author.job_title : ""
+          result.author ? "Age: " + result.author.age + " · " + result.author.job_title : "",
+          result.author ? result.author.photo : null
         );
         addSummary("Body target", result.configuration && result.configuration.body ? result.configuration.body.words.min + " words" : "—");
         addSummary("Sections", result.configuration && result.configuration.body ? String(result.configuration.body.sections.min) : "—");

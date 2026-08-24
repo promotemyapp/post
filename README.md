@@ -88,19 +88,19 @@ Persona A is the default. A caller can select another persona by sending its ID 
 
 ### Author configuration
 
-`config/authors.json` is the shared author layer for every current and future template. Each example author includes a short name, full name, age, and job title. The API resolves the selected author into both the response and the returned Markdown frontmatter, providing the author profile beside the selected persona and post structure.
+`config/authors.json` is the shared author layer for every current and future template. Each example author includes a short name, full name, age, job title, and mock portrait. The nested `template_instructions` object separates generation context from published attribution: the AI agent receives the profile context, while the generated post displays the first name and photo according to `published_display`.
 
-| Author | API ID | Full name | Age | Job title |
-|---|---|---|---|---|
-| John | `john` | John Carter | 34 | Product Marketing Manager |
-| Melissa | `melissa` | Melissa Hart | 29 | SaaS Content Strategist |
-| Radovan | `radovan` | Radovan Novak | 41 | Product Growth Consultant |
+| Author | API ID | Full name | Age | Job title | Photo |
+|---|---|---|---|---|---|
+| John | `john` | John Carter | 34 | Product Marketing Manager | `assets/authors/john-carter.png` |
+| Melissa | `melissa` | Melissa Hart | 29 | SaaS Content Strategist | `assets/authors/melissa-hart.png` |
+| Radovan | `radovan` | Radovan Novak | 41 | Product Growth Consultant | `assets/authors/radovan-novak.png` |
 
 John is the default. A caller selects an author by sending its ID as the top-level `author` field in a template request. This configuration can later hold additional author information while the current interface remains stable.
 
 ### Browser testing console
 
-Open the API root URL in a browser to use the built-in testing console. It loads the available personas and authors, runs recommendation or specific-mode requests directly from the page, and presents the returned package in an overview that includes the selected persona's writing style and the selected author's full name, age, and job title, plus expandable guidance, keyword-research, Markdown-template, and raw-JSON sections.
+Open the API root URL in a browser to use the built-in testing console. It loads the available personas and authors, runs recommendation or specific-mode requests directly from the page, and presents the returned package in an overview that includes the selected persona's writing style and the selected author's portrait, full name, age, and job title, plus expandable guidance, keyword-research, Markdown-template, and raw-JSON sections.
 
 ```mermaid
 flowchart LR

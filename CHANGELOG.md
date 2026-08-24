@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.14 — 2026-08-24
+
+- Serve configured author portraits from the local Bun server for consistent local and Vercel behavior.
+
+## 0.2.13 — 2026-08-24
+
+- Add mock portrait assets to every example author profile.
+- Add explicit author `template_instructions` separating AI generation context from published attribution display.
+- Show the selected author portrait and profile details in the browser testing console.
+
 ## 0.2.12 — 2026-08-24
 
 - Add example full names, ages, and job titles to the John, Melissa, and Radovan author profiles.

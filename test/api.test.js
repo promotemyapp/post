@@ -33,6 +33,7 @@ test("root route returns an interactive browser API testing console", async () =
     assert.match(page, /addSummary\(/);
     assert.match(page, /result\.author\.full_name \|\| result\.author\.name/);
     assert.match(page, /"Age: " \+ result\.author\.age \+ " · " \+ result\.author\.job_title/);
+    assert.match(page, /portrait\.src = image\.url/);
     assert.doesNotMatch(page, /addPersonaEffect/);
     assert.match(page, /<details><summary>Agent guidance<\/summary>/);
     assert.doesNotMatch(page, /<details open><summary>Agent guidance/);
@@ -51,6 +52,16 @@ test("root route returns JSON discovery for programmatic clients", async () => {
     assert.equal(result.endpoints.length, 8);
     assert.ok(result.endpoints.some((endpoint) => endpoint.path === "/v1/personas"));
     assert.ok(result.endpoints.some((endpoint) => endpoint.path === "/v1/authors"));
+  });
+});
+
+test("local server serves configured author portraits", async () => {
+  await withApi(async (baseUrl) => {
+    const response = await fetch(`${baseUrl}/assets/authors/melissa-hart.png`);
+
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("content-type"), "image/png");
+    assert.ok((await response.arrayBuffer()).byteLength > 1000);
   });
 });
 
@@ -74,9 +85,9 @@ test("Vercel Function route prefix exposes authors through the same API handler"
 
   assert.equal(response.status, 200);
   assert.deepEqual(result.authors, [
-    { id: "john", name: "John", full_name: "John Carter", age: 34, job_title: "Product Marketing Manager" },
-    { id: "melissa", name: "Melissa", full_name: "Melissa Hart", age: 29, job_title: "SaaS Content Strategist" },
-    { id: "radovan", name: "Radovan", full_name: "Radovan Novak", age: 41, job_title: "Product Growth Consultant" }
+    { id: "john", name: "John", full_name: "John Carter", age: 34, job_title: "Product Marketing Manager", photo: { url: "/assets/authors/john-carter.png", alt: "Mock portrait of John Carter" }, template_instructions: { generation_context: ["full_name", "age", "job_title"], published_display: { name: "John", photo: "/assets/authors/john-carter.png", include_age: false, include_job_title: false } } },
+    { id: "melissa", name: "Melissa", full_name: "Melissa Hart", age: 29, job_title: "SaaS Content Strategist", photo: { url: "/assets/authors/melissa-hart.png", alt: "Mock portrait of Melissa Hart" }, template_instructions: { generation_context: ["full_name", "age", "job_title"], published_display: { name: "Melissa", photo: "/assets/authors/melissa-hart.png", include_age: false, include_job_title: false } } },
+    { id: "radovan", name: "Radovan", full_name: "Radovan Novak", age: 41, job_title: "Product Growth Consultant", photo: { url: "/assets/authors/radovan-novak.png", alt: "Mock portrait of Radovan Novak" }, template_instructions: { generation_context: ["full_name", "age", "job_title"], published_display: { name: "Radovan", photo: "/assets/authors/radovan-novak.png", include_age: false, include_job_title: false } } }
   ]);
 });
 
@@ -110,7 +121,9 @@ test("specific direct mode composes a blog template with configuration overrides
       name: "Melissa",
       full_name: "Melissa Hart",
       age: 29,
-      job_title: "SaaS Content Strategist"
+      job_title: "SaaS Content Strategist",
+      photo: { url: "/assets/authors/melissa-hart.png", alt: "Mock portrait of Melissa Hart" },
+      template_instructions: { generation_context: ["full_name", "age", "job_title"], published_display: { name: "Melissa", photo: "/assets/authors/melissa-hart.png", include_age: false, include_job_title: false } }
     });
     assert.equal(result.guidance.source, "README.md#agent-operating-view");
     assert.equal(result.packageVersion, "1.0");
@@ -120,6 +133,8 @@ test("specific direct mode composes a blog template with configuration overrides
     assert.match(result.template.markdown, /author_config: "config\/authors.json"/);
     assert.match(result.template.markdown, /writing_style: "Cheerful, conversational/);
     assert.match(result.template.markdown, /name: "Melissa"/);
+    assert.match(result.template.markdown, /template_instructions:/);
+    assert.match(result.template.markdown, /include_age: false/);
     assert.match(result.template.markdown, /resolved_structure:/);
   });
 });
@@ -139,7 +154,9 @@ test("recommendation mode returns the researched fixed blog template package", a
       name: "John",
       full_name: "John Carter",
       age: 34,
-      job_title: "Product Marketing Manager"
+      job_title: "Product Marketing Manager",
+      photo: { url: "/assets/authors/john-carter.png", alt: "Mock portrait of John Carter" },
+      template_instructions: { generation_context: ["full_name", "age", "job_title"], published_display: { name: "John", photo: "/assets/authors/john-carter.png", include_age: false, include_job_title: false } }
     });
     assert.equal(result.fixedRecommendations.recommendations.body.words, 1800);
     assert.deepEqual(result.configuration.title.words, { min: 8, max: 8 });
@@ -252,7 +269,9 @@ test("guided session asks each configuration question and returns a social templ
       name: "Radovan",
       full_name: "Radovan Novak",
       age: 41,
-      job_title: "Product Growth Consultant"
+      job_title: "Product Growth Consultant",
+      photo: { url: "/assets/authors/radovan-novak.png", alt: "Mock portrait of Radovan Novak" },
+      template_instructions: { generation_context: ["full_name", "age", "job_title"], published_display: { name: "Radovan", photo: "/assets/authors/radovan-novak.png", include_age: false, include_job_title: false } }
     });
     assert.equal(result.template.id, "social-media-post-template");
     assert.match(result.template.markdown, /type: "Social Media Post"/);
