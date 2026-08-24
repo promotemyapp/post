@@ -10,7 +10,7 @@ const SESSION_SECRET = "test-session-secret-with-at-least-32-characters";
 test("Vercel bundles canonical persona soul files with the API function", () => {
   const vercelConfig = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8"));
 
-  assert.deepEqual(vercelConfig.functions["api/**/*.js"].includeFiles, ["personas/**/*.md"]);
+  assert.equal(vercelConfig.functions["api/**/*.js"].includeFiles, "personas/**/*.md");
 });
 
 async function withApi(run, options = {}) {

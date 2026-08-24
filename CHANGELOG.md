@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.20 — 2026-08-24
+
+- Correct the Vercel `includeFiles` schema so persona source files can deploy successfully.
+
 ## 0.2.19 — 2026-08-24
 
 - Import persona `SOUL.md` files as bundled text assets so the Vercel runtime can resolve them reliably.
