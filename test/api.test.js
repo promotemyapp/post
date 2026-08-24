@@ -1,10 +1,17 @@
 import assert from "node:assert/strict";
 import { createServer as createHttpServer } from "node:http";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import vercelFunction from "../api/index.js";
 import { createApiHandler, createApiServer, startApiServer } from "../src/server.js";
 
 const SESSION_SECRET = "test-session-secret-with-at-least-32-characters";
+
+test("Vercel bundles canonical persona soul files with the API function", () => {
+  const vercelConfig = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8"));
+
+  assert.deepEqual(vercelConfig.functions["api/**/*.js"].includeFiles, ["personas/**/*.md"]);
+});
 
 async function withApi(run, options = {}) {
   const server = createApiServer(options);

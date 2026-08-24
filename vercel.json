@@ -3,6 +3,11 @@
   "framework": null,
   "bunVersion": "1.x",
   "installCommand": "bun install",
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": ["personas/**/*.md"]
+    }
+  },
   "rewrites": [
     { "source": "/", "destination": "/api" },
     { "source": "/:path*", "destination": "/api/[...path]" }

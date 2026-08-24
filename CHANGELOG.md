@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.18 — 2026-08-24
+
+- Include persona `SOUL.md` files in the Vercel Function bundle so deployed API requests can resolve persona definitions.
+
 ## 0.2.17 — 2026-08-24
 
 - Move persona definitions into individual `personas/<name>/SOUL.md` files with YAML structure, numeric traits, priorities, principles, and guardrails.
