@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add Jana Novotná as a residential construction sales and contracts author with a mock portrait and writing profile.
+- Add Radek Řepka as an example author with a mock portrait, construction-industry experience, and template instructions.
+
 ## 0.2.20 — 2026-08-24
 
 - Correct the Vercel `includeFiles` schema so persona source files can deploy successfully.

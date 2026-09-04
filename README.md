@@ -101,8 +101,10 @@ personas/
 | Author | API ID | Full name | Age | Job title | Photo |
 |---|---|---|---|---|---|
 | John | `john` | John Carter | 34 | Product Marketing Manager | `assets/authors/john-carter.png` |
+| Jana | `jana` | Jana Novotná | 29 | Contracts Manager | `assets/authors/jana-novotna.png` |
 | Melissa | `melissa` | Melissa Hart | 29 | SaaS Content Strategist | `assets/authors/melissa-hart.png` |
 | Radovan | `radovan` | Radovan Novak | 41 | Product Growth Consultant | `assets/authors/radovan-novak.png` |
+| Radek | `radek` | Radek Řepka | 38 | Construction Site Technical Supervisor | `assets/authors/radek-repka.png` |
 | Sophie | `sophie` | Sophie Redwood | 25 | Content Marketing Specialist | `assets/authors/sophie-redwood.png` |
 | Thomas | `thomas` | Thomas Hawthorne | 51 | B2B Product Consultant | `assets/authors/thomas-hawthorne.png` |
 

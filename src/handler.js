@@ -431,13 +431,19 @@ function renderDiscoveryPage() {
       .summary-card.author-card { display: grid; grid-template-columns: 52px 1fr; column-gap: 12px; }
       .summary-card.author-card img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; grid-row: span 2; }
       .summary-card.author-card p { grid-column: 2; }
+      .summary-card.author-card.expanded { grid-column: 1 / -1; }
+      .author-profile { grid-column: 1 / -1; display: grid; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #dce4f2; }
+      .author-profile h3 { margin: 0; color: #22334e; font-size: .9rem; }
+      .author-profile dl { display: grid; grid-template-columns: minmax(132px, .3fr) 1fr; gap: 8px 16px; margin: 0; }
+      .author-profile dt { color: #63718a; font-size: .76rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+      .author-profile dd { margin: 0; color: #31415d; font-size: .88rem; line-height: 1.45; }
       details { border-top: 1px solid #e2e8f2; padding: 14px 0; }
       summary { cursor: pointer; color: #22334e; font-weight: 800; }
       pre { overflow: auto; margin: 12px 0 0; padding: 14px; border-radius: 10px; color: #dce7fa; background: #15213a; font: .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
       .response[hidden], .field[hidden], .empty[hidden] { display: none; }
       .endpoint { display: inline-flex; align-items: center; border-radius: 999px; padding: 7px 11px; color: #28435f; background: #e9effa; font: .76rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
       @media (max-width: 820px) { main { margin-top: 24px; } .hero, .layout { display: block; } .hero > div + div { margin-top: 14px; } .controls { position: static; margin-bottom: 20px; } }
-      @media (max-width: 460px) { .summary { grid-template-columns: 1fr; } }
+      @media (max-width: 460px) { .summary { grid-template-columns: 1fr; } .author-profile dl { grid-template-columns: 1fr; gap: 4px; } }
     </style>
   </head>
   <body>
@@ -564,6 +570,61 @@ function renderDiscoveryPage() {
         summary.append(card);
       }
 
+      function profileValue(value) {
+        return Array.isArray(value) ? value.join(" · ") : value;
+      }
+
+      function addProfileRow(list, label, value) {
+        if (!value) return;
+        const term = document.createElement("dt");
+        term.textContent = label;
+        const definition = document.createElement("dd");
+        definition.textContent = profileValue(value);
+        list.append(term, definition);
+      }
+
+      function addAuthorSummary(authorProfile) {
+        const card = document.createElement("div");
+        card.className = "summary-card author-card";
+        const portrait = document.createElement("img");
+        portrait.src = authorProfile.photo.url;
+        portrait.alt = authorProfile.photo.alt;
+        const caption = document.createElement("span");
+        caption.textContent = "Author";
+        const name = document.createElement("strong");
+        name.textContent = authorProfile.full_name || authorProfile.name;
+        const metadata = document.createElement("p");
+        metadata.textContent = "Age: " + authorProfile.age + " · " + authorProfile.job_title;
+        card.append(portrait, caption, name, metadata);
+
+        const profile = document.createElement("section");
+        profile.className = "author-profile";
+        const heading = document.createElement("h3");
+        heading.textContent = "Writing profile";
+        const details = document.createElement("dl");
+        const language = authorProfile.language_proficiency && authorProfile.language_proficiency.Czech;
+        const vocabulary = authorProfile.vocabulary;
+        const evidence = authorProfile.evidence_standard;
+        const boundaries = authorProfile.opinions_and_boundaries;
+
+        addProfileRow(details, "Language", language ? "Czech — " + language.speaking + " speaking and " + language.writing + " writing" : authorProfile.languages);
+        addProfileRow(details, "Experience", authorProfile.industry_experience_years ? authorProfile.industry_experience_years + " years · " + (authorProfile.industry_experience || "") : authorProfile.industry_experience);
+        addProfileRow(details, "Point of view", authorProfile.point_of_view);
+        addProfileRow(details, "Vocabulary", vocabulary ? "Preferred: " + profileValue(vocabulary.preferred_terms) + ". Explain: " + profileValue(vocabulary.terms_to_explain) + ". Avoid: " + profileValue(vocabulary.words_to_avoid) + "." : "");
+        addProfileRow(details, "Voice", authorProfile.voice_rules ? profileValue(authorProfile.writing_style) + ". " + profileValue(Object.values(authorProfile.voice_rules)) : authorProfile.writing_style);
+        addProfileRow(details, "Structure", authorProfile.structure_habits);
+        addProfileRow(details, "Evidence", evidence ? "Use: " + profileValue(evidence.preferred_sources) + ". " + evidence.uncertainty_rule : "");
+        addProfileRow(details, "Signature expertise", authorProfile.signature_expertise);
+        addProfileRow(details, "Boundaries", boundaries ? "Recommends: " + profileValue(boundaries.strong_recommendations) + ". " + boundaries.boundaries : "");
+
+        if (details.childElementCount) {
+          card.classList.add("expanded");
+          profile.append(heading, details);
+          card.append(profile);
+        }
+        summary.append(card);
+      }
+
       function renderResponse(result, elapsed) {
         emptyState.hidden = true;
         responseContent.hidden = false;
@@ -572,12 +633,8 @@ function renderDiscoveryPage() {
         summary.replaceChildren();
         addSummary("Post type", result.postType || "—");
         addSummary("Persona", result.persona ? result.persona.name : "—", result.persona ? result.persona.writing_style : "");
-        addSummary(
-          "Author",
-          result.author ? (result.author.full_name || result.author.name) : "—",
-          result.author ? "Age: " + result.author.age + " · " + result.author.job_title : "",
-          result.author ? result.author.photo : null
-        );
+        if (result.author) addAuthorSummary(result.author);
+        else addSummary("Author", "—");
         addSummary("Body target", result.configuration && result.configuration.body ? result.configuration.body.words.min + " words" : "—");
         addSummary("Sections", result.configuration && result.configuration.body ? String(result.configuration.body.sections.min) : "—");
         addSummary("Tags", result.configuration && result.configuration.tags ? String(result.configuration.tags.count.min) : "—");
